@@ -17,38 +17,34 @@ A "bonus" of the CBOR binary support, is that awkward
 multipart mime constructs like this can be eliminated:
 ```
 Content-Type: Multipart/Related; boundary=example-1
-              start="<950120.aaCC@XIson.com>";
-              type="Application/X-FixedRecord"
-              start-info="-o ps"
+              start="<text@example.com>";
+              type="text/plain"
 
 --example-1
-Content-Type: Application/X-FixedRecord
-Content-ID: <950120.aaCC@XIson.com>
+Content-Type: text/plain
+Content-ID: <text@example.com>
 
-25
-10
-34
-10
+This is text
 --example-1
-Content-Type: Application/octet-stream
-Content-Description: The fixed length records
-Content-Transfer-Encoding: base64
-Content-ID: <950120.aaCB@XIson.com>
+Content-Type: image/png
+Content-ID: <image@example.com>
 
-T2xkIE1hY0RvbmFsZCBoYWQgYSBmYXJtCkUgSS
-BFIEkgTwpBbmQgb24gaGlzIGZhcm0gaGUgaGFk
-IHNvbWUgZHVja3MKRSBJIEUgSSBPCldpdGggYS
-BxdWFjayBxdWFjayBoZXJlLAphIHF1YWNrIHF1
-YWNrIHRoZXJlLApldmVyeSB3aGVyZSBhIHF1YW
-NrIHF1YWNrCkUgSSBFIEkgTwo=
-
+(binary)
 --example-1--
 ```
 Using CBOR you could replace the above with the following,
-here shown in diagnostic notation:
+here shown in *diagnostic* notation:
 ```
 {
-  "integerArray": [25, 10, 34, 10],
-  "binaryBlob": h'binary data in hex
+  "text": "This is text",
+  "image": {
+    "type": "image/png",
+    "data": h'binary data in hex'
+  }
 }
 ```
+Using CBOR is much more flexible because you can customize every
+element as required by the application.
+In addition, CBOR removes the need creating data
+boundary items like `--example-1--` that does does not
+interfere with the actual data.
