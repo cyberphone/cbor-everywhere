@@ -4,17 +4,17 @@
 how application builders can take advantage of the unique
 qualities of [CBOR](https://www.rfc-editor.org/rfc/rfc8949.html).*
 
-## CBOR Roots and
+## CBOR Roots and Motivations
 T.B.D.
 
 ## Support for Binary Data
 One of the more useful features of CBOR is the ability including binary data
 "as is".  XML and JSON need to encode such data encoded
-as [Base64](https://www.rfc-editor.org/rfc/rfc4648), leaading to
+as [Base64](https://www.rfc-editor.org/rfc/rfc4648), leading to
 a 33% size increase as well as requiring more processing.
 
 A "bonus" of the CBOR binary support, is that awkward
-multipart mime constructs like this can be eliminated:
+multipart mime constructs like the following can be eliminated:
 ```
 Content-Type: Multipart/Related; boundary=example-1
               start="<text@example.com>";
@@ -43,8 +43,16 @@ here shown in *diagnostic* notation:
   }
 }
 ```
-Using CBOR is much more flexible because you can customize every
-element as required by the application.
+Using CBOR is much more flexible because each element attribute set
+can be customized as required by the application.
+
 In addition, CBOR removes the need creating data
-boundary items like `--example-1--` that does does not
+boundary items like `--example-1--` that does not
 interfere with the actual data.
+
+## URL Based Object Identifiers
+JSON, XML, and particularly XML Schema (XSD) based designs, typically
+use URLs as object identifiers.
+To ease the conversion from JSON and XML, a compatible CBOR Object Extension
+([COTX](https://www.ietf.org/archive/id/draft-rundgren-cotx-03.html)) construct been introduced.
+
