@@ -54,5 +54,6 @@ interfere with the actual data.
 JSON, XML, and particularly XML Schema (XSD) based designs, typically
 use URLs as object identifiers.
 To ease the conversion from JSON and XML, a compatible CBOR Object Extension
-([COTX](https://www.ietf.org/archive/id/draft-rundgren-cotx-03.html)) construct been introduced.
+([COTX](https://www.ietf.org/archive/id/draft-rundgren-cotx-03.html))
+construct has been introduced.
 
