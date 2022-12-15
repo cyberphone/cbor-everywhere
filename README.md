@@ -101,7 +101,7 @@ here shown in *diagnostic* notation:
   "text": "This is text",
   "image": {
     "type": "image/png",
-    "data": h'binary data in hex'
+    "data": h'89504e470d0a1a0a...'
   }
 }
 ```
