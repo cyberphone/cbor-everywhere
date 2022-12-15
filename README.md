@@ -8,7 +8,7 @@ qualities of [CBOR](https://www.rfc-editor.org/rfc/rfc8949.html).*
 T.B.D.
 
 ## Support for Binary Data
-One of the more useful features of CBOR is the ability including binary data
+One of the more useful features of CBOR is the ability representing binary data
 "as is".  Using XML or JSON, binary data must be encoded
 as [Base64](https://www.rfc-editor.org/rfc/rfc4648), leading to
 a 33% size increase as well as requiring more processing.
