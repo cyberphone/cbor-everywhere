@@ -10,6 +10,12 @@ use [JSON](https://www.rfc-editor.org/rfc/rfc8259) or
 ## CBOR Roots and Motivations
 T.B.D.
 
+## Notation
+For readability reasons, the examples in this document are displayed in a
+textual format known as 
+[diagnostic notation](https://www.rfc-editor.org/rfc/rfc8949#name-diagnostic-notation),
+rather than the actual CBOR binary code.
+
 ## Support for Binary Data
 One of the more useful features of CBOR is the ability representing binary data
 "as is".  Using XML or JSON, binary data must be encoded
@@ -109,8 +115,7 @@ Content-ID: <image@example.com>
 (binary)
 --example-1--
 ```
-Using CBOR the construct above could be replaced by the following code,
-here shown in *diagnostic notation*:
+Using CBOR the construct above could be replaced by the following code:
 
 ```
 {
