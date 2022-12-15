@@ -76,7 +76,7 @@ Verification is performed by the following steps:
 - Remove the signature data and associated key (`2`) from the signature container map
 - Run signature verification using the remaining
  CBOR data item deterministically serialized, the read signature algorithm,
- and saved signature data as input arguments
+ and the saved signature data as input arguments
  
 Although the outlined scheme only supports signing data in the CBOR
 notation, the ability representing data like bit map images as CBOR
