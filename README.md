@@ -34,7 +34,7 @@ eliminating potentially troublesome canonicalization steps.
 
 Deterministic serialization can be used to represent signed
 data in a more efficient way than JWS and XML Dsig, while maintaining
-the structure of the unsigned data unchanged.
+the structure of unsigned data unchanged.
 Unsigned sample data:
 
 ```
