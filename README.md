@@ -14,7 +14,7 @@ T.B.D.
 One of the more useful features of CBOR is the ability representing binary data
 "as is".  Using XML or JSON, binary data must be encoded
 as [Base64](https://www.rfc-editor.org/rfc/rfc4648), leading to
-a 33% size increase as well as requiring more processing.
+a 33% size increase as well as requiring additional processing.
 
 ## URL Based Object Identifiers
 JSON, XML, and particularly XML Schema (XSD) based designs, typically
