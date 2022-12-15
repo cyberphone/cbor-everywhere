@@ -1,8 +1,11 @@
 # CBOR Everywhere
 
-*This repository contains information and links to information resources which describe
+*This document contains information and links to information resources which describe
 how application builders can take advantage of the unique
-qualities of [CBOR](https://www.rfc-editor.org/rfc/rfc8949.html).*
+qualities of [CBOR](https://www.rfc-editor.org/rfc/rfc8949.html).
+The target audience for this document are developers who currently
+use [JSON](https://www.rfc-editor.org/rfc/rfc8259) or
+[XML](https://www.w3.org/XML/).*
 
 ## CBOR Roots and Motivations
 T.B.D.
@@ -16,9 +19,10 @@ a 33% size increase as well as requiring more processing.
 ## URL Based Object Identifiers
 JSON, XML, and particularly XML Schema (XSD) based designs, typically
 use URLs as object identifiers.
-To ease the conversion from JSON and XML, a compatible **C**BOR&nbsp;**O**bject&nbsp;e**X**tension
+To ease the conversion from JSON and XML, a compatible
+**C**BOR&nbsp;**O**bject&nbsp;e**X**tension
 ([COTX](https://www.ietf.org/archive/id/draft-rundgren-cotx-03.html))
-construct has been introduced.  Sample:
+construct has been defined.  Sample:
 
 ```
 1010(["https://example.com/myobject", {
@@ -26,14 +30,14 @@ construct has been introduced.  Sample:
   2: "more data"
 }])
 ```
-`1010` is a special purpose CBOR tag.
+`1010` is a special purpose (dedicated) CBOR tag.
 
 ## Deterministic Serialization
 Unlike XML and JSON, CBOR supports deterministic serialization, 
 eliminating potentially troublesome canonicalization steps.
 
 Deterministic serialization can be used to represent signed
-data in a more efficient way than JWS and XML Dsig, while maintaining
+data in a more efficient way than [JWS]() and XML Dsig, while maintaining
 the structure of unsigned data unchanged.
 Unsigned sample data:
 
@@ -72,9 +76,19 @@ Verification is performed by the following steps:
  CBOR data item deterministically serialized, the read signature algorithm,
  and saved signature data as input arguments
  
+Although the outlined scheme only supports signing data in the CBOR
+notation, the ability representing data like bit map images as CBOR
+byte strings, there are from a practical point of view,
+virtually no constraints.
+
+Note that other signature header data such as public keys,
+and key identifiers can be included in a signature container of
+the kind shown above.  Using the described scheme,
+they would be signed as well.
+ 
 ## Elimination of Multipart Mime Extensions
-A "bonus" of the CBOR binary support, is that awkward
-multipart mime constructs like the following can be eliminated:
+Consider the following rather awkward 
+[multipart mime](https://www.rfc-editor.org/rfc/rfc2046) construct:
 
 ```
 Content-Type: Multipart/Related; boundary=example-1
@@ -93,8 +107,8 @@ Content-ID: <image@example.com>
 (binary)
 --example-1--
 ```
-Using CBOR you could replace the above with the following,
-here shown in *diagnostic* notation:
+Using CBOR the construct above could be replaced by the following code,
+here shown in *diagnostic notation*:
 
 ```
 {
@@ -105,9 +119,10 @@ here shown in *diagnostic* notation:
   }
 }
 ```
-Using CBOR is much more flexible because each element attribute set
+Using CBOR adds flexibility since each element attribute set
 can be customized as required by the application.
 
-In addition, CBOR removes the need creating data
-boundary items like `--example-1--` that does not
-interfere with the actual data.
+Additionally, boundary items like `--example-1--` and the
+related measures for *avoiding clashes* with the actual data,
+are eliminated.
+
