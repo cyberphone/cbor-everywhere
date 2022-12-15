@@ -37,8 +37,10 @@ Unlike XML and JSON, CBOR supports deterministic serialization,
 eliminating potentially troublesome canonicalization steps.
 
 Deterministic serialization can be used to represent signed
-data in a more efficient way than [JWS]() and XML Dsig, while maintaining
-the structure of unsigned data unchanged.
+data in a more efficient way than 
+[JWS](https://www.rfc-editor.org/rfc/rfc7515.html) and 
+[XML Dsig](https://www.w3.org/TR/xmldsig-core1/),
+while maintaining the structure of unsigned data unchanged.
 Unsigned sample data:
 
 ```
