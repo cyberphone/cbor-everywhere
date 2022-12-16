@@ -40,10 +40,10 @@ construct has been defined.  Sample:
 ```
 `1010` is a special purpose (dedicated) CBOR tag.
 
-Through the use of top-level COTX identifiers, a single processor,
+Through the use of top-level COTX identifiers, a *single* processor,
 HTTP end-point, or database column, may deal with *multiple* object types.
-This arrangement also makes *embedding* in other CBOR or non-CBOR data
-less cumbersome, since the COTX identifier indicates the kind of data
+This arrangement also makes *object embedding* in other CBOR or non-CBOR data
+less cumbersome, since the COTX identifier indicates which kind of object
 that has been encountered.
 
 ## Deterministic Serialization
@@ -75,22 +75,22 @@ After applying a *hypothetical* signature scheme:
   }
 }
 ```
-Map key `3` holds a signature container map with
-a signature algorithm identifier (`5`) and signature data (`h'fe49...`).
+Map key **3** holds a signature container map with
+a signature algorithm identifier (**5**) and signature data (**h'fe49...**).
 The signature would be created by the following steps:
 - Add an empty signature container map to the unsigned data
-- Add signature algorithm and associated key (`1`) to the signature container map
+- Add signature algorithm and associated key (**1**) to the signature container map
 - *Optional*. Add other signature meta data to the signature container map
 - Create signature data by calling a signature method with the following arguments:
     - the *signature key* (secret or private key)
     - the signature algorithm
     - the deterministic serialization of the current CBOR data item
-- Add the resulting signature data and associated key (`2`) to the signature container map
+- Add the resulting signature data and associated key (**2**) to the signature container map
 
 Verification is performed by the following steps:
 - Read the signature algorithm from the signature container map
 - Read the signature data from the signature container map
-- Remove the signature data and associated key (`2`) from the signature container map
+- Remove the signature data and associated key (**2**) from the signature container map
 - Verify the signature by calling a signature verification method with the following arguments:
     - the *signature verification key* (already known in this particular case)
     - the read signature algorithm
@@ -105,7 +105,7 @@ there are from a practical point of view, virtually no constraints.
 Note that other signature meta data such as public keys,
 and key identifiers can also be included in a signature container
 of the kind shown above.  Using the described scheme,
-they would automatically be signed as well.
+they would *automatically be signed* as well.
  
 ## Elimination of Multipart Mime Extensions
 Consider the following rather awkward 
