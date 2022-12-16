@@ -11,8 +11,8 @@ use [JSON](https://www.rfc-editor.org/rfc/rfc8259) or
 T.B.D.
 
 ## Notation
-For readability reasons, the examples in this document are displayed in a
-textual format known as 
+For readability reasons, the CBOR examples in this document are provided
+in a textual format known as 
 [diagnostic notation](https://www.rfc-editor.org/rfc/rfc8949#name-diagnostic-notation),
 rather than the actual CBOR binary code.
 
@@ -137,4 +137,9 @@ can be customized as required by the application.
 Additionally, boundary items like `--example-1--` and the
 related measures for *avoiding clashes* with the actual data,
 are eliminated.
+
+A side effect of the "CBOR-only" approach is that it limits
+the need for application specific mime types.  Together
+with top-level [COTX](#url-based-object-identifiers) identifiers,
+`application/cbor` should in most cases suffice.
 
