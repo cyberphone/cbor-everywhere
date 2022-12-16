@@ -22,6 +22,8 @@ One of the more useful features of CBOR is the ability representing binary data
 as [Base64](https://www.rfc-editor.org/rfc/rfc4648), leading to
 a 33% size increase as well as requiring additional processing.
 
+See also [CBOR Mime Type](#cbor-mime-type).
+
 ## URL Based Object Identifiers
 JSON, XML, and particularly XML Schema (XSD) based designs, typically
 use URLs as object identifiers.
@@ -38,10 +40,11 @@ construct has been defined.  Sample:
 ```
 `1010` is a special purpose (dedicated) CBOR tag.
 
-Using top-level COTX identifiers, a single processor may deal with
-multiple object types.
-
-See also [CBOR Mime Type](#cbor-mime-type).
+Through the use of top-level COTX identifiers, a single processor,
+HTTP end-point, or database column, may deal with *multiple* object types.
+This arrangement also makes *embedding* in other CBOR or non-CBOR data
+less cumbersome, since the COTX identifier indicates the kind of data
+that has been encountered.
 
 ## Deterministic Serialization
 Unlike XML and JSON, CBOR supports deterministic serialization,
