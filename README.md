@@ -39,13 +39,13 @@ construct has been defined.  Sample:
 `1010` is a special purpose (dedicated) CBOR tag.
 
 ## Deterministic Serialization
-Unlike XML and JSON, CBOR supports deterministic serialization, 
-eliminating potentially troublesome canonicalization steps.
+Unlike XML and JSON, CBOR supports deterministic serialization,
+which simplifies decoders as well as producing shortest possible CBOR data.
 
-Deterministic serialization can be used to represent signed
-data in a more efficient way than 
-[JWS](https://www.rfc-editor.org/rfc/rfc7515.html) and 
-[XML Dsig](https://www.w3.org/TR/xmldsig-core1/),
+Since deterministic serialization eliminates potentially
+error-prone canonicalization steps, it may also be used
+to represent signed data in a more efficient way than 
+[JWS](https://www.rfc-editor.org/rfc/rfc7515.html),
 while maintaining the structure of unsigned data unchanged.
 Unsigned sample data:
 
@@ -67,22 +67,26 @@ After applying a *hypothetical* signature scheme:
   }
 }
 ```
-Element `3` holds a signature container map with
+Map key `3` holds a signature container map with
 a signature algorithm identifier (`5`) and signature data (`h'fe49...`).
 The signature would be created by the following steps:
 - Add an empty signature container map to the unsigned data
 - Add signature algorithm and associated key (`1`) to the signature container map
-- Run the signature algorithm over the deterministic serialization of the 
-current CBOR data item
+- *Optional*. Add other signature meta data to the signature container map
+- Create signature data by calling a signature method with the following arguments:
+    - the *signature key*
+    - the signature algorithm
+    - the deterministic serialization of the current CBOR data item
 - Add the resulting signature data and associated key (`2`) to the signature container map
 
 Verification is performed by the following steps:
 - Read the signature algorithm from the signature container map
 - Read the signature data from the signature container map
 - Remove the signature data and associated key (`2`) from the signature container map
-- Run signature verification using the following input arguments: 
-    - the remaining CBOR data item deterministically serialized
+- Verify the signature by calling a signature verification method with the following arguments:
+    - the *signature verification key* (already known in this particular case)
     - the read signature algorithm
+    - the deterministic serialization of the remaining CBOR data item
     - the saved signature data
  
 Although the outlined scheme only supports signing data in the CBOR
