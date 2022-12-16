@@ -98,9 +98,9 @@ Verification is performed by the following steps:
     - the deterministic serialization of the remaining CBOR data item
  
 Although the outlined scheme only supports signing data in the CBOR
-notation, the ability representing data like bit-map images as CBOR
-byte strings, there are from a practical point of view,
-virtually no constraints.
+notation, the ability representing data like
+[bit-map images as CBOR byte strings](#elimination-of-multipart-mime-extensions),
+there are from a practical point of view, virtually no constraints.
 
 Note that other signature meta data such as public keys,
 and key identifiers can also be included in a signature container
