@@ -92,7 +92,7 @@ Verification is performed by the following steps:
 - Read the signature data from the signature container map
 - Remove the signature data and associated key (**2**) from the signature container map
 - Verify the signature by calling a signature verification method with the following arguments:
-    - the *signature verification key* (already known in this particular case)
+    - the *signature verification key* (implicit in this particular case)
     - the read signature algorithm
     - the saved signature data
     - the deterministic serialization of the remaining CBOR data item
