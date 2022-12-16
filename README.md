@@ -41,7 +41,7 @@ construct has been defined.  Sample:
 Using top-level COTX identifiers, a single processor may deal with
 multiple object types.
 
-See also [CBOR Mime Type](#name-cbor-mime-type).
+See also [CBOR Mime Type](#cbor-mime-type).
 
 ## Deterministic Serialization
 Unlike XML and JSON, CBOR supports deterministic serialization,
