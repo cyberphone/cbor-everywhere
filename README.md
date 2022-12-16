@@ -38,6 +38,11 @@ construct has been defined.  Sample:
 ```
 `1010` is a special purpose (dedicated) CBOR tag.
 
+Using top-level COTX identifiers, a single processor may deal with
+multiple object types.
+
+See also [CBOR mime type](#cbor-mime-type).
+
 ## Deterministic Serialization
 Unlike XML and JSON, CBOR supports deterministic serialization,
 which simplifies decoders as well as producing shortest possible CBOR data.
@@ -138,8 +143,6 @@ Additionally, boundary items like `--example-1--` and the
 related measures for *avoiding clashes* with the actual data,
 are eliminated.
 
-A side effect of the "CBOR-only" approach is that it limits
-the need for application specific mime types.  Together
-with top-level [COTX](#url-based-object-identifiers) identifiers,
-`application/cbor` should in most cases suffice.
-
+<a id="cbor-mime-type"></a>A side effect of the "CBOR-only" approach is that
+it limits the need for application specific mime types when CBOR data is
+transferred over HTTP; `application/cbor` may suffice.
