@@ -82,7 +82,7 @@ The signature would be created by the following steps:
 - Add signature algorithm and associated key (**1**) to the signature container map
 - *Optional*. Add other signature meta data to the signature container map
 - Create signature data by calling a signature method with the following arguments:
-    - the *signature key* (secret or private key)
+    - the *signature key* (a symmetric or private key)
     - the signature algorithm
     - the deterministic serialization of the current CBOR data item
 - Add the resulting signature data and associated key (**2**) to the signature container map
