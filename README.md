@@ -74,7 +74,7 @@ The signature would be created by the following steps:
 - Add signature algorithm and associated key (`1`) to the signature container map
 - *Optional*. Add other signature meta data to the signature container map
 - Create signature data by calling a signature method with the following arguments:
-    - the *signature key*
+    - the *signature key* (secret or private key)
     - the signature algorithm
     - the deterministic serialization of the current CBOR data item
 - Add the resulting signature data and associated key (`2`) to the signature container map
@@ -86,8 +86,8 @@ Verification is performed by the following steps:
 - Verify the signature by calling a signature verification method with the following arguments:
     - the *signature verification key* (already known in this particular case)
     - the read signature algorithm
-    - the deterministic serialization of the remaining CBOR data item
     - the saved signature data
+    - the deterministic serialization of the remaining CBOR data item
  
 Although the outlined scheme only supports signing data in the CBOR
 notation, the ability representing data like bit map images as CBOR
