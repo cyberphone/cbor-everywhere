@@ -41,7 +41,7 @@ construct has been defined.  Sample:
 Using top-level COTX identifiers, a single processor may deal with
 multiple object types.
 
-See also [CBOR mime type](#cbor-mime-type).
+See also [CBOR Mime Type](#name-cbor-mime-type).
 
 ## Deterministic Serialization
 Unlike XML and JSON, CBOR supports deterministic serialization,
@@ -143,6 +143,8 @@ Additionally, boundary items like `--example-1--` and the
 related measures for *avoiding clashes* with the actual data,
 are eliminated.
 
-<a id="cbor-mime-type"></a>A side effect of the "CBOR-only" approach is that
-it limits the need for application specific mime types when CBOR data is
-transferred over HTTP; `application/cbor` may suffice.
+## CBOR Mime Type
+
+A side effect of the "CBOR-only" approach described in the previous section
+is that it limits the need for application specific mime types when CBOR data
+is transferred over HTTP; `application/cbor` may suffice.
