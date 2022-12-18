@@ -48,8 +48,19 @@ that has been encountered.
 
 ## Deterministic Serialization
 Unlike XML and JSON, CBOR supports deterministic serialization,
-which simplifies decoders as well as producing shortest possible CBOR data.
+producing shortest possible CBOR data.
 
+### Sorted Maps
+Through deterministic serialization, CBOR map keys are by
+default *sorted*, making debug and documentation easier.
+By using CBOR integers as map keys, map arguments can be
+positioned in the (for the application), most logical place.
+
+The sorting also simplifies decoders since the only
+specific test needed for map keys, is that they are
+stored in a lexicographically ascending order. 
+
+### Cryptographic Operations
 Since deterministic serialization eliminates potentially
 error-prone canonicalization steps, it may also be used
 to represent signed data in a more efficient way than 
@@ -147,7 +158,72 @@ related measures for *avoiding clashes* with the actual data,
 are eliminated.
 
 ## CBOR Mime Type
-
 A side effect of the "CBOR-only" approach described in the previous section
 is that it limits the need for application specific mime types when CBOR data
 is transferred over HTTP; `application/cbor` may suffice.
+
+## Signed HTTP Requests
+There are several different solutions out in the wild as well as a recent
+[IETF standard](https://datatracker.ietf.org/doc/draft-ietf-httpbis-message-signatures/)
+in progress, for signing HTTP requests.
+
+They typically share a common drawback: the signed request data
+consists of separate elements based on different technologies,
+making signed requests fairly difficult to serialize.
+That is, storing such data in databases, or embedding it in other
+objects requires specific measures.
+
+However, by using a "CBOR only" solution, serialization becomes
+straightforward as shown by the example below:
+
+```
+/ objectId /
+1010(["https://xyzpay.standards/#request-1", {
+  / httpParameters /
+  1: {
+    / method /
+    1: "POST",
+    / targetUrl /
+    2: "https://payments.mybank.fr/req",
+    / otherHeaders /
+    3: {
+      "example-header": "value, with, lots, of, commas"
+    }
+  },
+  / destinationAccount /
+  2: "DE75512108001245126199",
+  / paymentRequest /
+  3: {
+    / payeeName	/
+    1: "Space Shop",
+    / requestId /
+    2: "7040566321",
+    / amount /
+    4: "435.00",
+    / currency /
+    3: "EUR"
+  },
+  / userAuthorization /
+  4: h'a5010302a401381e036d7832353531393a323032323a3107a3010120042158',
+  / timeStamp /
+  5: "2022-12-14T10:43:56Z",
+  / requestSignature /
+  -1: {
+    / keyType /
+    1: -7,
+    / publicKey /
+    4: {
+      1: 2,
+      -1: 1,
+      -2: h'e812b1a6dcbc708f9ec43cc2921fa0a14e9d5eadcc6dc63471dd4b680c6236b5',
+      -3: h'9826dcbd4ce6e388f72edd9be413f2425a10f75b5fd83d95fa0cde53159a51d8'
+    },
+    / signatureValue /
+    6: h'62911fea0d4325249d85e44a644d0efb765579e4a961d7f43a6befe06f51ec295b998c96f8595b173c3ff68638a4ab0a7ec95fea6ced10d5bd01db6c28b7fd7c'
+  }
+}])
+```
+
+The example signs the two major HTTP header elements, plus another example
+header needing a more complex handling including canonicalization as
+described in the mentioned IETF draft.
