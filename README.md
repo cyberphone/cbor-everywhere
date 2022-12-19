@@ -151,8 +151,8 @@ Using CBOR the construct above could be replaced by the following code:
   }
 }
 ```
-Using CBOR adds flexibility since each element attribute set
-can be customized as required by the application.
+Using CBOR adds flexibility since the attribute set for individual
+elements can be customized as required by the application.
 
 Additionally, boundary items like `--example-1--` and the
 related measures for *avoiding clashes* with the actual data,
