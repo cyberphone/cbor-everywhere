@@ -238,6 +238,9 @@ The signature scheme itself is described in the section
 In the example the signature encompasses the embedding
 [objectId](#url-based-object-identifiers) as well.
 
+The net effect is that by using CBOR, the implications of a specific
+transport method may only to a limited degree, affect the packaging
+of data and signatures.
 
 <br><br>
 Version 0.1, 2022-12-19
