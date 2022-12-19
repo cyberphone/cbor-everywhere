@@ -48,8 +48,8 @@ that has been encountered.
 
 ## Deterministic Serialization
 Unlike XML and JSON, CBOR supports deterministic serialization.
-In addition to making interoperability testing easier, deterministic
-serialization also produces shortest possible CBOR data.
+In addition to reducing the scope of interoperability testing, 
+deterministic serialization also produces shortest possible CBOR data.
 
 ### Sorted Maps
 Through deterministic serialization, CBOR map keys are by
