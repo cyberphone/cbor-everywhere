@@ -47,18 +47,19 @@ less cumbersome, since the COTX identifier indicates which kind of object
 that has been encountered.
 
 ## Deterministic Serialization
-Unlike XML and JSON, CBOR supports deterministic serialization,
-producing shortest possible CBOR data.
+Unlike XML and JSON, CBOR supports deterministic serialization.
+In addition to making interoperability testing easier, deterministic
+serialization also produces shortest possible CBOR data.
 
 ### Sorted Maps
 Through deterministic serialization, CBOR map keys are by
 default *sorted*, making debug and documentation easier.
-By using CBOR integers as map keys, map arguments can be
+By using CBOR integers as map keys, mapped arguments can be
 positioned in the (for the application), most logical place.
 
 The sorting also simplifies decoders since the only
 specific test needed for map keys, is that they are
-stored in a lexicographically ascending order. 
+stored in a *lexicographically ascending order*. 
 
 ### Cryptographic Operations
 Since deterministic serialization eliminates potentially
@@ -173,7 +174,7 @@ making signed requests fairly difficult to serialize.
 That is, storing such data in databases, or embedding it in other
 objects requires specific measures.
 
-However, by using a "CBOR only" solution, serialization becomes
+However, by using a "CBOR only" approach, serialization becomes
 straightforward as shown by the example below:
 
 ```
@@ -236,3 +237,7 @@ The signature scheme itself is described in the section
 [Cryptographic Operations](#cryptographic-operations).
 In the example the signature encompasses the embedding
 [objectId](#url-based-object-identifiers) as well.
+
+
+<br><br>
+Version 0.1, 2022-12-19
