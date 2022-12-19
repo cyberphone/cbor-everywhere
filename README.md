@@ -228,7 +228,7 @@ Notes:
 
 - The example features the two major HTTP header elements, plus another example
 header needing a more sophisticated handling including canonicalization as
-described in the mentioned IETF draft.
+described in the aforementioned IETF draft.
 - Top level keys **2**-**5** are specific for the (payment oriented) example.
 - Top level key **-1** holds a signature container based on
 [COSE](https://www.rfc-editor.org/rfc/rfc9052.html)
