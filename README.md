@@ -164,8 +164,8 @@ is transferred over HTTP; `application/cbor` may suffice.
 
 ## Signed HTTP Requests
 There are several different solutions out in the wild as well as a recent
-[IETF standard](https://datatracker.ietf.org/doc/draft-ietf-httpbis-message-signatures/)
-in progress, for signing HTTP requests.
+[IETF draft](https://datatracker.ietf.org/doc/draft-ietf-httpbis-message-signatures/),
+for signing HTTP requests.
 
 They typically share a common drawback: the signed request data
 consists of separate elements based on different technologies,
@@ -223,7 +223,16 @@ straightforward as shown by the example below:
   }
 }])
 ```
+Notes:
 
-The example signs the two major HTTP header elements, plus another example
-header needing a more complex handling including canonicalization as
+- The example features the two major HTTP header elements, plus another example
+header needing a more sophisticated handling including canonicalization as
 described in the mentioned IETF draft.
+- Top level keys **2**-**5** are specific for the (payment oriented) example.
+- Top level key **-1** holds a signature container based on
+[COSE](https://www.rfc-editor.org/rfc/rfc9052.html)
+algorithms and key descriptors.
+The signature scheme itself is described in the section
+[Cryptographic Operations](#cryptographic-operations).
+In the example the signature encompasses the embedding
+[objectId](#url-based-object-identifiers) as well.
