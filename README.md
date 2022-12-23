@@ -81,13 +81,13 @@ After applying a *hypothetical* signature scheme:
 {
   1: "data",
   2: "more data",
-  3: {
+  -1: {
     1: 5,
-    2: h'fe49acf5b92b6e923594f2e83368f680ac924be93cf533aecaf802e37757f8c9'
+    6: h'4853d7730cc1340682b1748dc346cf627a5e91ce62c67fff15c40257ed2a37a1'
   }
 }
 ```
-Map key **3** holds a signature container map with
+Map key **-1** holds a signature container map with
 a signature algorithm identifier (**5**) and signature data (**h'fe49...**).
 The signature would be created by the following steps:
 - Add an empty signature container map to the unsigned data
@@ -97,12 +97,12 @@ The signature would be created by the following steps:
     - the *signature key* (a symmetric or private key)
     - the signature algorithm
     - the deterministic serialization of the current CBOR data item
-- Add the resulting signature data and associated key (**2**) to the signature container map
+- Add the resulting signature data and associated key (**6**) to the signature container map
 
 Verification is performed by the following steps:
 - Read the signature algorithm from the signature container map
 - Read the signature data from the signature container map
-- Remove the signature data and associated key (**2**) from the signature container map
+- Remove the signature data and associated key (**6**) from the signature container map
 - Verify the signature by calling a signature verification method with the following arguments:
     - the *signature verification key* (implicit in this particular case)
     - the read signature algorithm
