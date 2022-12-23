@@ -88,7 +88,7 @@ After applying a *hypothetical* signature scheme:
 }
 ```
 Map key **-1** holds a signature container map with
-a signature algorithm identifier (**5**) and signature data (**h'fe49...**).
+a signature algorithm identifier (**5**) and signature data (**h'4853...**).
 The signature would be created by the following steps:
 - Add an empty signature container map to the unsigned data
 - Add signature algorithm and associated key (**1**) to the signature container map
