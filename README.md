@@ -226,7 +226,9 @@ straightforward as shown by the example below:
 ```
 Notes:
 
-- The example features the two major HTTP header elements, plus another example
+- The binary-encoded counterpart to the CBOR data above would be provided
+in a HTTP Body element using `content&#8209;type:&nbsp;application/cbor`.
+- The example features the core HTTP header elements, plus another example
 header needing a more sophisticated handling including canonicalization as
 described in the aforementioned IETF draft.
 - Top level keys **2**-**5** are specific for the (payment oriented) example.
@@ -243,4 +245,4 @@ transport method may only to a limited degree, affect the packaging
 of data and signatures.
 
 <br><br>
-Version 0.1, 2022-12-19
+Version 0.11, 2022-12-23
