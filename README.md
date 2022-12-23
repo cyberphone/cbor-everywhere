@@ -227,7 +227,7 @@ straightforward as shown by the example below:
 Notes:
 
 - The binary-encoded counterpart to the CBOR data above would be provided
-in a HTTP Body element using `content&#8209;type:&nbsp;application/cbor`.
+in a HTTP Body element using `content‑type: application/cbor`.
 - The example features the core HTTP header elements, plus another example
 header needing a more sophisticated handling including canonicalization as
 described in the aforementioned IETF draft.
