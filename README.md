@@ -87,17 +87,19 @@ After applying a *hypothetical* signature scheme:
   }
 }
 ```
-Map key **-1** holds a signature container map with
+Map key **-1** holds a signature container map which in turn features
 a signature algorithm identifier (**5**) and signature data (**h'4853...**).
 The signature would be created by the following steps:
 - Add an empty signature container map to the unsigned data
-- Add signature algorithm and associated key (**1**) to the signature container map
+- Add signature algorithm and associated *fixed* key (**1**)
+to the signature container map
 - *Optional*. Add other signature meta data to the signature container map
 - Create signature data by calling a signature method with the following arguments:
     - the *signature key* (a symmetric or private key)
     - the signature algorithm
     - the deterministic serialization of the current CBOR data item
-- Add the resulting signature data and associated key (**6**) to the signature container map
+- Add the resulting signature data and associated *fixed* key (**6**)
+to the signature container map
 
 Verification is performed by the following steps:
 - Read the signature algorithm from the signature container map
