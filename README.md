@@ -7,9 +7,6 @@ The target audience for this document are developers who currently
 use [JSON](https://www.rfc-editor.org/rfc/rfc8259) or
 [XML](https://www.w3.org/XML/).*
 
-## CBOR Roots and Motivations
-T.B.D.
-
 ## Notation
 For readability reasons, the CBOR examples in this document are provided
 in a textual format known as 
@@ -149,8 +146,8 @@ Using CBOR the construct above could be replaced by the following code:
 {
   "text": "This is text",
   "image": {
-    "type": "image/png",
-    "data": h'89504e470d0a1a0a...'
+    "data": h'89504e470d0a1a0a...',
+    "type": "image/png"
   }
 }
 ```
