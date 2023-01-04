@@ -1,4 +1,4 @@
-![This is an image](https://cyberphone.github.io/cbor-everywhere/cborlogo1.svg)
+![This is an image](https://cyberphone.github.io/cbor-everywhere/cborlogo2.svg)
 # CBOR Everywhere
 
 *This document contains information and links to information resources which describe
