@@ -1,3 +1,4 @@
+![This is an image](https://cyberphone.github.io/cbor-everywhere/github-cborlogo.svg)
 # CBOR Everywhere
 
 *This document contains information and links to information resources which describe
