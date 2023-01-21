@@ -209,15 +209,19 @@ straightforward as shown by the example below:
   4: h'a5010302a401381e036d7832353531393a323032323a3107a3010120042158',
   / timeStamp /
   5: "2022-12-14T10:43:56Z",
-  / requestSignature /
+  / requestSignature (enveloped) /
   -1: {
-    / keyType /
+    / signatureAlgorithm = ES256 (COSE) /
     1: -7,
-    / publicKey /
+    / publicKey (COSE) /
     4: {
+      / kty = EC /
       1: 2,
+      / crv = P-256 /
       -1: 1,
+      / x /
       -2: h'e812b1a6dcbc708f9ec43cc2921fa0a14e9d5eadcc6dc63471dd4b680c6236b5',
+      / y /
       -3: h'9826dcbd4ce6e388f72edd9be413f2425a10f75b5fd83d95fa0cde53159a51d8'
     },
     / signatureValue /
@@ -246,4 +250,4 @@ transport method may only to a limited degree, affect the packaging
 of data and signatures.
 
 <br><br>
-Version 0.12, 2022-12-25
+Version 0.13, 2023-01-21
