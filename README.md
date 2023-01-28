@@ -13,7 +13,10 @@ For readability reasons, the CBOR examples in this document are provided
 in a textual format known as 
 [diagnostic notation](https://www.rfc-editor.org/rfc/rfc8949#name-diagnostic-notation),
 rather than the actual CBOR binary code.
-The diagnostic notation is also suited for logging CBOR data.
+Using diagnostic notation is an established method for *logging* CBOR data.
+
+Aided by a suitable parser, diagnostic notation also makes *configuration
+files* in CBOR fully comparable to JSON.
 
 ## Support for Binary Data
 One of the more useful features of CBOR is the ability representing binary data
@@ -250,4 +253,4 @@ transport method may only to a limited degree, affect the packaging
 of data and signatures.
 
 <br><br>
-Version 0.13, 2023-01-21
+Version 0.14, 2023-01-28
