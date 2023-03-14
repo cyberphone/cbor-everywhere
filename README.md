@@ -31,7 +31,7 @@ JSON, XML, and particularly XML Schema (XSD) based designs, typically
 use URLs as object identifiers.
 To ease the conversion from JSON and XML, a compatible
 **C**BOR&nbsp;**O**bject&nbsp;**T**ype&nbsp;e**X**tension
-([COTX](https://www.ietf.org/archive/id/draft-rundgren-cotx-03.html))
+([COTX](https://www.ietf.org/archive/id/draft-rundgren-cotx-04.html))
 construct has been defined.  Sample:
 
 ```
