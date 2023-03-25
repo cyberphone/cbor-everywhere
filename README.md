@@ -209,6 +209,8 @@ straightforward as shown by the example below:
     / currency /
     3: "EUR"
   },
+  / userAuthorization /
+  4: h'a5010302a401381e036d7832353531393a323032323a3107a3010120042158',
   / timeStamp /
   5: "2022-12-14T10:43:56Z",
   / requestSignature (enveloped) /
