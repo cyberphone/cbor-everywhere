@@ -48,14 +48,14 @@ This arrangement also makes *object embedding* in other CBOR or non-CBOR data
 less cumbersome, since the COTX identifier indicates which kind of object
 that has been encountered.
 
-## Deterministic Serialization
-Unlike XML and JSON, CBOR supports deterministic serialization.
+## Deterministic Encoding
+Unlike XML and JSON, CBOR supports deterministic encoding.
 In addition to reducing the scope of interoperability testing, 
-deterministic serialization also produces shortest possible CBOR data.
+deterministic encoding also produces shortest possible CBOR data.
 Preliminary specification: https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#deterministic-encoding
 
 ### Sorted Maps
-Through deterministic serialization, CBOR map keys are by
+Through deterministic encoding, CBOR map keys are by
 default *sorted*, making debug and documentation easier.
 By using CBOR integers as map keys, mapped arguments can be
 positioned in the (for the application), most logical place.
@@ -65,7 +65,7 @@ specific test needed for map keys, is that they are
 stored in a *lexicographically ascending order*. 
 
 ### Cryptographic Operations
-Since deterministic serialization eliminates potentially
+Since deterministic encoding eliminates potentially
 error-prone canonicalization steps, it may also be used
 to represent signed data in a more efficient way than 
 [JWS](https://www.rfc-editor.org/rfc/rfc7515.html),
@@ -100,7 +100,7 @@ to the signature container map
 - Create signature data by calling a signature method with the following arguments:
     - the *signature key* (a symmetric or private key)
     - the signature algorithm
-    - the deterministic serialization of the current CBOR data item
+    - the deterministic encoding of the current CBOR data item
 - Add the resulting signature data and associated *fixed* key (**6**)
 to the signature container map
 
@@ -112,7 +112,7 @@ Verification is performed by the following steps:
     - the *signature verification key* (implicit in this particular case)
     - the read signature algorithm
     - the saved signature data
-    - the deterministic serialization of the remaining CBOR data item
+    - the deterministic encoding of the remaining CBOR data item
  
 Although the outlined scheme only supports signing data in the CBOR
 notation, the ability representing data like
@@ -254,4 +254,4 @@ transport method may only to a limited degree, affect the packaging
 of data and signatures.
 
 <br><br>
-Version 0.14, 2023-01-28
+Version 0.15, 2023-04-06
