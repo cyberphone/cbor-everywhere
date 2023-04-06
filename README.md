@@ -11,7 +11,7 @@ use [JSON](https://www.rfc-editor.org/rfc/rfc8259) or
 ## Notation
 For readability reasons, the CBOR examples in this document are provided
 in a textual format known as 
-[diagnostic notation](https://www.rfc-editor.org/rfc/rfc8949#name-diagnostic-notation),
+[diagnostic notation](https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#diagnostic-notation),
 rather than the actual CBOR binary code.
 Using diagnostic notation is an established method for *logging* CBOR data.
 
@@ -52,7 +52,7 @@ that has been encountered.
 Unlike XML and JSON, CBOR supports deterministic serialization.
 In addition to reducing the scope of interoperability testing, 
 deterministic serialization also produces shortest possible CBOR data.
-Preliminary specification: https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#deterministic-serialization
+Preliminary specification: https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#deterministic-encoding
 
 ### Sorted Maps
 Through deterministic serialization, CBOR map keys are by
