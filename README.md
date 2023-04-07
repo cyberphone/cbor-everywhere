@@ -15,8 +15,9 @@ in a textual format known as
 rather than the actual CBOR binary code.
 Using diagnostic notation is an established method for *logging* CBOR data.
 
-Aided by a suitable parser, diagnostic notation also makes *configuration
-files* in CBOR fully comparable to JSON.
+Due to the support for *comments*, *hexadecimal numbers*, 
+and multiple ways of specifying *binary data*,
+diagnostic notation is better suited for *configuration* and *test data files* than JSON.
 
 ## Support for Binary Data
 One of the more useful features of CBOR is the ability representing binary data
