@@ -17,7 +17,21 @@ Using diagnostic notation is an established method for *logging* CBOR data.
 
 Due to the support for *comments*, *hexadecimal numbers*, 
 and multiple ways of specifying *binary data*,
-diagnostic notation is better suited for *configuration* and *test data files* than JSON.
+diagnostic notation is better suited for *configuration* and *test data files* than JSON:
+```cbor
+// Configuration file using CBOR Diagnostic Notation
+{
+  "host": "https://example.com/controller",
+  "preLoad": true,
+  "deviceId": 0x3502,
+  "privateKey": {  // COSE Ed25519 key
+    1: 1,
+    -1: 6,
+    -2: h'fe49acf5b92b6e923594f2e83368f680ac924be93cf533aecaf802e37757f8c9',
+    -4: h'd1f96bfba6d7b38e7d7fdab002adb466cdcd8b34c62041f9feb4c3168ba6155e'
+  }
+}
+```
 
 ## Support for Binary Data
 One of the more useful features of CBOR is the ability representing binary data
@@ -255,4 +269,4 @@ transport method may only to a limited degree, affect the packaging
 of data and signatures.
 
 <br><br>
-Version 0.15, 2023-04-06
+Version 0.16, 2023-06-02
