@@ -66,7 +66,7 @@ that has been encountered.
 ## Deterministic Encoding
 Unlike XML and JSON, CBOR supports deterministic encoding.
 In addition to reducing the scope of interoperability testing, 
-deterministic encoding also produces shortest possible CBOR data.
+deterministic encoding also produces compact CBOR data.
 Preliminary specification: https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#deterministic-encoding
 
 ### Sorted Maps
