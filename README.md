@@ -19,7 +19,7 @@ Due to the support for *comments*, *hexadecimal numbers*,
 and multiple ways of specifying *binary data*,
 diagnostic notation is better suited for *configuration* and *test data files* than JSON:
 ```cbor
-// Configuration file using CBOR Diagnostic Notation
+# Configuration file using CBOR Diagnostic Notation
 {
   "host": "https://example.com/controller",
   "preLoad": true,
