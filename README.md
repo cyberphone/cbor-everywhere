@@ -24,7 +24,7 @@ diagnostic notation is better suited for *configuration* and *test data files* t
   "host": "https://example.com/controller",
   "preLoad": true,
   "deviceId": 0x3502,
-  "privateKey": {  // COSE Ed25519 key
+  "privateKey": {  # COSE Ed25519 key
     1: 1,
     -1: 6,
     -2: h'fe49acf5b92b6e923594f2e83368f680ac924be93cf533aecaf802e37757f8c9',
