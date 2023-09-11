@@ -115,7 +115,7 @@ to the signature container map
 - Create signature data by calling a signature method with the following arguments:
     - the *signature key* (a symmetric or private key)
     - the signature algorithm
-    - the deterministic encoding of the current CBOR data item
+    - the deterministic encoding of the current CBOR data item in its entirety
 - Add the resulting signature data and associated *fixed* key (**6**)
 to the signature container map
 
@@ -127,7 +127,7 @@ Verification is performed by the following steps:
     - the *signature verification key* (implicit in this particular case)
     - the read signature algorithm
     - the saved signature data
-    - the deterministic encoding of the remaining CBOR data item
+    - the deterministic encoding of the remaining CBOR data item in its entirety
  
 Although the outlined scheme only supports signing data in the CBOR
 notation, the ability representing data like
