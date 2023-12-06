@@ -18,7 +18,7 @@ Using diagnostic notation is an established method for *logging* CBOR data.
 Due to the support for *comments*, *hexadecimal numbers*, 
 and multiple ways of specifying *binary data*,
 diagnostic notation is better suited for *configuration* and *test data files* than JSON:
-```cbor
+```
 # Configuration file using CBOR Diagnostic Notation
 {
   "host": "https://example.com/controller",
@@ -68,6 +68,8 @@ Unlike XML and JSON, CBOR supports deterministic encoding.
 In addition to reducing the scope of interoperability testing, 
 deterministic encoding also produces compact CBOR data.
 Preliminary specification: https://cyberphone.github.io/javaapi/org/webpki/cbor/package-summary.html#deterministic-encoding
+
+The IETF has adopted deterministically encoded CBOR as a work item: https://datatracker.ietf.org/doc/draft-ietf-cbor-cde/.
 
 ### Sorted Maps
 Through deterministic encoding, CBOR map keys are by
@@ -269,4 +271,4 @@ transport method may only to a limited degree, affect the packaging
 of data and signatures.
 
 <br><br>
-Version 0.16, 2023-06-02
+Version 0.17, 2023-12-06
