@@ -187,7 +187,7 @@ is transferred over HTTP; `application/cbor` may suffice.
 
 ## Signed HTTP Requests
 There are several different solutions out in the wild as well as a recent
-[IETF draft](https://datatracker.ietf.org/doc/draft-ietf-httpbis-message-signatures/),
+[IETF standard](https://www.rfc-editor.org/rfc/rfc9421.html),
 for signing HTTP requests.
 
 They typically share a common drawback: the signed request data
@@ -271,4 +271,4 @@ transport method may only to a limited degree, affect the packaging
 of data and signatures.
 
 <br><br>
-Version 0.17, 2023-12-06
+Version 0.18, 2024-10-23
