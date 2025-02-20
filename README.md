@@ -140,6 +140,8 @@ Note that other signature meta data such as public keys,
 and key identifiers can also be included in a signature container
 of the kind shown above.  Using the described scheme,
 they would *automatically be signed* as well.
+
+Note that for reliable operation parsed CBOR data items must be _immutable_.
  
 ## Elimination of Multipart Mime Extensions
 Consider the following rather awkward 
