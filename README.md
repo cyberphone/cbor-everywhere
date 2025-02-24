@@ -95,7 +95,7 @@ Unsigned sample data:
   2: "more data"
 }
 ```
-After applying a *hypothetical* signature scheme:
+After applying a *hypothetical* enveloped signature scheme:
 
 ```
 {
