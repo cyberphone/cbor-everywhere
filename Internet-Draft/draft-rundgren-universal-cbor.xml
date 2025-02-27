@@ -166,27 +166,65 @@
 
       <section anchor="sample.integers">
           <name>Integers</name>
-            <table>
-            <name>Integers</name>
-          <thead>
-          <!-- [REPLACE/DELETE] a table header is optional -->
-            <tr><th align="center">Value</th>
-            <th align="center">Encoding</th>
-            <th align="center">Note</th></tr>
-          </thead>
-          <tbody>
-            <tr><td align="right"><tt>0</tt></td>
-            <td align="right"><tt>00</tt></td>
-            <td>Zero</td></tr>
-            <tr><td align="right"><tt>18446744073709551615</tt></td>
-            <td align="right"><tt>1bffffffffffffffff</tt></td>
-            <td>Largest positive "int"</td></tr>
-            <tr><td align="right"><tt>18446744073709551616</tt></td>
-            <td align="right"><tt>c249010000000000000000</tt></td>
-            <td>Smallest positive "bigint"</td></tr>
-          </tbody>
-        </table>
-      </section>
+<table>
+<name>Integers</name>
+<thead>
+  <tr><th align="center">Value</th>
+  <th align="center">CBOR Encoding</th>
+  <th align="center">Note</th></tr>
+</thead>
+<tbody>
+<tr><td align="right"><tt>0</tt></td>
+<td align="right"><tt>00</tt></td>
+<td>Smallest positive implicit <tt>int</tt></td></tr>
+<tr><td align="right"><tt>-1</tt></td>
+<td align="right"><tt>20</tt></td>
+<td>Smallest negative implicit <tt>int</tt></td></tr>
+<tr><td align="right"><tt>23</tt></td>
+<td align="right"><tt>17</tt></td>
+<td>Largest positive implicit <tt>int</tt></td></tr>
+<tr><td align="right"><tt>-24</tt></td>
+<td align="right"><tt>37</tt></td>
+<td>Largest negative implicit <tt>int</tt></td></tr>
+<tr><td align="right"><tt>24</tt></td>
+<td align="right"><tt>1818</tt></td>
+<td>Smallest positive one-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>-25</tt></td>
+<td align="right"><tt>3818</tt></td>
+<td>Smallest negative one-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>255</tt></td>
+<td align="right"><tt>18ff</tt></td>
+<td>Largest positive one-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>-256</tt></td>
+<td align="right"><tt>38ff</tt></td>
+<td>Largest negative one-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>65535</tt></td>
+<td align="right"><tt>19ffff</tt></td>
+<td>Smallest positive two-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>-65536</tt></td>
+<td align="right"><tt>39ffff</tt></td>
+<td>Smallest negative two-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>4294967295</tt></td>
+<td align="right"><tt>1affffffff</tt></td>
+<td>Largest positive four-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>-4294967296</tt></td>
+<td align="right"><tt>3affffffff</tt></td>
+<td>Largest negative four-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>18446744073709551615</tt></td>
+<td align="right"><tt>1bffffffffffffffff</tt></td>
+<td>Smallest positive eight-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>-18446744073709551616</tt></td>
+<td align="right"><tt>3bffffffffffffffff</tt></td>
+<td>Smallest negative eight-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>18446744073709551616</tt></td>
+<td align="right"><tt>c249010000000000000000</tt></td>
+<td>Largest positive <tt>bigint</tt></td></tr>
+<tr><td align="right"><tt>-18446744073709551617</tt></td>
+<td align="right"><tt>c349010000000000000000</tt></td>
+<td>Largest negative <tt>bigint</tt></td></tr>
+</tbody>
+</table>
+    </section>
 
     </section>
     
