@@ -46,15 +46,18 @@
     <keyword>Deterministic</keyword>
     <keyword>Encoding</keyword>
     <keyword>Cryptography</keyword>
+    <keyword>Enveloped</keyword>
+    <keyword>Signature</keyword>
 
     <abstract>
       <t>
-        This document describes a strict subset of CBOR (RFC 8949) that is intended to
-        serve as a replacement for JSON and XML.  To foster interoperability, and to
-        support cryptographic solutions that also can operate on "raw" (unwrapped)
+        This document describes a strict subset of CBOR (RFC 8949), intended to serve
+        as a viable replacement for JSON and XML.  To foster interoperability, and to
+        support cryptographic constructs that also can operate on "raw" (unwrapped)
         CBOR data, deterministic encoding is mandatory.  Although the encoding scheme
-        has been proved to be deployable in constrained environments, the primary
-        target is rather mainstream platforms like mobile phones and Web servers
+        associated with this specification has been proved to be deployable in constrained
+        environments, the primary target is rather mainstream platforms like mobile
+        phones and Web servers.
       </t>
     </abstract>
  
@@ -64,7 +67,6 @@
     
     <section>
       <name>Introduction</name>
-      <t><xref target="RFC8949"/></t>
       
       <section>
         <name>Requirements Language</name>
@@ -76,48 +78,37 @@
           all capitals, as shown here.</t>
       </section>
 
+      <section>
+        <name>Common Definitions</name>
+        <ul>
+        <li>This document use the conventions defined in CDDL <xref target="RFC8610"/> 
+        for expressing the type of CBOR <xref target="RFC8949"/> data items.</li>
+        <li>Examples showing CBOR data, are expressed in "diagnostic notation" as defined
+        in section 8 of CBOR <xref target="RFC8949"/>.</li>
+        <li>The term "CBOR&nbsp;object" is equivalent to "CBOR&nbsp;data&nbsp;item"
+        used in CBOR <xref target="RFC8949"/>.</li>
+        <li>The term "Universal CBOR" is in this document abbreviated to "CBOR/U".</li>
+        </ul>
+      </section>
+
     </section>
     
     <section>
-      <name>Body [REPLACE]</name>
+      <name>Detailed Description</name>
       <t>Body text [REPLACE]</t>
-    
-      
-      <dl newline="true">
-        <!-- Omit newline="true" if you want each definition to start on the same line as the corresponding term -->
-        <dt>First term: [REPLACE/DELETE]</dt>
-        <dd>Definition of the first term [REPLACE/DELETE]</dd>
-        <dt>Second term: [REPLACE/DELETE]</dt>
-        <dd>Definition of the second term [REPLACE/DELETE]</dd>
-      </dl>
-      
-      <table>
-        <thead>
-        <!-- [REPLACE/DELETE] a table header is optional -->
-          <tr><th>Val</th>
-          <th>Column 2 [REPLACE]</th>
-          <th>Column 2 [RnhghbhhbhbhhbhbhbhbhbhbbhbhbhbhhnkknknghghghghghghghgEPLACE]</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Cell [REPLACE]</td>
-          <td>Cell [REPLACE]</td>
-          <td>Cell [REPLACE]</td></tr>
-                    <tr><td>Cell [REPLACE]</td>
-          <td>Cell [REPLACE]</td>
-          <td>Cell [REPLACE]</td></tr>
-        </tbody>
-      </table>
 
-      <figure>
-        <name>Source [REPLACE]</name>
-        <sourcecode name="suggested filename [REPLACE/DELETE]" type="language [REPLACE/DELETE]" markers="true">
-          <![CDATA[
-source code goes here [REPLACE]
-          ]]>
-        </sourcecode>
-        <!-- [CHECK] markers="true" means that the rendered file will have <CODE BEGINS> and <CODE ENDS> added -->
-      </figure>
-
+      <section>
+        <name>Supported CBOR Objects</name>
+      </section>
+      
+      <section>
+        <name>Deterministic Encoding Scheme</name>
+      </section>
+      
+      <section>
+        <name>Encoder/Decoder Enhancements</name>
+      </section>
+   
     </section>   
     
     <section anchor="IANA">
@@ -127,41 +118,26 @@ source code goes here [REPLACE]
     
     <section anchor="Security">
        <name>Security Considerations</name>
-      <t>All is good :).</t>
+      <t>All is good &#x1f638;</t>
     </section>
     
-    <!-- NOTE: The Acknowledgements and Contributors sections are at the end of this template -->
-  </middle>
+   </middle>
 
   <back>
     <references>
       <name>References</name>
       <references>
         <name>Normative References</name>
-        
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8949.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9052.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4231.xml"/>
-        
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8610.xml"/>
       </references>
  
       <references>
         <name>Informative References</name>
-       
-        <reference anchor="exampleRefMin">
-        <!-- [REPLACE/DELETE] Example minimum reference -->
-          <front>
-            <title>Title [REPLACE]</title>
-            <author initials="Initials [REPLACE]" surname="Surname [REPLACE]">
-              <organization/>
-            </author>
-            <date year="2006"/>
-            <!-- [CHECK] -->
-          </front>
-        </reference>
-
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9052.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9053.xml"/>
         <reference anchor="CSF" 
   target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/signatures.html">
           <front>
@@ -171,16 +147,53 @@ source code goes here [REPLACE]
             </author>
             <date year="2025"/>
           </front>
-        </reference>       
-       
+        </reference>
+        <reference anchor="CEF" 
+  target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/encryption.html">
+          <front>
+            <title>CBOR Encryption Format (CEF)</title>
+            <author initials="A" surname="Rundgren">
+              <organization/>
+            </author>
+            <date year="2025"/>
+          </front>
+        </reference>     
       </references>
     </references>
+
+    <section anchor="sample.values">
+    <name>Sample Values</name>
+
+      <section anchor="sample.integers">
+          <name>Integers</name>
+            <table>
+            <name>Integers</name>
+          <thead>
+          <!-- [REPLACE/DELETE] a table header is optional -->
+            <tr><th align="center">Value</th>
+            <th align="center">Encoding</th>
+            <th align="center">Note</th></tr>
+          </thead>
+          <tbody>
+            <tr><td align="right"><tt>0</tt></td>
+            <td align="right"><tt>00</tt></td>
+            <td>Zero</td></tr>
+            <tr><td align="right"><tt>18446744073709551615</tt></td>
+            <td align="right"><tt>1bffffffffffffffff</tt></td>
+            <td>Largest positive "int"</td></tr>
+            <tr><td align="right"><tt>18446744073709551616</tt></td>
+            <td align="right"><tt>c249010000000000000000</tt></td>
+            <td>Smallest positive "bigint"</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+    </section>
     
-    <section>
+    <section anchor="enveloped.signatures">
       <name>Enveloped Signatures</name>
-      <t>This is a <em>non-normative</em> appendix showing how the described
-      encoding scheme can be used for supporting enveloped signatures.
-      </t>
+      <t>This is a <em>non-normative</em> appendix showing how CBOR/U
+      can be used for supporting enveloped signatures.</t>
       <t>The primary advantages with enveloped signatures compared to
       the approach used by COSE <xref target="RFC9052"/> include:</t>
       <ul>
@@ -193,35 +206,39 @@ source code goes here [REPLACE]
       <t>Although this specification is not "married" to any particular
       signature schema, the examples build on the CBOR Signature Format
       <xref target="CSF"/>.
-      For the sake of simplicity, the examples use an HMAC <xref target="RFC4231"/>
-      algorithm.</t>
-      <section>
+      For the sake of simplicity, the examples use an HMAC
+      (see <xref target="example.parameters" format="default"/>)
+      as signature algorithm.</t>
+
+      <section anchor="example.unsigned">
         <name>Unsigned Data</name>
         <t>Imagine you have a CBOR map object like the following
         that you want to sign:</t>
-          <sourcecode name="Unsigned Data" type="cbor">
+       <sourcecode name="Unsigned Data" type="cbor">
 <![CDATA[{
   1: "data",
   2: "more data"
 }]]></sourcecode>
-      <t>continue to next section...</t>
+      <t>Then continue to the next section 
+      (<xref target="example.signing" format="default"/>)...</t>
       </section>
-      <section>
+      <section anchor="example.signing">
         <name>Signature Process</name>
-        <t>This section describes the steps required to add an
-        enveloped signature to the unsigned data in the previous section.
+        <t>This section describes the steps required for adding an
+        enveloped signature to the CBOR map object in
+        <xref target="example.unsigned" format="default"/>.
         </t>
         <ol>
-        <li>Add an empty CSF container (a CBOR map) to the unsigned data
+        <li>Add an empty CSF container (a CBOR map) to the unsigned CBOR map
         using an <em>application-defined</em> label (-1).</li>
-        <li>Add a signature algorithm to the
+        <li>Add the designated signature algorithm to the
         CSF container using the CSF algorithm label (1).</li>
         <li><em>Optional</em>. Add other signature meta data to the
-        CSF container.</li>
-        <li><t>Create signature data by calling a signature method with the 
-        following arguments:</t>
+        CSF container. Not used in the example.</li>
+        <li><t>Generate a signature by invoking a (hypothetical)
+        signature method with the following arguments:</t>
           <ul>
-          <li>the designated signature key (<xref target="test.key" format="default"/>).</li>
+          <li>the designated signature key.</li>
           <li>the designated signature algorithm.</li>
           <li>the <em>deterministic encoding</em> of the
           current CBOR object in its <em>entirety</em>.</li>
@@ -230,9 +247,10 @@ source code goes here [REPLACE]
         <li>Add the returned signature value to the CSF container
         using the CSF signature label (6).</li>
         </ol>
-        <t>The result from final step (if using the COSE "HS256" algorithm
-        and the test key), should match the following CBOR object:</t>
-        <sourcecode name="Unsigned Data" type="cbor">
+        <t>The result after the final step (using the parameters 
+        from <xref target="example.parameters" format="default"/>), should
+        match the following CBOR object:</t>
+<sourcecode name="Unsigned Data" type="cbor">
 <![CDATA[{
   1: "data",
   2: "more data",
@@ -241,26 +259,28 @@ source code goes here [REPLACE]
     6: h'4853d7730cc1340682b1748dc346cf627a5e91ce62c67fff15c40257ed2a37a1'
   }
 }]]></sourcecode>
-      <t>Note that the signature covers the entire object except for
+      <t>Note that the signature covers the <em>entire</em> CBOR object except for
       the CSF signature value and label (6).</t>
       </section>
-      <section>
+
+      <section anchor="example.validation">
         <name>Validation Process</name>
         <t>In order to validate the enveloped signature created in the
-        previous section, perform the following steps:</t>
+        <xref target="example.signing" format="default"/>,
+        the following steps are performed:</t>
         <ol>
         <li><t>Fetch a <em>reference</em> to the CSF container using the
         <em>application-defined</em> label (-1).
         Next perform the following operations using the reference:</t>
-        <ul>
+        <ol>
           <li>Retrieve the signature algorithm using the CSF algorithm label (1).</li>
           <li>Retrieve the signature value using the CSF algorithm label (6).</li>
           <li>Remove the CSF algorithm label (6) and its associated value.</li>
-        </ul>
+        </ol>
         <t>Now we should have exactly the same CBOR object as we had <em>before</em>
-        step #4 in the previous section was performed.
+        step #4 in <xref target="example.signing" format="default"/>.
         That is:</t>
-                <sourcecode name="Unsigned Data" type="cbor">
+<sourcecode name="Unsigned Data" type="cbor">
 <![CDATA[{
   1: "data",
   2: "more data",
@@ -269,10 +289,11 @@ source code goes here [REPLACE]
   }
 }]]></sourcecode>
         </li>
-        <li><t>Validate the signature data by calling a signature validation method
-        with the following arguments:</t>
+        <li><t>Validate the signature data by invoking a (hypothetical)
+        signature validation method with the following arguments:</t>
           <ul>
-          <li>the designated signature key (<xref target="test.key" format="default"/>).</li>
+          <li>the designated signature key
+          (in the example taken from <xref target="example.parameters" format="default"/>).</li>
           <li>the signature algorithm retrieved in step #1.</li>
           <li>the signature value retrieved in step #1.</li>
           <li>the <em>deterministic encoding</em> of the
@@ -283,13 +304,45 @@ source code goes here [REPLACE]
         <t>Note: this is a "bare-bones" validation process, lacking the ruggedness
         of a real-world implementation.</t>
       </section>
-      <section anchor="test.key">
-        <name>Test Key</name>
-        <t>The signature and validation examples depend on the following 256-bit
-        test key, here provided in hex code:</t>
-        <sourcecode name="Unsigned Data" type="any">
+
+      <section anchor="example.parameters">
+        <name>Example Parameters</name>
+        <t>The signature and validation examples depend on the
+        COSE <xref target="RFC9053"/> algorithm "HMAC&nbsp;256/256" and an
+        associated 256-bit key, here provided in hex code:</t>
+        <sourcecode name="Key" type="any">
 <![CDATA[7fdd851a3b9d2dafc5f0d00030e22b9343900cd42ede4948568a4a2ee655291a]]></sourcecode>
       </section>
+
+    </section>
+
+    <section anchor="tools.online">
+      <name>Compatible Online Tools</name>
+      <t>For testing and learning about CBOR/U,
+      there are currently a number of compatible
+      online tools (subject to availability...).</t>
+      <dl newline="true">
+        <dt>Browser-based CBOR "playground":</dt>
+        <dd>https://cyberphone.github.io/CBOR.js/doc/playground.html</dd>
+        <dt>Server-based CBOR and <xref target="CSF"/> test system:</dt>
+        <dd>https://test.webpki.org/csf-lab</dd>
+      </dl>
+    </section>
+
+    <section anchor="tools.implementations">
+      <name>Compatible Implementations</name>
+      <t>For using CBOR/U in applications, there are
+      currently a number of compatible ibraries.</t>
+      <dl newline="true">
+        <dt>JavaScript-based implementation:</dt>
+        <dd>https://github.com/cyberphone/CBOR.js</dd>
+        <dt>Java-based implementation that also 
+        supports <xref target="CSF"/> and <xref target="CEF"/>:</dt>
+        <dd>https://github.com/cyberphone/openkeystore</dd>
+        <dt>Android Java-based implementation that also 
+        supports <xref target="CSF"/> and <xref target="CEF"/>:</dt>
+        <dd>https://github.com/cyberphone/android-cbor</dd>
+      </dl>
     </section>
 
     <section anchor="Acknowledgements" numbered="false">
