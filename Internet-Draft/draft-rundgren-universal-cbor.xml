@@ -138,6 +138,8 @@
         <name>Informative References</name>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9052.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9053.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8785.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8259.xml"/>
         <reference anchor="CSF" 
   target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/signatures.html">
           <front>
@@ -157,12 +159,22 @@
             </author>
             <date year="2025"/>
           </front>
-        </reference>     
+        </reference>
+        <reference anchor="CREDENTIALS" 
+  target="https://www.w3.org/TR/vc-data-integrity/">
+          <front>
+            <title>Verifiable Credential Data Integrity 1.0</title>
+            <author initials="M" surname="Sporny (et al)">
+               <organization/>
+            </author>
+            <date year="2025"/>
+          </front>
+        </reference>         
       </references>
     </references>
 
     <section anchor="sample.values">
-    <name>Sample Values</name>
+    <name>Deterministic Encoding Samples</name>
 
       <section anchor="sample.integers">
           <name>Integers</name>
@@ -198,33 +210,116 @@
 <tr><td align="right"><tt>-256</tt></td>
 <td align="right"><tt>38ff</tt></td>
 <td>Largest negative one-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>256</tt></td>
+<td align="right"><tt>190100</tt></td>
+<td>Smallest positive two-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>-257</tt></td>
+<td align="right"><tt>390100</tt></td>
+<td>Smallest negative two-byte <tt>int</tt></td></tr>
 <tr><td align="right"><tt>65535</tt></td>
 <td align="right"><tt>19ffff</tt></td>
-<td>Smallest positive two-byte <tt>int</tt></td></tr>
+<td>Largest positive two-byte <tt>int</tt></td></tr>
 <tr><td align="right"><tt>-65536</tt></td>
 <td align="right"><tt>39ffff</tt></td>
-<td>Smallest negative two-byte <tt>int</tt></td></tr>
+<td>Largest negative two-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>65536</tt></td>
+<td align="right"><tt>1a00010000</tt></td>
+<td>Smallest positive four-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>-65537</tt></td>
+<td align="right"><tt>3a00010000</tt></td>
+<td>Smallest negative four-byte <tt>int</tt></td></tr>
 <tr><td align="right"><tt>4294967295</tt></td>
 <td align="right"><tt>1affffffff</tt></td>
 <td>Largest positive four-byte <tt>int</tt></td></tr>
 <tr><td align="right"><tt>-4294967296</tt></td>
 <td align="right"><tt>3affffffff</tt></td>
 <td>Largest negative four-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>4294967296</tt></td>
+<td align="right"><tt>1b0000000100000000</tt></td>
+<td>Smallest positive eight-byte <tt>int</tt></td></tr>
+<tr><td align="right"><tt>-4294967297</tt></td>
+<td align="right"><tt>3b0000000100000000</tt></td>
+<td>Smallest negative eight-byte <tt>int</tt></td></tr>
 <tr><td align="right"><tt>18446744073709551615</tt></td>
 <td align="right"><tt>1bffffffffffffffff</tt></td>
-<td>Smallest positive eight-byte <tt>int</tt></td></tr>
+<td>Largest positive eight-byte <tt>int</tt></td></tr>
 <tr><td align="right"><tt>-18446744073709551616</tt></td>
 <td align="right"><tt>3bffffffffffffffff</tt></td>
-<td>Smallest negative eight-byte <tt>int</tt></td></tr>
+<td>Largest negative eight-byte <tt>int</tt></td></tr>
 <tr><td align="right"><tt>18446744073709551616</tt></td>
 <td align="right"><tt>c249010000000000000000</tt></td>
-<td>Largest positive <tt>bigint</tt></td></tr>
+<td>Smallest positive <tt>bigint</tt></td></tr>
 <tr><td align="right"><tt>-18446744073709551617</tt></td>
 <td align="right"><tt>c349010000000000000000</tt></td>
-<td>Largest negative <tt>bigint</tt></td></tr>
+<td>Smallest negative <tt>bigint</tt></td></tr>
 </tbody>
 </table>
-    </section>
+      </section>
+
+      <section anchor="sample.floats">
+        <name>Floating Point Numbers</name>
+<table>
+<name>Floating Point Numbers</name>
+<thead>
+  <tr><th align="center">Value</th>
+  <th align="center">CBOR Encoding</th>
+  <th align="center">Note</th></tr>
+</thead>
+<tbody>
+<tr><td align="right"><tt>0.0</tt></td>
+<td align="right"><tt>f90000</tt></td>
+<td>Zero</td></tr>
+<tr><td align="right"><tt>-0.0</tt></td>
+<td align="right"><tt>f98000</tt></td>
+<td>Minus zero</td></tr>
+<tr><td align="right"><tt>Infinity</tt></td>
+<td align="right"><tt>f97c00</tt></td>
+<td>Infinity</td></tr>
+<tr><td align="right"><tt>-Infinity</tt></td>
+<td align="right"><tt>f9fc00</tt></td>
+<td>-Infinity</td></tr>
+<tr><td align="right"><tt>NaN</tt></td>
+<td align="right"><tt>f97e00</tt></td>
+<td>NaN</td></tr>
+<tr><td align="right"><tt>5.960464477539063e-8</tt></td>
+<td align="right"><tt>f90001</tt></td>
+<td>Smallest positive <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>0.00006097555160522461</tt></td>
+<td align="right"><tt>f903ff</tt></td>
+<td>Largest positive <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>0.00006103515625</tt></td>
+<td align="right"><tt>f90400</tt></td>
+<td>Smallest positive 16-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>65504.0</tt></td>
+<td align="right"><tt>f97bff</tt></td>
+<td>Largest positive 16-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>1.401298464324817e-45</tt></td>
+<td align="right"><tt>fa00000001</tt></td>
+<td>Smallest positive <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>1.1754942106924411e-38</tt></td>
+<td align="right"><tt>fa007fffff</tt></td>
+<td>Largest positive <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>1.1754943508222875e-38</tt></td>
+<td align="right"><tt>fa00800000</tt></td>
+<td>Smallest positive 32-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>3.4028234663852886e+38</tt></td>
+<td align="right"><tt>fa7f7fffff</tt></td>
+<td>Largest positive 32-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>5.0e-324</tt></td>
+<td align="right"><tt>fb0000000000000001</tt></td>
+<td>Smallest positive <em>subnormal</em> 64-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>2.225073858507201e-308</tt></td>
+<td align="right"><tt>fb000fffffffffffff</tt></td>
+<td>Largest positive <em>subnormal</em> 64-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>2.2250738585072014e-308</tt></td>
+<td align="right"><tt>fb0010000000000000</tt></td>
+<td>Smallest positive 64-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>1.7976931348623157e+308</tt></td>
+<td align="right"><tt>fb7fefffffffffffff</tt></td>
+<td>Largest positive 64-bit <tt>float</tt></td></tr>
+</tbody>
+</table>
+      </section>
 
     </section>
     
@@ -241,6 +336,12 @@
         attributes (aka "headers"), <em>in one go</em>, without
         having to wrap data in CBOR "bstr" objects.</li>
       </ul>
+      <t>Enveloped signatures are for example featured in Verified Credentials 
+      <xref target="CREDENTIALS"/>.
+      A drawback with designs based on JSON <xref target="RFC8259"/> is that they
+      rely on <em>canonicalization schemes</em> like JCS <xref target="RFC8785"/>,
+      that require specialized encoders and decoders, whereas CBOR/U works
+      "straight out of the box".</t>
       <t>Although this specification is not "married" to any particular
       signature schema, the examples build on the CBOR Signature Format
       <xref target="CSF"/>.
@@ -381,6 +482,13 @@
         supports <xref target="CSF"/> and <xref target="CEF"/>:</dt>
         <dd>https://github.com/cyberphone/android-cbor</dd>
       </dl>
+    </section>
+
+    <section anchor="DocHistory" numbered="false">
+      <name>Document History</name>
+      <ul>
+        <li>00. Exiting times ahead!</li>
+      </ul>
     </section>
 
     <section anchor="Acknowledgements" numbered="false">

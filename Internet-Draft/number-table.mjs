@@ -14,7 +14,7 @@ let rfcMode = args[0] == "RFC";
 let intMode = args[1] == "INT";
 console.log("Mode: " + args[0]);
 
-let table = rfcMode ? "<table>\n<name>" + (intMode ? "Integers" : "Floating Point") + 
+let table = rfcMode ? "<table>\n<name>" + (intMode ? "Integers" : "Floating Point Numbers") + 
 `</name>
 <thead>
   <tr><th align="center">Value</th>
@@ -36,6 +36,14 @@ function oneTurn(numberText, cborHex, comment) {
   numberText +
   '</tt></td>\n<td align="right"><tt>' + cborHex +
   '</tt></td>\n<td>' + comment + '</td></tr>\n': "gg"; 
+}
+
+function codeWord(word) {
+  return rfcMode ? "<tt>" + word + "</tt>" : "<code>" + word + "</code>";
+}
+
+function emphasize(word) {
+  return rfcMode ? "<em>" + word + "</em>" : "<i>" + word + "</i>";
 }
 
 function intGen(largeFlag, value) {
@@ -60,32 +68,70 @@ function intGen(largeFlag, value) {
       size = "";
       type = "bigint";
   }
-  if (rfcMode) {
-    type = "<tt>" + type + "</tt>";
-  }
   let comment = (largeFlag ? "Largest" : "Smallest") + " " +
-      (value < 0n ? "negative" : "positive") + size + " " + type;
+      (value < 0n ? "negative" : "positive") + size + " " + codeWord(type);
   oneTurn(cborObject.toString(), CBOR.toHex(cbor), comment);
 }
 
-if (intMode) {
-  let value = 1n;
-  for (let i = 0; i < 8; i++) {
-    let largest = i & 1;
-    intGen(largest, value - 1n);
-    intGen(largest, -value);
-    if (i == 0) {
-      value = 24n;
-    } else if (i == 1) {
-      value = 25n;
-    } else if (i == 2) {
-      value = 256n;
-    } else if (i == 6) {
-      value++;
-    } else {
-      value *= value;
-    }
+let largest = false;
+
+function intGenBase(value) {
+  intGen(largest, value);
+  intGen(largest, -value - 1n);
+  largest = !largest;
+}
+
+function floatGen(size, value, largest, subnormal) {
+  let tag = 0xf9;
+  let i = size;
+  while (!(i & 2)) {
+    i >>= 1;
+    tag++;
   }
+  let encoding = [];
+  for (i = 0; i < size; i++) {
+    encoding.push(Number(value & 255n));
+    value >>= 8n;
+  }
+  encoding.push(tag);
+  let cbor = CBOR.decode(new Uint8Array(encoding.reverse()));
+//  console.log(cbor.toString());
+   oneTurn(cbor.toString(), CBOR.toHex(encoding), (largest ? "Largest" : "Smallest") +
+       " positive " + (subnormal ? emphasize('subnormal') + " ": "") +
+      (size * 8) + "-bit " + codeWord('float'));
+}
+
+function floatGenBase(size, exponentSize, offset) {
+  floatGen(size, 1n, false, true);
+  floatGen(size, offset - 1n, true, true);
+  floatGen(size, offset, false, false);
+  let exponent = 0n;
+  for (let i = 1; i < exponentSize; i++) {
+    exponent |= 1n;
+    exponent <<= 1n;
+  }
+  floatGen(size, (exponent * offset) + offset - 1n, true, false);
+}
+
+if (intMode) {
+  intGenBase(0n);
+  intGenBase(23n);
+  intGenBase(24n);
+  let value = 256n;
+  for (let i = 0; i < 4; i++) {
+    intGenBase(value - 1n);
+    intGenBase(value);
+    value *= value;
+  }
+} else {
+  oneTurn("0.0", "f90000", "Zero");
+  oneTurn("-0.0", "f98000", "Minus zero");
+  oneTurn("Infinity", "f97c00", "Infinity");
+  oneTurn("-Infinity", "f9fc00", "-Infinity");
+  oneTurn("NaN", "f97e00", "NaN");
+  floatGenBase(2, 5, 0x400n);
+  floatGenBase(4, 8, 0x800000n);
+  floatGenBase(8, 11, 0x10000000000000n);
 }
 
 table += rfcMode ? '</tbody>\n</table>\n' : "hh";
