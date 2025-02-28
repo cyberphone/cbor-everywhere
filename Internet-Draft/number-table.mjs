@@ -132,6 +132,7 @@ if (intMode) {
   floatGenBase(2, 5, 0x400n);
   floatGenBase(4, 8, 0x800000n);
   floatGenBase(8, 11, 0x10000000000000n);
+  oneTurn("-0.0000033333333333333333", "fbbecbf647612f3696");
 }
 
 table += rfcMode ? '</tbody>\n</table>\n' : "hh";

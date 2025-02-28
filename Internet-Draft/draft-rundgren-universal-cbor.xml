@@ -103,6 +103,93 @@
       
       <section>
         <name>Deterministic Encoding Scheme</name>
+        <t>
+While there are different ways you can encode certain CBOR objects,
+this is non-trivial to support in general purpose platform-based tools,
+not to mention the limited utility of such measures.
+Therefore CBOR/U defines specific (non-variant) encodings,
+aka &quot;Deterministic Encoding&quot;.  Fortunately, the selected 
+encoding scheme is <em>backward compatible</em> with most existing CBOR
+<em>decoders</em>.
+  <!-- 
+  However, for <i>decoding</i> (only), compliance with deterministic encoding
+  rules may be <a href='#decoder.cbor.initdecoder'>relaxed</a>, enabling
+  the processing of CBOR data created by applications using &quot;legacy&quot;
+  encoding schemes as well.
+   -->
+        </t>
+        <t>
+The encoding scheme adheres to section 4.2 of <xref target="RFC8949"/>,
+but adds a few constraints (denoted by RFC+), where the RFC offers choices.
+The deterministic encoding rules are as follows:
+        </t>
+      <ul>
+        <li>
+RFC+: Floating point and integer objects MUST be treated as <em>distinct types</em>
+regardless of their numeric value. This is compliant with
+Rule&nbsp;2 in section 4.2.2 of <xref target="RFC8949"/>.
+        </li>
+        <li>
+        <t>
+RFC: Integers, represented by the <tt>int</tt> and
+<tt>bigint</tt> types, MUST use the <tt>int</tt>
+type if the value is between <tt>-2<sup>64</sup></tt>
+and <tt>2<sup>64</sup>-1</tt>,
+otherwise the <tt>bigint</tt> type MUST be used.
+In <xref target="sample.integers" format="default"/> there is list of integer sample values.
+        </t>
+        <t>
+Note that integers MUST NOT be supplied with
+<em>leading zero bytes</em> (like <tt>1900ff</tt>) unless the
+CBOR representation offers no alternative (like <tt>1b000000ffffffffff</tt>).
+Note that the integer encoding scheme does not always return the
+most compact representation: the value
+<tt>1099511627775</tt>
+(<tt>0xffffffffff</tt>)
+would actually yield two bytes less using the <tt>bigint</tt> type.
+        </t>
+        </li>
+        <li>
+        <t>
+RFC+: Floating point data MUST use the shortest IEEE-754 <xref target="IEEE754"/>.
+variant and associated CBOR encoding.
+In <xref target="sample.floats" format="default"/> there is list of floating point sample values.
+
+        </t>
+              <t>
+Note that <tt>NaN</tt> "signaling" (like <tt>f97e01</tt>),
+MUST be <em>rejected</em>.
+        </t>
+        <t>
+Note that the shortest encoding may result in <em>subnormal</em>
+numbers like <tt>f98001</tt>.
+        </t>
+        </li>
+        <li><t>
+RFC: Map keys MUST be sorted in the bytewise lexicographic
+order of their deterministic encoding.
+Duplicate keys MUST be <em>rejected</em>.
+Somewhat surprisingly the following represents a properly sorted map:</t>
+<sourcecode name="Unsigned Data" type="cbor">
+<![CDATA[{
+  "a": ... ,
+  "b": ... ,
+  "aa": ...
+}]]></sourcecode>
+        </li>
+        <li>
+RFC+: Since CBOR encoding according to this specification
+maintains type and data uniqueness, there are no specific restrictions or
+tests needed in order to determine map key equivalence.
+As an example, the floating-point numbers <tt>0.0</tt> and
+<tt>-0.0</tt>, and the integer number <tt>0</tt>
+represent the distinct keys
+<tt>f90000</tt>, <tt>f98000</tt>, and <tt>00</tt> respectively.
+        </li>
+        <li>
+RFC+: Indefinite length objects MUST be <em>rejected</em>.
+        </li>
+      </ul>
       </section>
       
       <section>
@@ -132,6 +219,17 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8949.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8610.xml"/>
+        <reference anchor="IEEE754" target="https://ieeexplore.ieee.org/document/8766229" quoteTitle="true" derivedAnchor="IEEE754">
+          <front>
+            <title>IEEE Standard for Floating-Point Arithmetic</title>
+            <author>
+              <organization showOnFrontPage="true">IEEE</organization>
+            </author>
+            <date/>
+          </front>
+          <seriesInfo name="IEEE Std" value="754-2019"/>
+          <seriesInfo name="DOI" value="10.1109/IEEESTD.2019.8766229"/>
+        </reference>
       </references>
  
       <references>
