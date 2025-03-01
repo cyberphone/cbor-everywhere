@@ -138,7 +138,7 @@ used in CBOR <xref target="RFC8949"/>.</li>
       <section>
         <name>Deterministic Encoding Scheme</name>
         <t>
-The encoding scheme adheres to section 4.2 of <xref target="RFC8949"/>,
+The U-CBOR encoding scheme adheres to section 4.2 of <xref target="RFC8949"/>,
 but adds a few constraints (denoted by RFC+), where the RFC offers choices.
 The deterministic encoding rules are as follows:
         </t>
@@ -155,7 +155,8 @@ RFC: Integers, represented by the <tt>int</tt> and
 type if the value is between <tt>-2<sup>64</sup></tt>
 and <tt>2<sup>64</sup>-1</tt>,
 otherwise the <tt>bigint</tt> type MUST be used.
-In <xref target="sample.integers" format="default"/> there is list of integer sample values.
+In <xref target="sample.integers" format="default"/>
+there is list of integer sample values.
         </t>
         <t>
 Note that integers MUST NOT be supplied with
@@ -163,17 +164,17 @@ Note that integers MUST NOT be supplied with
 CBOR representation offers no alternative (like <tt>1b000000ffffffffff</tt>).
 Note that the integer encoding scheme does not always return the
 most compact representation: the value
-<tt>1099511627775</tt>
-(<tt>0xffffffffff</tt>)
+<tt>1099511627775</tt> (<tt>0xffffffffff</tt>)
 would actually yield two bytes less using the <tt>bigint</tt> type.
         </t>
         </li>
         <li>
         <t>
-RFC+: Floating point numbers MUST use the shortest <xref target="IEEE754"/> variant,
+RFC+: Floating point numbers MUST always use the shortest
+<xref target="IEEE754"/> variant,
 supporting the precision of the original value.
-In <xref target="sample.floats" format="default"/> there is list of
-floating point sample values.
+In <xref target="sample.floats" format="default"/>
+there is list of floating point sample values.
 
         </t>
         <t>
@@ -306,7 +307,9 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
 
       <section anchor="sample.integers">
           <name>Integers</name>
-          <t>This </t>
+<t>This <em>normative</em> section holds a selection
+of CBOR integer values, with an emphasize on edge cases.</t>
+
 <table>
 <name>Integers</name>
 <thead>
@@ -387,14 +390,19 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
 
       <section anchor="sample.floats">
         <name>Floating Point Numbers</name>
-        <t>This <em>normative</em> section holds a selection
-        of <xref target="IEEE754"/> 16, 32, and 64-bit values.</t>
-        <t>The textual representation of the values are based on
-        the serialization method for <tt>Number</tt> defined by
-        <xref target="ECMASCRIPT"/> with one change: to comply with
-        diagnostic notation
-        (section 8 of <xref target="RFC8949"/>), all values are
-        expressed as floating point numbers.</t>
+<t>This <em>normative</em> section holds a selection
+of <xref target="IEEE754"/> 16, 32, and 64-bit values,
+with an emphasize on edge cases.</t>
+<t>The textual representation of the values is based on
+the serialization method for the <tt>Number</tt> data type,
+defined by <xref target="ECMASCRIPT"/> with one change:
+to comply with diagnostic notation
+(section 8 of <xref target="RFC8949"/>), all values are
+expressed as floating point numbers.
+The rationale for using <xref target="ECMASCRIPT"/> serialization is
+because it supposed to generate the shortest and most
+correct representation of <xref target="IEEE754"/> numbers.</t>
+
 <table>
 <name>Floating Point Numbers</name>
 <thead>
@@ -457,6 +465,12 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
 <tr><td align="right"><tt>-0.0000033333333333333333</tt></td>
 <td align="right"><tt>fbbecbf647612f3696</tt></td>
 <td>Randomly selected number</td></tr>
+<tr><td align="right"><tt>1.4012984643248174e-45</tt></td>
+<td align="right"><tt>fb36a0000000000001</tt></td>
+<td>Close to smallest subnormal 32-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>295147905179352830000.0</tt></td>
+<td align="right"><tt>fa61800000</tt></td>
+<td><tt>~2<sup>68</sup></tt></td></tr>
 <tr><td align="right"><tt>2.0</tt></td>
 <td align="right"><tt>f94000</tt></td>
 <td>Number without a fractional part</td></tr>
@@ -474,6 +488,7 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
 </tbody>
 </table>
+
     </section>
 
     </section>
