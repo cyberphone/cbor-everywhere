@@ -76,7 +76,7 @@ the selected encoding scheme is <em>backward compatible</em>
 with most existing CBOR <em>decoders</em>.
         </t>
         <t>
-By combinining the compact binary representation and the rich set of
+By combining the compact binary representation and the rich set of
 data types offered by CBOR, with a deterministic encoding scheme,
 U-CBOR could serve as viable alternative to JSON <xref target="RFC8259"/>
 for new designs.  Although the mandated encoding scheme has proved to be
@@ -465,21 +465,39 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <tr><td align="right"><tt>-0.0000033333333333333333</tt></td>
 <td align="right"><tt>fbbecbf647612f3696</tt></td>
 <td>Randomly selected number</td></tr>
-<tr><td align="right"><tt>1.4012984643248174e-45</tt></td>
-<td align="right"><tt>fb36a0000000000001</tt></td>
-<td>Close to smallest subnormal 32-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>295147905179352830000.0</tt></td>
 <td align="right"><tt>fa61800000</tt></td>
 <td><tt>~2<sup>68</sup></tt></td></tr>
 <tr><td align="right"><tt>2.0</tt></td>
 <td align="right"><tt>f94000</tt></td>
 <td>Number without a fractional part</td></tr>
-<tr><td align="right"><tt>-5.960464477539062e-8</tt></td>
-<td align="right"><tt>fbbe6fffffffffffff</tt></td>
-<td>Series of close numbers</td></tr>
+<tr><td align="right"><tt>1.4012984643248169e-45</tt></td>
+<td align="right"><tt>fb369fffffffffffff</tt></td>
+<td>Close to smallest <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>1.4012984643248174e-45</tt></td>
+<td align="right"><tt>fb36a0000000000001</tt></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<tr><td align="right"><tt>1.175494210692441e-38</tt></td>
+<td align="right"><tt>fb380fffffbfffffff</tt></td>
+<td>Close to largest <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>1.1754942106924412e-38</tt></td>
+<td align="right"><tt>fb380fffffc0000001</tt></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<tr><td align="right"><tt>65503.99999999999</tt></td>
+<td align="right"><tt>fb40effbffffffffff</tt></td>
+<td>Close to largest 16-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>65504.00000000001</tt></td>
+<td align="right"><tt>fb40effc0000000001</tt></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<tr><td align="right"><tt>65504.00390625</tt></td>
+<td align="right"><tt>fa477fe001</tt></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
 <tr><td align="right"><tt>-5.960464477539063e-8</tt></td>
 <td align="right"><tt>f98001</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>Smallest negative <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>-5.960464477539062e-8</tt></td>
+<td align="right"><tt>fbbe6fffffffffffff</tt></td>
+<td>Close to smallest negative <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>-5.960464477539064e-8</tt></td>
 <td align="right"><tt>fbbe70000000000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
@@ -553,7 +571,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
           current CBOR object in its <em>entirety</em>.
           In the example that would be 
           <tt>a301646461746102696d6f7265206461746120a10105</tt>,
-          here shown in hex code.</li>
+          if expressed in hex code.</li>
           </ul>
         </li>
         <li>Add the returned signature value to the CSF container

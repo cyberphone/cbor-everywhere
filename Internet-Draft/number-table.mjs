@@ -134,11 +134,21 @@ if (intMode) {
   floatGenBase(8, 11, 0x10000000000000n);
   let text = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""';
   oneTurn("-0.0000033333333333333333", "fbbecbf647612f3696", "Randomly selected number");
-  oneTurn("1.4012984643248174e-45", "fb36a0000000000001", "Close to smallest subnormal 32-bit " + codeWord("float"));
   oneTurn("295147905179352830000.0", "fa61800000", codeWord("~2<sup>68</sup>"));
   oneTurn("2.0", "f94000", "Number without a fractional part");
-  oneTurn("-5.960464477539062e-8", "fbbe6fffffffffffff", "Series of close numbers");
-  oneTurn("-5.960464477539063e-8", "f98001", text);
+  oneTurn("1.4012984643248169e-45", "fb369fffffffffffff", "Close to smallest " +
+      emphasize("subnormal") + " 32-bit " + codeWord("float"));
+  oneTurn("1.4012984643248174e-45", "fb36a0000000000001", text);
+  oneTurn("1.175494210692441e-38", "fb380fffffbfffffff", "Close to largest " +
+      emphasize("subnormal") + " 32-bit " + codeWord("float"));
+  oneTurn("1.1754942106924412e-38", "fb380fffffc0000001", text);
+  oneTurn("65503.99999999999", "fb40effbffffffffff", "Close to largest 16-bit " + codeWord("float"));
+  oneTurn("65504.00000000001", "fb40effc0000000001", text);
+  oneTurn("65504.00390625", "fa477fe001", text);
+  oneTurn("-5.960464477539063e-8", "f98001", "Smallest negative " +
+      emphasize("subnormal") + " 16-bit " + codeWord("float"));
+  oneTurn("-5.960464477539062e-8", "fbbe6fffffffffffff", "Close to smallest negative " +
+      emphasize("subnormal") + " 16-bit " + codeWord("float"));
   oneTurn("-5.960464477539064e-8", "fbbe70000000000001", text);
   oneTurn("-5.960465188081798e-8", "fab3800001", text);
 }
