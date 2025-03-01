@@ -21,7 +21,7 @@
   version="3">
 
   <front>
-    <title abbrev="CBOR/U">Universal CBOR</title>
+    <title abbrev="U-CBOR">Universal CBOR (U-CBOR)</title>
 
     <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-00"/>
    
@@ -51,13 +51,10 @@
 
     <abstract>
       <t>
-        This document describes a strict subset of CBOR (RFC 8949), intended to serve
-        as a viable replacement for JSON and XML.  To foster interoperability, and to
-        support cryptographic constructs that also can operate on "raw" (unwrapped)
-        CBOR data, deterministic encoding is mandatory.  Although the encoding scheme
-        associated with this specification has been proved to be deployable in constrained
-        environments, the primary target is rather mainstream platforms like mobile
-        phones and Web servers.
+This document describes a strict subset of CBOR (RFC 8949), intended to serve
+as a viable replacement for JSON.  To foster interoperability, and to
+support cryptographic constructs that also can operate on "raw" (unwrapped)
+CBOR data, deterministic encoding is mandatory.
       </t>
     </abstract>
  
@@ -67,6 +64,42 @@
     
     <section>
       <name>Introduction</name>
+          <t>
+This specification is based on CBOR <xref target="RFC8949"/>.
+While there are different ways you can encode certain CBOR objects,
+this is non-trivial to support in general purpose platform-based tools,
+not to mention the limited utility of such measures.
+Therefore U-CBOR defines specific (non-variant) encodings,
+aka &quot;Deterministic Encoding&quot;.  To foster adoption,
+the selected  encoding scheme is <em>backward compatible</em>
+with most existing CBOR <em>decoders</em>.
+        </t>
+        <t>
+By combinining the compact binary representation and the rich set of
+data types offered by CBOR, with a deterministic encoding scheme,
+U-CBOR could serve as viable alternative to JSON <xref target="RFC8259"/>
+for new designs.  Although the mandated encoding scheme has proved to be
+deployable in constrained environments, the primary target is rather
+mainstream platforms like mobile phones and Web servers.
+        </t>
+        <t>
+However, for unleashing the full power of deterministic encoding,
+the ability to perform cryptographic operations on "raw" (unwrapped)
+CBOR data, associated CBOR tools need additional functionality.
+Turn to <xref target="enveloped.signatures" format="default"/> for
+an example of an application depending on these features.
+        </t>
+        <t>
+<xref target="detailed.description" format="default"/> contains the
+actual specification.
+
+  <!-- 
+  However, for <i>decoding</i> (only), compliance with deterministic encoding
+  rules may be <a href='#decoder.cbor.initdecoder'>relaxed</a>, enabling
+  the processing of CBOR data created by applications using &quot;legacy&quot;
+  encoding schemes as well.
+   -->
+        </t>
       
       <section>
         <name>Requirements Language</name>
@@ -81,19 +114,19 @@
       <section>
         <name>Common Definitions</name>
         <ul>
-        <li>This document use the conventions defined in CDDL <xref target="RFC8610"/> 
+        <li>This document uses the conventions defined in CDDL <xref target="RFC8610"/> 
         for expressing the type of CBOR <xref target="RFC8949"/> data items.</li>
         <li>Examples showing CBOR data, are expressed in "diagnostic notation" as defined
         in section 8 of CBOR <xref target="RFC8949"/>.</li>
         <li>The term "CBOR&nbsp;object" is equivalent to "CBOR&nbsp;data&nbsp;item"
         used in CBOR <xref target="RFC8949"/>.</li>
-        <li>The term "Universal CBOR" is in this document abbreviated to "CBOR/U".</li>
+        <li>The term "Universal CBOR" is in this document abbreviated to "U-CBOR".</li>
         </ul>
       </section>
 
     </section>
     
-    <section>
+    <section anchor="detailed.description">
       <name>Detailed Description</name>
       <t>Body text [REPLACE]</t>
 
@@ -103,21 +136,6 @@
       
       <section>
         <name>Deterministic Encoding Scheme</name>
-        <t>
-While there are different ways you can encode certain CBOR objects,
-this is non-trivial to support in general purpose platform-based tools,
-not to mention the limited utility of such measures.
-Therefore CBOR/U defines specific (non-variant) encodings,
-aka &quot;Deterministic Encoding&quot;.  Fortunately, the selected 
-encoding scheme is <em>backward compatible</em> with most existing CBOR
-<em>decoders</em>.
-  <!-- 
-  However, for <i>decoding</i> (only), compliance with deterministic encoding
-  rules may be <a href='#decoder.cbor.initdecoder'>relaxed</a>, enabling
-  the processing of CBOR data created by applications using &quot;legacy&quot;
-  encoding schemes as well.
-   -->
-        </t>
         <t>
 The encoding scheme adheres to section 4.2 of <xref target="RFC8949"/>,
 but adds a few constraints (denoted by RFC+), where the RFC offers choices.
@@ -151,12 +169,12 @@ would actually yield two bytes less using the <tt>bigint</tt> type.
         </li>
         <li>
         <t>
-RFC+: Floating point data MUST use the shortest IEEE-754 <xref target="IEEE754"/>.
+RFC+: Floating point data MUST use the shortest <xref target="IEEE754"/>.
 variant and associated CBOR encoding.
 In <xref target="sample.floats" format="default"/> there is list of floating point sample values.
 
         </t>
-              <t>
+        <t>
 Note that <tt>NaN</tt> "signaling" (like <tt>f97e01</tt>),
 MUST be <em>rejected</em>.
         </t>
@@ -267,7 +285,17 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
             </author>
             <date year="2025"/>
           </front>
-        </reference>         
+        </reference> 
+        <reference anchor="ECMASCRIPT" target="https://www.ecma-international.org/publications/standards/Ecma-262.htm" quoteTitle="true" derivedAnchor="ECMA262">
+          <front>
+            <title>ECMAScript 2020 Language Specification</title>
+            <author>
+              <organization showOnFrontPage="true">Ecma International</organization>
+            </author>
+            <date year="2020" month="June"/>
+          </front>
+          <refcontent>Standard ECMA-262, 11th Edition</refcontent>
+        </reference>
       </references>
     </references>
 
@@ -276,6 +304,7 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
 
       <section anchor="sample.integers">
           <name>Integers</name>
+          <t>This </t>
 <table>
 <name>Integers</name>
 <thead>
@@ -356,6 +385,15 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
 
       <section anchor="sample.floats">
         <name>Floating Point Numbers</name>
+        <t>This <em>normative</em> section holds a selection
+        of <xref target="IEEE754"/> 16, 32, and 64-bit values.</t>
+        <t>The textual representation of the values are based on
+        the serialization method for <tt>Number</tt> defined by
+        <xref target="ECMASCRIPT"/> with one change: to comply with
+        diagnostic notation
+        (section 8 of <xref target="RFC8949"/>), all values are
+        expressed as floating point numbers.</t>
+
 <table>
 <name>Floating Point Numbers</name>
 <thead>
@@ -369,7 +407,7 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
 <td>Zero</td></tr>
 <tr><td align="right"><tt>-0.0</tt></td>
 <td align="right"><tt>f98000</tt></td>
-<td>Minus zero</td></tr>
+<td>Negative zero</td></tr>
 <tr><td align="right"><tt>Infinity</tt></td>
 <td align="right"><tt>f97c00</tt></td>
 <td>Infinity</td></tr>
@@ -415,15 +453,30 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
 <tr><td align="right"><tt>1.7976931348623157e+308</tt></td>
 <td align="right"><tt>fb7fefffffffffffff</tt></td>
 <td>Largest positive 64-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>-0.0000033333333333333333</tt></td>
+<td align="right"><tt>fbbecbf647612f3696</tt></td>
+<td>Randomly selected number</td></tr>
+<tr><td align="right"><tt>-5.960464477539062e-8</tt></td>
+<td align="right"><tt>fbbe6fffffffffffff</tt></td>
+<td>Series of close numbers</td></tr>
+<tr><td align="right"><tt>-5.960464477539063e-8</tt></td>
+<td align="right"><tt>f98001</tt></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<tr><td align="right"><tt>-5.960464477539064e-8</tt></td>
+<td align="right"><tt>fbbe70000000000001</tt></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<tr><td align="right"><tt>-5.960465188081798e-8</tt></td>
+<td align="right"><tt>fab3800001</tt></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
 </tbody>
 </table>
-      </section>
+    </section>
 
     </section>
     
     <section anchor="enveloped.signatures">
       <name>Enveloped Signatures</name>
-      <t>This is a <em>non-normative</em> appendix showing how CBOR/U
+      <t>This is a <em>non-normative</em> appendix showing how U-CBOR
       can be used for supporting enveloped signatures.</t>
       <t>The primary advantages with enveloped signatures compared to
       the approach used by COSE <xref target="RFC9052"/> include:</t>
@@ -438,7 +491,7 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
       <xref target="CREDENTIALS"/>.
       A drawback with designs based on JSON <xref target="RFC8259"/> is that they
       rely on <em>canonicalization schemes</em> like JCS <xref target="RFC8785"/>,
-      that require specialized encoders and decoders, whereas CBOR/U works
+      that require specialized encoders and decoders, whereas U-CBOR works
       "straight out of the box".</t>
       <t>Although this specification is not "married" to any particular
       signature schema, the examples build on the CBOR Signature Format
@@ -478,7 +531,10 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
           <li>the designated signature key.</li>
           <li>the designated signature algorithm.</li>
           <li>the <em>deterministic encoding</em> of the
-          current CBOR object in its <em>entirety</em>.</li>
+          current CBOR object in its <em>entirety</em>.
+          In the example that would be 
+          <tt>a301646461746102696d6f7265206461746120a10105</tt>,
+          here shown in hex code.</li>
           </ul>
         </li>
         <li>Add the returned signature value to the CSF container
@@ -555,7 +611,7 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
 
     <section anchor="tools.online">
       <name>Compatible Online Tools</name>
-      <t>For testing and learning about CBOR/U,
+      <t>For testing and learning about U-CBOR,
       there are currently a number of compatible
       online tools (subject to availability...).</t>
       <dl newline="true">
@@ -568,7 +624,7 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
 
     <section anchor="tools.implementations">
       <name>Compatible Implementations</name>
-      <t>For using CBOR/U in applications, there are
+      <t>For using U-CBOR in applications, there are
       currently a number of compatible ibraries.</t>
       <dl newline="true">
         <dt>JavaScript-based implementation:</dt>

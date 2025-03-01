@@ -125,14 +125,19 @@ if (intMode) {
   }
 } else {
   oneTurn("0.0", "f90000", "Zero");
-  oneTurn("-0.0", "f98000", "Minus zero");
+  oneTurn("-0.0", "f98000", "Negative zero");
   oneTurn("Infinity", "f97c00", "Infinity");
   oneTurn("-Infinity", "f9fc00", "-Infinity");
   oneTurn("NaN", "f97e00", "NaN");
   floatGenBase(2, 5, 0x400n);
   floatGenBase(4, 8, 0x800000n);
   floatGenBase(8, 11, 0x10000000000000n);
-  oneTurn("-0.0000033333333333333333", "fbbecbf647612f3696");
+  let text = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""';
+  oneTurn("-0.0000033333333333333333", "fbbecbf647612f3696", "Randomly selected number");
+  oneTurn("-5.960464477539062e-8", "fbbe6fffffffffffff", "Series of close numbers");
+  oneTurn("-5.960464477539063e-8", "f98001", text);
+  oneTurn("-5.960464477539064e-8", "fbbe70000000000001", text);
+  oneTurn("-5.960465188081798e-8", "fab3800001", text);
 }
 
 table += rfcMode ? '</tbody>\n</table>\n' : "hh";
