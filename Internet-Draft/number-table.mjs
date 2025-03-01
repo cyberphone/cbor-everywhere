@@ -134,6 +134,7 @@ if (intMode) {
   floatGenBase(8, 11, 0x10000000000000n);
   let text = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""';
   oneTurn("-0.0000033333333333333333", "fbbecbf647612f3696", "Randomly selected number");
+  oneTurn("2.0", "f94000", "Number without a fractional part");
   oneTurn("-5.960464477539062e-8", "fbbe6fffffffffffff", "Series of close numbers");
   oneTurn("-5.960464477539063e-8", "f98001", text);
   oneTurn("-5.960464477539064e-8", "fbbe70000000000001", text);

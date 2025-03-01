@@ -54,7 +54,8 @@
 This document describes a strict subset of CBOR (RFC 8949), intended to serve
 as a viable replacement for JSON.  To foster interoperability, and to
 support cryptographic constructs that also can operate on "raw" (unwrapped)
-CBOR data, deterministic encoding is mandatory.
+CBOR data, deterministic encoding is mandated.  To cover a wide range of
+applications, additional functionality of CBOR tools is also specified. 
       </t>
     </abstract>
  
@@ -65,13 +66,13 @@ CBOR data, deterministic encoding is mandatory.
     <section>
       <name>Introduction</name>
           <t>
-This specification is based on CBOR <xref target="RFC8949"/>.
+The Universal CBOR (U-CBOR) specification is based on CBOR <xref target="RFC8949"/>.
 While there are different ways you can encode certain CBOR objects,
 this is non-trivial to support in general purpose platform-based tools,
 not to mention the limited utility of such measures.
 Therefore U-CBOR defines specific (non-variant) encodings,
-aka &quot;Deterministic Encoding&quot;.  To foster adoption,
-the selected  encoding scheme is <em>backward compatible</em>
+aka &quot;Deterministic Encoding&quot;.  To ease adoption,
+the selected encoding scheme is <em>backward compatible</em>
 with most existing CBOR <em>decoders</em>.
         </t>
         <t>
@@ -85,9 +86,9 @@ mainstream platforms like mobile phones and Web servers.
         <t>
 However, for unleashing the full power of deterministic encoding,
 the ability to perform cryptographic operations on "raw" (unwrapped)
-CBOR data, associated CBOR tools need additional functionality.
+CBOR data, associated U-CBOR tools need additional functionality.
 Turn to <xref target="enveloped.signatures" format="default"/> for
-an example of an application depending on these features.
+an example of an application depending on such features.
         </t>
         <t>
 <xref target="detailed.description" format="default"/> contains the
@@ -113,15 +114,15 @@ actual specification.
 
       <section>
         <name>Common Definitions</name>
-        <ul>
-        <li>This document uses the conventions defined in CDDL <xref target="RFC8610"/> 
-        for expressing the type of CBOR <xref target="RFC8949"/> data items.</li>
-        <li>Examples showing CBOR data, are expressed in "diagnostic notation" as defined
-        in section 8 of CBOR <xref target="RFC8949"/>.</li>
-        <li>The term "CBOR&nbsp;object" is equivalent to "CBOR&nbsp;data&nbsp;item"
-        used in CBOR <xref target="RFC8949"/>.</li>
-        <li>The term "Universal CBOR" is in this document abbreviated to "U-CBOR".</li>
-        </ul>
+<ul>
+<li>This document uses the conventions defined in CDDL <xref target="RFC8610"/> 
+for expressing the type of CBOR <xref target="RFC8949"/> data items.</li>
+<li>Examples showing CBOR data, are expressed in "diagnostic notation" as defined
+in section 8 of CBOR <xref target="RFC8949"/>.</li>
+<li>The term "CBOR&nbsp;object" is equivalent to "CBOR&nbsp;data&nbsp;item"
+used in CBOR <xref target="RFC8949"/>.</li>
+<li>The term "Universal CBOR" is in this document abbreviated to "U-CBOR".</li>
+</ul>
       </section>
 
     </section>
@@ -169,9 +170,10 @@ would actually yield two bytes less using the <tt>bigint</tt> type.
         </li>
         <li>
         <t>
-RFC+: Floating point data MUST use the shortest <xref target="IEEE754"/>.
-variant and associated CBOR encoding.
-In <xref target="sample.floats" format="default"/> there is list of floating point sample values.
+RFC+: Floating point numbers MUST use the shortest <xref target="IEEE754"/> variant,
+supporting the precision of the original value.
+In <xref target="sample.floats" format="default"/> there is list of
+floating point sample values.
 
         </t>
         <t>
@@ -393,7 +395,6 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
         diagnostic notation
         (section 8 of <xref target="RFC8949"/>), all values are
         expressed as floating point numbers.</t>
-
 <table>
 <name>Floating Point Numbers</name>
 <thead>
@@ -456,6 +457,9 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
 <tr><td align="right"><tt>-0.0000033333333333333333</tt></td>
 <td align="right"><tt>fbbecbf647612f3696</tt></td>
 <td>Randomly selected number</td></tr>
+<tr><td align="right"><tt>2.0</tt></td>
+<td align="right"><tt>f94000</tt></td>
+<td>Number without a fractional part</td></tr>
 <tr><td align="right"><tt>-5.960464477539062e-8</tt></td>
 <td align="right"><tt>fbbe6fffffffffffff</tt></td>
 <td>Series of close numbers</td></tr>
