@@ -87,8 +87,6 @@ mainstream platforms like mobile phones and Web servers.
 However, for unleashing the full power of deterministic encoding,
 the ability to perform cryptographic operations on "raw" (unwrapped)
 CBOR data, associated U-CBOR tools need additional functionality.
-Turn to <xref target="enveloped.signatures" format="default"/> for
-an example of an application depending on such features.
         </t>
         <t>
 <xref target="detailed.description" format="default"/> contains the
@@ -191,7 +189,7 @@ RFC: Map keys MUST be sorted in the bytewise lexicographic
 order of their deterministic encoding.
 Duplicate keys MUST be <em>rejected</em>.
 Somewhat surprisingly the following represents a properly sorted map:</t>
-<sourcecode name="Unsigned Data" type="cbor">
+<sourcecode name="Ordered map" type="cbor">
 <![CDATA[{
   "a": ... ,
   "b": ... ,
@@ -214,7 +212,59 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
       </section>
       
       <section>
-        <name>Encoder/Decoder Enhancements</name>
+        <name>CBOR Tool Requirements</name>
+<t>
+For compliance with this specification, encoders and decoders MUST
+support additional functionality, primarily targeting the combination
+of deterministic encoding and cryptographic constructs.
+</t>
+<t>
+The primary feature that deterministic encoding brings to the table is
+that wrapping CBOR data to be signed in <tt>bstr</tt> objects, like
+required by COSE <xref target="RFC9052"/>, is no longer a necessity.
+That is, cryptographic operations can <em>optionally</em> be performed
+on "raw" CBOR data.
+Turn to <xref target="enveloped.signatures" format="default"/> for
+an example of an application depending on such features.
+</t>
+<t>
+However, to make this a reality, the following functionality MUST be
+provided by CBOR tools:
+</t>
+<ul>
+  <li>
+  It MUST be possible to <em>add</em>, <em>delete</em>, and
+  <em>update</em> CBOR <tt>map</tt> and <tt>array</tt> objects of
+  received and decoded data.  Note: CBOR primitives MUST remain <em>immutable</em>.
+  </li>
+  <li>
+  It MUST be possible to <em>reserialize</em> received CBOR data,
+  be it updated or not.
+  </li>
+  <li>
+  Irrespective of if CBOR data was received, updated, or created 
+  programmatically, deterministic encoding MUST be maintained.
+  </li>
+</ul>
+<t>
+It is RECOMMENDED <em>separating</em> CBOR data and  application / platform-level data,
+since the latter may not always reserialize as expected:
+</t>
+<artwork type="ascii-art">
+<![CDATA[                 |--------------|
+                 |              | ==> Serialize
+Application <==> |  CBOR World  |
+    (API)        |              | <== Decode
+                 |--------------|]]>
+</artwork>
+<t>
+How this separation actually is accomplished is out of scope for this specification.
+However, <em>encapsulation</em> of CBOR data in <em>high-level</em>, and
+<em>self-rendering objects</em>,
+as performed by the tools listed in
+<xref target="tools.implementations" format="default"/>
+represents a viable method. 
+</t>
       </section>
    
     </section>   
