@@ -522,6 +522,18 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <tr><td align="right"><tt>1.1754942106924412e-38</tt></td>
 <td align="right"><tt>fb380fffffc0000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<tr><td align="right"><tt>1.1754943508222874e-38</tt></td>
+<td align="right"><tt>fb380fffffffffffff</tt></td>
+<td>Close to smallest 32-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>1.1754943508222878e-38</tt></td>
+<td align="right"><tt>fb3810000000000001</tt></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<tr><td align="right"><tt>3.4028234663852882e+38</tt></td>
+<td align="right"><tt>fb47efffffdfffffff</tt></td>
+<td>Close to largest 32-bit <tt>float</tt></td></tr>
+<tr><td align="right"><tt>3.402823466385289e+38</tt></td>
+<td align="right"><tt>fb47efffffe0000001</tt></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
 </tbody>
 </table>
 
