@@ -51,11 +51,15 @@
 
     <abstract>
       <t>
-This document describes a strict subset of CBOR (RFC 8949), intended to serve
-as a viable replacement for JSON.  To foster interoperability, and to
-support cryptographic constructs that also can operate on "raw" (unwrapped)
-CBOR data, deterministic encoding is mandated.  To cover a wide range of
-applications, additional functionality of CBOR tools is also specified. 
+This document defines Universal CBOR (U-CBOR),
+a strict subset of CBOR (RFC 8949)
+intended to serve as a viable replacement for JSON.
+To foster interoperability, deterministic encoding
+is mandated.  In addition, the document describes how
+deterministic encoding combined with enhanced CBOR tools,
+enables the support of cryptographic constructs that
+operate on "raw" (unwrapped) CBOR data.  The intended
+audience for this document are CBOR tool developers.
       </t>
     </abstract>
  
@@ -70,10 +74,14 @@ The Universal CBOR (U-CBOR) specification is based on CBOR <xref target="RFC8949
 While there are different ways you can encode certain CBOR objects,
 this is non-trivial to support in general purpose platform-based tools,
 not to mention the limited utility of such measures.
-Therefore U-CBOR defines specific (non-variant) encodings,
-aka &quot;Deterministic Encoding&quot;.  To ease adoption,
-the selected encoding scheme is <em>backward compatible</em>
-with most existing CBOR <em>decoders</em>.
+To cope with this, U-CBOR defines specific (non-variant) encodings,
+aka &quot;Deterministic Encoding&quot;.  The selected encoding
+scheme is believed to be <em>compatible</em> with most existing
+<em>systems</em> using CBOR.  See also <xref target="legacy.systems" format="default"/>.
+        </t>
+    <t>
+U-CBOR is intended to be agnostic with respect to programming
+languages.
         </t>
         <t>
 By combining the compact binary representation and the rich set of
@@ -82,7 +90,7 @@ U-CBOR could serve as viable alternative to JSON <xref target="RFC8259"/>
 for new designs.  Although the mandated encoding scheme has proved to be
 deployable in constrained environments, the primary target is rather
 mainstream platforms like mobile phones and Web servers.
-        </t>
+    </t>
         <t>
 However, for unleashing the full power of deterministic encoding,
 the ability to perform cryptographic operations on "raw" (unwrapped)
@@ -91,13 +99,6 @@ CBOR data, associated U-CBOR tools need additional functionality.
         <t>
 <xref target="detailed.description" format="default"/> contains the
 actual specification.
-
-  <!-- 
-  However, for <i>decoding</i> (only), compliance with deterministic encoding
-  rules may be <a href='#decoder.cbor.initdecoder'>relaxed</a>, enabling
-  the processing of CBOR data created by applications using &quot;legacy&quot;
-  encoding schemes as well.
-   -->
         </t>
       
       <section>
@@ -153,35 +154,26 @@ RFC: Integers, represented by the <tt>int</tt> and
 type if the value is between <tt>-2<sup>64</sup></tt>
 and <tt>2<sup>64</sup>-1</tt>,
 otherwise the <tt>bigint</tt> type MUST be used.
-In <xref target="sample.integers" format="default"/>
-there is list of integer sample values.
+<xref target="sample.integers" format="default"/>
+features a list of compliant integer sample values.
         </t>
         <t>
 Note that integers MUST NOT be supplied with
 <em>leading zero bytes</em> (like <tt>1900ff</tt>) unless the
 CBOR representation offers no alternative (like <tt>1b000000ffffffffff</tt>).
-Note that the integer encoding scheme does not always return the
-most compact representation: the value
-<tt>1099511627775</tt> (<tt>0xffffffffff</tt>)
-would actually yield two bytes less using the <tt>bigint</tt> type.
         </t>
         </li>
         <li>
         <t>
 RFC+: Floating point numbers MUST always use the shortest
-<xref target="IEEE754"/> variant,
-supporting the precision of the original value.
-In <xref target="sample.floats" format="default"/>
-there is list of floating point sample values.
-
+<xref target="IEEE754"/> variant that
+preserves the precision of the original value.
+<xref target="sample.floats" format="default"/>
+features a list of compliant floating point sample values.
         </t>
         <t>
 Note that <tt>NaN</tt> "signaling" (like <tt>f97e01</tt>),
 MUST be <em>rejected</em>.
-        </t>
-        <t>
-Note that the shortest encoding may result in <em>subnormal</em>
-numbers like <tt>f98001</tt>.
         </t>
         </li>
         <li><t>
@@ -211,13 +203,8 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
       </ul>
       </section>
       
-      <section>
+      <section anchor="ucbor.tools">
         <name>CBOR Tool Requirements</name>
-<t>
-For compliance with this specification, encoders and decoders MUST
-support additional functionality, primarily targeting the combination
-of deterministic encoding and cryptographic constructs.
-</t>
 <t>
 The primary feature that deterministic encoding brings to the table is
 that wrapping CBOR data to be signed in <tt>bstr</tt> objects, like
@@ -229,7 +216,7 @@ an example of an application depending on such features.
 </t>
 <t>
 However, to make this a reality, the following functionality MUST be
-provided by CBOR tools:
+provided by CBOR tools compliant with this specification:
 </t>
 <ul>
   <li>
@@ -254,16 +241,15 @@ since the latter may not always reserialize as expected:
 <![CDATA[                 |--------------|
                  |              | ==> Serialize
 Application <==> |  CBOR World  |
-    (API)        |              | <== Decode
+   (API)         |              | <== Decode
                  |--------------|]]>
 </artwork>
 <t>
 How this separation actually is accomplished is out of scope for this specification.
 However, <em>encapsulation</em> of CBOR data in <em>high-level</em>, and
-<em>self-rendering objects</em>,
-as performed by the tools listed in
-<xref target="tools.implementations" format="default"/>
-represents a viable method. 
+<em>self-rendering objects</em>, represents a viable method. The code
+in <xref target="example.code" format="default"/> shows an example
+that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
 </t>
       </section>
    
@@ -724,6 +710,57 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <![CDATA[7fdd851a3b9d2dafc5f0d00030e22b9343900cd42ede4948568a4a2ee655291a]]></sourcecode>
       </section>
 
+      <section anchor="example.code">
+        <name>Code Example</name>
+        <t>Using the JavaScript implementation mentioned in
+        <xref target="tools.implementations" format="default"/>,
+        basic signature validation of the signed CBOR object created
+        in  <xref target="example.signing" format="default"/>,
+        could be performed by the following code:</t>
+        <sourcecode name="Validation Code" type="any">
+<![CDATA[// The variable cborBinary is supposed to contain CBOR
+let object = CBOR.decode(cborBinary);             // Decode
+let csf = object.get(CBOR.Int(-1));               // Get CSF container
+let alg = csf.get(CBOR.Int(1)).getInt();          // Read algorithm
+let sig = csf.remove(CBOR.Int(6)).getBytes();     // Read and remove signature value
+let key = CBOR.fromHex('7fdd851a3b9d2dafc5f0d00030e22b9343900cd42ede4948568a4a2ee655291a');
+
+// Hypothetical HMAC validation method:
+hmacValidate(alg, sig, key, object.encode());     // Note that object.encode()
+                                                  // reserializes all but sig.
+// Validated object, access the "payload":
+let param = object.get(CBOR.Int(1)).getString();  // Now param should contain "data"]]></sourcecode>
+<t>
+Note that this code depends heavily on the CBOR tool features
+outlined in <xref target="ucbor.tools" format="default"/>.
+</t>
+      </section>
+
+    </section>
+
+    <section anchor="legacy.systems">
+      <name>Supporting Existing Systems</name>
+      <t>
+It is assumed that <em>most</em>
+systems using CBOR are able to process an (<em>application specific</em>), 
+selection of CBOR data items that are encoded in compliance with
+<xref target="RFC8949"/>.  Since the deterministic encoding scheme
+mandated by U-CBOR, also is compliant with <xref target="RFC8949"/>,
+there should be no major interoperability issues. 
+That is, if the previous assumption actually is correct &#x1f60f;
+</t>
+<t>
+However, in the <em>other</em> direction (U-CBOR tools processing
+data from Systems using "legacy" CBOR encoding schemes),
+the situation is likely to be considerably more challenging
+since deterministic encoding "by design" is <em>strict</em>.
+Due to this potential obstacle, implementers of U-CBOR tools,
+are RECOMMENDED to offer <em>decoder</em> options that permit "relaxing"
+the rigidness of deterministic encoding with respect to:</t>
+<ul>
+<li>Numbers.  Numbers MUST still be compliant with <xref target="RFC8949"/>.</li>
+<li>Sorted maps.  Duplicate keys MUST still be rejected.</li>
+</ul>
     </section>
 
     <section anchor="tools.online">
