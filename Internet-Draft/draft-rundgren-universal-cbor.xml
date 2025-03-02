@@ -128,10 +128,50 @@ used in CBOR <xref target="RFC8949"/>.</li>
     
     <section anchor="detailed.description">
       <name>Detailed Description</name>
-      <t>Body text [REPLACE]</t>
+      <t>This section describes the three pillars that U-CBOR relies on.</t>
 
       <section>
         <name>Supported CBOR Objects</name>
+        <t>The following table shows the CBOR subset supported by U-CBOR:</t>
+<table>
+<name>Supported CBOR Objects</name>
+<thead>
+  <tr><th align="center">CDDL</th>
+  <th align="center">Note</th></tr>
+</thead>
+<tbody>
+<tr><td align="center"><tt>int</tt></td><td>Integer</td></tr>
+<tr><td align="center"><tt>bigint</tt></td><td>Big integer</td></tr>
+<tr><td align="center"><tt>float</tt></td><td>16-, 32-, and 64-bit <xref target="IEEE754"/> numbers</td></tr>
+<tr><td align="center"><tt>tstr</tt></td><td>Text string encoded as UTF-8 <xref target="RFC3629"/></td></tr>
+<tr><td align="center"><tt>bstr</tt></td><td>Byte string</td></tr>
+<tr><td align="center"><tt>bool</tt></td><td>Boolean <tt>true</tt> and <tt>false</tt></td></tr>
+<tr><td align="center"><tt>null</tt></td><td>Represents a <tt>null</tt> object</td></tr>
+<tr><td align="center"><tt>[]</tt></td><td>Array data</td></tr>
+<tr><td align="center"><tt>{}</tt></td><td>Map data</td></tr>
+<tr><td align="center"><tt>#6.nnn(type)</tt></td><td>Tagged data</td></tr>
+</tbody>
+</table>
+        <t>
+Conforming implementations (of course) only have to implement the U-CBOR types
+required by the targeted application(s).
+        </t>
+        <t>
+Although extensions are imaginable (like supporting additional
+"simple" types), extensions will most likely cause
+interoperability issues and are thus NOT&nbsp;RECOMMENDED.  In addition,
+the mandated CBOR subset is compatible with most computer languages and platforms.
+Compared to the current state-of-the-art, JSON <xref target="RFC8259"/>,
+the availability of <tt>bigint</tt>, <tt>bstr</tt>, and "tagged data"
+represent major improvements.
+  </t>
+  <t>
+On the application (API) level, nothing prevents developers
+(through mapping concepts) supporting additional data types,
+analogous to how you usually map an application's data model to the
+set of data types available, be it a data interchange format,
+a database, or a programming language.
+        </t>
       </section>
       
       <section>
@@ -276,6 +316,7 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8949.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8610.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3629.xml"/>
         <reference anchor="IEEE754" target="https://ieeexplore.ieee.org/document/8766229" quoteTitle="true" derivedAnchor="IEEE754">
           <front>
             <title>IEEE Standard for Floating-Point Arithmetic</title>
