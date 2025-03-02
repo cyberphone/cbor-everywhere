@@ -74,7 +74,7 @@ The Universal CBOR (U-CBOR) specification is based on CBOR <xref target="RFC8949
 While there are different ways you can encode certain CBOR objects,
 this is non-trivial to support in general purpose platform-based tools,
 not to mention the limited utility of such measures.
-To cope with this, U-CBOR defines specific (non-variant) encodings,
+To cope with this, U-CBOR defines a specific (non-variant) encoding scheme,
 aka &quot;Deterministic Encoding&quot;.  The selected encoding
 scheme is believed to be <em>compatible</em> with most existing
 <em>systems</em> using CBOR.  See also <xref target="legacy.systems" format="default"/>.
@@ -94,7 +94,7 @@ mainstream platforms like mobile phones and Web servers.
         <t>
 However, for unleashing the full power of deterministic encoding,
 the ability to perform cryptographic operations on "raw" (unwrapped)
-CBOR data, associated U-CBOR tools need additional functionality.
+CBOR data, compliant U-CBOR tools need additional functionality.
         </t>
         <t>
 <xref target="detailed.description" format="default"/> contains the
@@ -117,9 +117,9 @@ actual specification.
 <li>This document uses the conventions defined in CDDL <xref target="RFC8610"/> 
 for expressing the type of CBOR <xref target="RFC8949"/> data items.</li>
 <li>Examples showing CBOR data, are expressed in "diagnostic notation" as defined
-in section 8 of CBOR <xref target="RFC8949"/>.</li>
+in section 8 of <xref target="RFC8949"/>.</li>
 <li>The term "CBOR&nbsp;object" is equivalent to "CBOR&nbsp;data&nbsp;item"
-used in CBOR <xref target="RFC8949"/>.</li>
+used in <xref target="RFC8949"/>.</li>
 <li>The term "Universal CBOR" is in this document abbreviated to "U-CBOR".</li>
 </ul>
       </section>
@@ -147,8 +147,8 @@ used in CBOR <xref target="RFC8949"/>.</li>
 <tr><td align="center"><tt>bstr</tt></td><td>Byte string</td></tr>
 <tr><td align="center"><tt>bool</tt></td><td>Boolean <tt>true</tt> and <tt>false</tt></td></tr>
 <tr><td align="center"><tt>null</tt></td><td>Represents a <tt>null</tt> object</td></tr>
-<tr><td align="center"><tt>[]</tt></td><td>Array data</td></tr>
-<tr><td align="center"><tt>{}</tt></td><td>Map data</td></tr>
+<tr><td align="center"><tt>[]</tt></td><td>Array</td></tr>
+<tr><td align="center"><tt>{}</tt></td><td>Map</td></tr>
 <tr><td align="center"><tt>#6.nnn(type)</tt></td><td>Tagged data</td></tr>
 </tbody>
 </table>
@@ -157,18 +157,18 @@ Conforming implementations (of course) only have to implement the U-CBOR types
 required by the targeted application(s).
         </t>
         <t>
-Although extensions are imaginable (like supporting additional
+Although extensions are imaginable (like supporting all
 "simple" types), extensions will most likely cause
-interoperability issues and are thus NOT&nbsp;RECOMMENDED.  In addition,
+<em>interoperability issues</em> and are thus NOT&nbsp;RECOMMENDED.  In addition,
 the mandated CBOR subset is compatible with most computer languages and platforms.
 Compared to the current state-of-the-art, JSON <xref target="RFC8259"/>,
 the availability of <tt>bigint</tt>, <tt>bstr</tt>, and "tagged data"
 represent major improvements.
   </t>
   <t>
-On the application (API) level, nothing prevents developers
-(through mapping concepts) supporting additional data types,
-analogous to how you usually map an application's data model to the
+However, nothing prevents developers from at the application (API) level, 
+through mapping concepts, support additional, "virtual" data types,
+analogous to how you map an application's data model to the
 set of data types available, be it a data interchange format,
 a database, or a programming language.
         </t>
@@ -248,7 +248,7 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
 <t>
 The primary feature that deterministic encoding brings to the table is
 that wrapping CBOR data to be signed in <tt>bstr</tt> objects, like
-required by COSE <xref target="RFC9052"/>, is no longer a necessity.
+specified by COSE <xref target="RFC9052"/> (Section 2), no longer is a prerequisite.
 That is, cryptographic operations can <em>optionally</em> be performed
 on "raw" CBOR data.
 Turn to <xref target="enveloped.signatures" format="default"/> for
@@ -261,8 +261,8 @@ provided by CBOR tools compliant with this specification:
 <ul>
   <li>
   It MUST be possible to <em>add</em>, <em>delete</em>, and
-  <em>update</em> CBOR <tt>map</tt> and <tt>array</tt> objects of
-  received and decoded data.  Note: CBOR primitives MUST remain <em>immutable</em>.
+  <em>update</em> the contents of CBOR <tt>map</tt> and <tt>array</tt> objects, of
+  received and decoded CBOR data.  Note: CBOR primitives MUST remain <em>immutable</em>.
   </li>
   <li>
   It MUST be possible to <em>reserialize</em> received CBOR data,
@@ -272,23 +272,29 @@ provided by CBOR tools compliant with this specification:
   Irrespective of if CBOR data was received, updated, or created 
   programmatically, deterministic encoding MUST be maintained.
   </li>
+    <li>
+  Invalid or unsupported CBOR constructs, as well as CBOR data not adhering
+  to the deterministic encoding scheme MUST be <em>rejected</em>.
+  See also <xref target="legacy.systems"/>.
+  </li>
 </ul>
 <t>
-It is RECOMMENDED <em>separating</em> CBOR data and  application / platform-level data,
-since the latter may not always reserialize as expected:
+It is RECOMMENDED <em>separating</em> CBOR data and 
+application / platform-level data,
+since the latter may not always <em>reserialize</em> as expected,
+like in this Chrome browser console example:
 </t>
-<artwork type="ascii-art">
-<![CDATA[                 |--------------|
-                 |              | ==> Serialize
-Application <==> |  CBOR World  |
-   (API)         |              | <== Decode
-                 |--------------|]]>
-</artwork>
+<sourcecode name="Platform issues" type="cbor">
+<![CDATA[> let date = new Date('2025-03-02T13:08:55.0001Z');
+> date.toISOString()
+'2025-03-02T13:08:55.000Z']]>
+</sourcecode>
 <t>
 How this separation actually is accomplished is out of scope for this specification.
 However, <em>encapsulation</em> of CBOR data in <em>high-level</em>, and
-<em>self-rendering objects</em>, represents a viable method. The code
-in <xref target="example.code" format="default"/> shows an example
+<em>self-rendering objects</em>, represents a usable method.
+Similar approaches are already used by most ASN.1 tools.
+The code in <xref target="example.code" format="default"/> shows an example
 that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
 </t>
       </section>
@@ -343,9 +349,9 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
             <author initials="A" surname="Rundgren">
               <organization/>
             </author>
-            <date year="2025"/>
           </front>
         </reference>
+
         <reference anchor="CEF" 
   target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/encryption.html">
           <front>
@@ -353,9 +359,9 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
             <author initials="A" surname="Rundgren">
               <organization/>
             </author>
-            <date year="2025"/>
           </front>
         </reference>
+
         <reference anchor="CREDENTIALS" 
   target="https://www.w3.org/TR/vc-data-integrity/">
           <front>
@@ -366,6 +372,7 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
             <date year="2025"/>
           </front>
         </reference> 
+       
         <reference anchor="ECMASCRIPT" target="https://www.ecma-international.org/publications/standards/Ecma-262.htm" quoteTitle="true" derivedAnchor="ECMA262">
           <front>
             <title>ECMAScript 2020 Language Specification</title>
@@ -376,6 +383,19 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
           </front>
           <refcontent>Standard ECMA-262, 11th Edition</refcontent>
         </reference>
+
+        <reference anchor="GordianEnvelope" target="https://datatracker.ietf.org/doc/draft-mcnally-envelope/">
+          <front>
+            <title>The Gordian Envelope Structured Data Format</title>
+            <author fullname="Wolf McNally" initials="W." surname="McNally">
+              <organization>Blockchain Commons</organization>
+            </author>
+            <author fullname="Christopher Allen" initials="C." surname="Allen">
+              <organization>Blockchain Commons</organization>
+            </author>
+          </front>
+        </reference>
+        
       </references>
     </references>
 
@@ -802,6 +822,8 @@ the rigidness of deterministic encoding with respect to:</t>
 <li>Numbers.  Numbers MUST still be compliant with <xref target="RFC8949"/>.</li>
 <li>Sorted maps.  Duplicate keys MUST still be rejected.</li>
 </ul>
+<t>Note that regardless of the format of received CBOR data, a compliant
+U-CBOR implementation MUST maintain deterministic encoding.</t>
     </section>
 
     <section anchor="tools.online">
@@ -842,7 +864,9 @@ the rigidness of deterministic encoding with respect to:</t>
 
     <section anchor="Acknowledgements" numbered="false">
       <name>Acknowledgements</name>
-      <t>None at the time of writing &#x1f638;</t>
+      <t>This work was inspired by a CBOR based project known as
+      <xref target="GordianEnvelope"/>, pioneered by Wolf McNally and Christopher Allen.
+      This project also exploits the ability to hash "raw" (unwrapped) CBOR data, enabled by the use of a deterministic encoding scheme.</t>
     </section>
     
  </back>
