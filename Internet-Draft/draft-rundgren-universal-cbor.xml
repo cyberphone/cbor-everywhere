@@ -12,7 +12,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-universal-cbor-01"
+  docName="draft-rundgren-universal-cbor-02"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -23,7 +23,7 @@
   <front>
     <title abbrev="U-CBOR">Universal CBOR (U-CBOR)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-01"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-02"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -133,7 +133,7 @@ used in <xref target="RFC8949"/>.</li>
       <name>Detailed Description</name>
       <t>This section describes the three pillars that U-CBOR relies on.</t>
 
-      <section>
+      <section anchor="ucbor.objects">
         <name>Supported CBOR Objects</name>
         <t>The following table shows the CBOR subset supported by U-CBOR:</t>
 <table>
@@ -177,7 +177,7 @@ a database, or a programming language.
         </t>
       </section>
       
-      <section>
+      <section anchor="ucbor.encoding">
         <name>Deterministic Encoding Scheme</name>
         <t>
 The U-CBOR encoding scheme adheres to section 4.2 of <xref target="RFC8949"/>,
@@ -197,7 +197,7 @@ RFC: Integers, represented by the <tt>int</tt> and
 type if the value is between <tt>-2<sup>64</sup></tt>
 and <tt>2<sup>64</sup>-1</tt>,
 otherwise the <tt>bigint</tt> type MUST be used.
-<xref target="sample.integers" format="default"/>
+<xref target="ucbor.integers" format="default"/>
 features a list of compliant integer sample values.
         </t>
         </li>
@@ -206,7 +206,7 @@ features a list of compliant integer sample values.
 RFC+: Floating point numbers MUST always use the shortest
 <xref target="IEEE754"/> variant that
 preserves the precision of the original value.
-<xref target="sample.floats" format="default"/>
+<xref target="ucbor.floats" format="default"/>
 features a list of compliant floating point sample values.
         </t>
         <t>
@@ -273,7 +273,7 @@ provided by CBOR tools compliant with this specification:
     <li>
   Invalid or unsupported CBOR constructs, as well as CBOR data not adhering
   to the deterministic encoding scheme MUST be <em>rejected</em>.
-  See also <xref target="legacy.systems"/> and <xref target="sample.invalid"/>.
+  See also <xref target="legacy.systems"/> and <xref target="ucbor.invalid"/>.
   </li>
 </ul>
 <t>
@@ -400,7 +400,7 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
     <section anchor="sample.values">
     <name>Deterministic Encoding Samples</name>
 
-      <section anchor="sample.integers">
+      <section anchor="ucbor.integers">
           <name>Integers</name>
 <t>This <em>normative</em> section holds a selection
 of CBOR integer values, with an emphasize on edge cases.</t>
@@ -483,7 +483,7 @@ of CBOR integer values, with an emphasize on edge cases.</t>
 </table>
       </section>
 
-      <section anchor="sample.floats">
+      <section anchor="ucbor.floats">
         <name>Floating Point Numbers</name>
 <t>This <em>normative</em> section holds a selection
 of <xref target="IEEE754"/> 16, 32, and 64-bit values,
@@ -634,7 +634,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 
     </section>
 
-    <section anchor="sample.invalid">
+    <section anchor="ucbor.invalid">
       <name>Invalid Encodings</name>
       <t>The following table holds a selection of valid CBOR objects,
       not permitted by U-CBOR.</t>
@@ -905,7 +905,8 @@ the rigidness of deterministic encoding with respect to:</t>
 <li>Sorted maps.  Duplicate keys MUST still be rejected.</li>
 </ul>
 <t>Note that regardless of the format of received CBOR data, a compliant
-U-CBOR implementation MUST maintain deterministic encoding.</t>
+U-CBOR implementation MUST maintain deterministic encoding.
+See also <xref target="ucbor.invalid" format="default"/>.</t>
     </section>
 
     <section anchor="tools.online">
