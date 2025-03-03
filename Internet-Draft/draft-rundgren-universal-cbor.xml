@@ -273,7 +273,7 @@ provided by CBOR tools compliant with this specification:
     <li>
   Invalid or unsupported CBOR constructs, as well as CBOR data not adhering
   to the deterministic encoding scheme MUST be <em>rejected</em>.
-  See also <xref target="legacy.systems"/>.
+  See also <xref target="legacy.systems"/> and <xref target="sample.invalid"/>.
   </li>
 </ul>
 <t>
