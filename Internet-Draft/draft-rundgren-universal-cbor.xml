@@ -58,7 +58,7 @@ To foster interoperability, deterministic encoding
 is mandated.  Furthermore, the document outlines how
 deterministic encoding combined with enhanced CBOR tools,
 enables the support of cryptographic constructs that
-operate on "raw" (unwrapped) CBOR data.
+operate on "raw" (non-wrapped) CBOR data.
 This document mainly targets CBOR tool developers.
       </t>
     </abstract>
@@ -95,7 +95,7 @@ mainstream platforms like mobile phones and Web servers.
     </t>
         <t>
 However, for unleashing the full power of deterministic encoding,
-the ability to perform cryptographic operations on "raw" (unwrapped)
+the ability to perform cryptographic operations on "raw" (non-wrapped)
 CBOR data, compliant U-CBOR tools need additional functionality.
 See also <xref target="enveloped.signatures" format="default"/>.
         </t>
@@ -872,7 +872,7 @@ let key = CBOR.fromHex('7fdd851a3b9d2dafc5f0d00030e22b9343900cd42ede4948568a4a2e
 hmacValidate(alg, sig, key, object.encode());     // Note that object.encode()
                                                   // reserializes all but sig.
 // Validated object, access the "payload":
-let param = object.get(CBOR.Int(1)).getString();  // Now param should contain "data"]]></sourcecode>
+let param = object.get(CBOR.Int(1)).getString();  // param should now contain "data"]]></sourcecode>
 <t>
 Note that this code depends heavily on the CBOR tool features
 outlined in <xref target="ucbor.tools" format="default"/>.
@@ -950,7 +950,7 @@ See also <xref target="ucbor.invalid" format="default"/>.</t>
       <name>Acknowledgements</name>
       <t>This work was inspired by a CBOR based project known as
       <xref target="GordianEnvelope"/>, pioneered by Wolf McNally and Christopher Allen.
-      This project also exploits the ability to hash "raw" (unwrapped) CBOR data, enabled by the use of a deterministic encoding scheme.</t>
+      This project also exploits the ability to hash "raw" (non-wrapped) CBOR data, enabled by the use of a deterministic encoding scheme.</t>
     </section>
     
  </back>
