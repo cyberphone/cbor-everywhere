@@ -710,9 +710,9 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
       that require specialized encoders and decoders, whereas U-CBOR works
       "straight out of the box".</t>
       <t>Although this specification is not "married" to any particular
-      signature schema, the examples build on the CBOR Signature Format
+      signature schema, the example uses the CBOR Signature Format
       <xref target="CSF"/>.
-      For the sake of simplicity, the examples use an HMAC
+      For the sake of simplicity, the example uses an HMAC
       (see <xref target="example.parameters" format="default"/>)
       as signature algorithm.</t>
 
@@ -816,7 +816,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 
       <section anchor="example.parameters">
         <name>Example Parameters</name>
-        <t>The signature and validation examples depend on the
+        <t>The signature and validation processes depend on the
         COSE <xref target="RFC9053"/> algorithm "HMAC&nbsp;256/256" and an
         associated 256-bit key, here provided in hex code:</t>
         <sourcecode name="Key" type="any">
