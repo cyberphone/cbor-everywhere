@@ -12,7 +12,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-universal-cbor-00"
+  docName="draft-rundgren-universal-cbor-01"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -23,7 +23,7 @@
   <front>
     <title abbrev="U-CBOR">Universal CBOR (U-CBOR)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-00"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-01"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -641,7 +641,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <table>
 <name>Invalid Encodings</name>
 <thead>
-  <tr><th>Diagnostic Notation</th><th>CBOR Encoding</th>
+  <tr><th align="center">CBOR Encoding</th><th align="center">Diagnostic Notation</th>
   <th align="center">Note</th></tr>
 </thead>
 <tbody>
@@ -650,36 +650,66 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td><tt>enc</tt></td>
 <td>tjoho</td></tr>
 -->
-<tr><td><tt>{"b":0,"a":1}</tt></td>
+<tr>
 <td><tt>a2616200616101</tt></td>
-<td>Improper map key ordering [1]</td></tr>
-<tr><td><tt>255</tt></td>
+<td><tt>{"b":0,"a":1}</tt></td>
+<td>Improper map key ordering [1]</td>
+</tr>
+
+<tr>
 <td><tt>1900ff</tt></td>
-<td>Number with leading zero bytes [1]</td></tr>
-<tr><td><tt>-18446744073709551617</tt></td>
+<td><tt>255</tt></td>
+<td>Number with leading zero bytes [1]</td>
+</tr>
+
+<tr>
 <td><tt>c34a00010000000000000000</tt></td>
-<td>Number with leading zero bytes [1]</td></tr>
-<tr><td><tt>10.5</tt></td>
+<td><tt>-18446744073709551617</tt></td>
+<td>Number with leading zero bytes [1]</td>
+</tr>
+
+<tr>
 <td><tt>Fa41280000</tt></td>
-<td>Not in shortest encoding [1]</td></tr>
-<tr><td><tt>NaN</tt></td>
+<td><tt>10.5</tt></td>
+<td>Not in shortest encoding [1]</td>
+</tr>
+
+<tr>
 <td><tt>fa7fc00000</tt></td>
-<td>Not in shortest encoding [1]</td></tr>
-<tr><td><tt>65536</tt></td>
+<td><tt>NaN</tt></td>
+<td>Not in shortest encoding [1]</td>
+</tr>
+
+<tr>
 <td><tt>c243010000</tt></td>
-<td>Incorrect value for <tt>bigint</tt> [1]</td></tr>
-<tr><td><tt>NaN</tt></td>
+<td><tt>65536</tt></td>
+<td>Incorrect value for <tt>bigint</tt> [1]</td>
+</tr>
+
+<tr>
 <td><tt>f97e01</tt></td>
-<td>NaN with payload [1]</td></tr>
-<tr><td><tt>undefined</tt></td>
+<td><tt>NaN</tt></td>
+<td>NaN with payload [1]</td>
+</tr>
+
+<tr>
 <td><tt>f7</tt></td>
-<td>Unsupported simple type</td></tr>
-<tr><td><tt>simple(16)</tt></td>
+<td><tt>undefined</tt></td>
+<td>Unsupported simple type</td>
+</tr>
+
+<tr>
 <td><tt>f0</tt></td>
-<td>Unsupported simple type</td></tr>
-<tr><td><tt>(_ h'01', h'0203')</tt></td>
+<td><tt>simple(16)</tt></td>
+<td>Unsupported simple type</td>
+</tr>
+
+<tr>
 <td><tt>5f4101420203ff</tt></td>
-<td>Unsupported indefinite length object</td></tr>
+<td><tt>(_ h'01', h'0203')</tt></td>
+<td>Unsupported indefinite length object</td>
+</tr>
+
 </tbody>
 </table>
 <ol>
@@ -911,6 +941,7 @@ U-CBOR implementation MUST maintain deterministic encoding.</t>
       <name>Document History</name>
       <ul>
         <li>00. First cut.</li>
+        <li>01. Editorial.  Changed order of columns in invalid encoding.</li>
       </ul>
     </section>
 
