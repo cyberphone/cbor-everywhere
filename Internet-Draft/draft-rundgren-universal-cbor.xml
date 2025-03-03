@@ -55,7 +55,7 @@ This document defines Universal CBOR (U-CBOR),
 a strict subset of CBOR (RFC 8949)
 intended to serve as a viable replacement for JSON.
 To foster interoperability, deterministic encoding
-is mandated.  In addition, the document describes how
+is mandated.  Furthermore, the document outlines how
 deterministic encoding combined with enhanced CBOR tools,
 enables the support of cryptographic constructs that
 operate on "raw" (unwrapped) CBOR data.  The intended
@@ -77,7 +77,8 @@ not to mention the limited utility of such measures.
 To cope with this, U-CBOR defines a specific (non-variant) encoding scheme,
 aka &quot;Deterministic Encoding&quot;.  The selected encoding
 scheme is believed to be <em>compatible</em> with most existing
-<em>systems</em> using CBOR.  See also <xref target="legacy.systems" format="default"/>.
+<em>systems</em> using CBOR.
+See also <xref target="legacy.systems" format="default"/>.
         </t>
     <t>
 U-CBOR is intended to be agnostic with respect to programming
@@ -86,8 +87,9 @@ languages.
         <t>
 By combining the compact binary representation and the rich set of
 data types offered by CBOR, with a deterministic encoding scheme,
-U-CBOR could serve as viable alternative to JSON <xref target="RFC8259"/>
-for new designs.  Although the mandated encoding scheme has proved to be
+U-CBOR could for <em>new designs</em>, serve as viable alternative
+to JSON <xref target="RFC8259"/>.
+Although the mandated encoding scheme has proved to be
 deployable in constrained environments, the primary target is rather
 mainstream platforms like mobile phones and Web servers.
     </t>
@@ -95,6 +97,7 @@ mainstream platforms like mobile phones and Web servers.
 However, for unleashing the full power of deterministic encoding,
 the ability to perform cryptographic operations on "raw" (unwrapped)
 CBOR data, compliant U-CBOR tools need additional functionality.
+See also <xref target="enveloped.signatures" format="default"/>.
         </t>
         <t>
 <xref target="detailed.description" format="default"/> contains the
@@ -197,11 +200,6 @@ otherwise the <tt>bigint</tt> type MUST be used.
 <xref target="sample.integers" format="default"/>
 features a list of compliant integer sample values.
         </t>
-        <t>
-Note that integers MUST NOT be supplied with
-<em>leading zero bytes</em> (like <tt>1900ff</tt>) unless the
-CBOR representation offers no alternative (like <tt>1b000000ffffffffff</tt>).
-        </t>
         </li>
         <li>
         <t>
@@ -293,7 +291,7 @@ like in this Chrome browser console example:
 How this separation actually is accomplished is out of scope for this specification.
 However, <em>encapsulation</em> of CBOR data in <em>high-level</em>, and
 <em>self-rendering objects</em>, represents a usable method.
-Similar approaches are already used by most ASN.1 tools.
+Similar approaches are used by most ASN.1 tools.
 The code in <xref target="example.code" format="default"/> shows an example
 that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
 </t>
@@ -636,6 +634,60 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 
     </section>
 
+    <section anchor="sample.invalid">
+      <name>Invalid Encodings</name>
+      <t>The following table holds a selection of valid CBOR objects,
+      not permitted by U-CBOR.</t>
+<table>
+<name>Invalid Encodings</name>
+<thead>
+  <tr><th>Diagnostic Notation</th><th>CBOR Encoding</th>
+  <th align="center">Note</th></tr>
+</thead>
+<tbody>
+<!--
+<tr><td><tt>hjjh</tt></td>
+<td><tt>enc</tt></td>
+<td>tjoho</td></tr>
+-->
+<tr><td><tt>{"b":0,"a":1}</tt></td>
+<td><tt>a2616200616101</tt></td>
+<td>Improper map key ordering [1]</td></tr>
+<tr><td><tt>255</tt></td>
+<td><tt>1900ff</tt></td>
+<td>Number with leading zero bytes [1]</td></tr>
+<tr><td><tt>-18446744073709551617</tt></td>
+<td><tt>c34a00010000000000000000</tt></td>
+<td>Number with leading zero bytes [1]</td></tr>
+<tr><td><tt>10.5</tt></td>
+<td><tt>Fa41280000</tt></td>
+<td>Not in shortest encoding [1]</td></tr>
+<tr><td><tt>NaN</tt></td>
+<td><tt>fa7fc00000</tt></td>
+<td>Not in shortest encoding [1]</td></tr>
+<tr><td><tt>65536</tt></td>
+<td><tt>c243010000</tt></td>
+<td>Incorrect value for <tt>bigint</tt> [1]</td></tr>
+<tr><td><tt>NaN</tt></td>
+<td><tt>f97e01</tt></td>
+<td>NaN with payload [1]</td></tr>
+<tr><td><tt>undefined</tt></td>
+<td><tt>f7</tt></td>
+<td>Unsupported simple type</td></tr>
+<tr><td><tt>simple(16)</tt></td>
+<td><tt>f0</tt></td>
+<td>Unsupported simple type</td></tr>
+<tr><td><tt>(_ h'01', h'0203')</tt></td>
+<td><tt>5f4101420203ff</tt></td>
+<td>Unsupported indefinite length object</td></tr>
+</tbody>
+</table>
+<ol>
+<li>See also <xref target="legacy.systems" format="default"/>.</li>
+</ol>
+
+    </section>
+
     </section>
     
     <section anchor="enveloped.signatures">
@@ -858,7 +910,7 @@ U-CBOR implementation MUST maintain deterministic encoding.</t>
     <section anchor="DocHistory" numbered="false">
       <name>Document History</name>
       <ul>
-        <li>00. Exiting times ahead!</li>
+        <li>00. First cut.</li>
       </ul>
     </section>
 
