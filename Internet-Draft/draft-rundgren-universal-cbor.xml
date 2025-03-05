@@ -12,7 +12,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-universal-cbor-02"
+  docName="draft-rundgren-universal-cbor-03"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -23,7 +23,7 @@
   <front>
     <title abbrev="U-CBOR">Universal CBOR (U-CBOR)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-02"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-03"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -89,9 +89,9 @@ By combining the compact binary representation and the rich set of
 data types offered by CBOR, with a deterministic encoding scheme,
 U-CBOR could for <em>new designs</em>, serve as viable alternative
 to JSON <xref target="RFC8259"/>.
-Although the mandated encoding scheme has proved to be
-deployable in constrained environments, the primary target is rather
-mainstream platforms like mobile phones and Web servers.
+Although the mandated encoding scheme is deployable in constrained 
+<xref target="CONSTR"/> environments, the primary target is rather
+general-purpose computing platforms like mobile phones and Web servers.
     </t>
         <t>
 However, for unleashing the full power of deterministic encoding,
@@ -340,8 +340,8 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9053.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8785.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8259.xml"/>
-        <reference anchor="CSF" 
-  target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/signatures.html">
+
+        <reference anchor="CSF"  target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/signatures.html">
           <front>
             <title>CBOR Signature Format (CSF)</title>
             <author initials="A" surname="Rundgren">
@@ -350,8 +350,7 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
           </front>
         </reference>
 
-        <reference anchor="CEF" 
-  target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/encryption.html">
+        <reference anchor="CEF" target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/encryption.html">
           <front>
             <title>CBOR Encryption Format (CEF)</title>
             <author initials="A" surname="Rundgren">
@@ -360,8 +359,28 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
           </front>
         </reference>
 
-        <reference anchor="CREDENTIALS" 
-  target="https://www.w3.org/TR/vc-data-integrity/">
+        <reference anchor="CONSTR"  target="https://github.com/cyberphone/D-CBOR/blob/main/d-cbor-4-constrained-devices.md">
+          <front>
+            <title>D-CBOR for Constrained Devices</title>
+            <author/>
+          </front>
+        </reference>
+ 
+        <reference anchor="NODE.JS"  target="https://nodejs.org/">
+          <front>
+            <title>Node.js - JavaScript server</title>
+            <author/>
+          </front>
+        </reference>
+ 
+        <reference anchor="CBOR.JS"  target="https://github.com/cyberphone/CBOR.js">
+          <front>
+            <title>CBOR.js - CBOR for JavaScript</title>
+            <author/>
+          </front>
+        </reference>
+
+        <reference anchor="CREDENTIALS" target="https://www.w3.org/TR/vc-data-integrity/">
           <front>
             <title>Verifiable Credential Data Integrity 1.0</title>
             <author initials="M" surname="Sporny (et al)">
@@ -856,23 +875,72 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
       <section anchor="example.code">
         <name>Code Example</name>
         <t>Using the JavaScript implementation mentioned in
-        <xref target="tools.implementations" format="default"/>,
-        basic signature validation of the signed CBOR object created
-        in  <xref target="example.signing" format="default"/>,
+        <xref target="CBOR.JS" format="default"/> together with Node.js,
+        <xref target="NODE.JS" format="default"/>
+        basic signature creation and validation supporting
+        the example in  <xref target="example.unsigned" format="default"/>,
         could be performed by the following code:</t>
-        <sourcecode name="Validation Code" type="any">
-<![CDATA[// The variable cborBinary is supposed to contain CBOR
-let object = CBOR.decode(cborBinary);             // Decode
-let csf = object.get(CBOR.Int(-1));               // Get CSF container
-let alg = csf.get(CBOR.Int(1)).getInt();          // Read algorithm
-let sig = csf.remove(CBOR.Int(6)).getBytes();     // Read and remove signature value
-let key = CBOR.fromHex('7fdd851a3b9d2dafc5f0d00030e22b9343900cd42ede4948568a4a2ee655291a');
+        <sourcecode name="code.with.node.js" type="javascript">
+<![CDATA[// hmac.mjs
+import CBOR from 'cbor-object';
+const crypto = await import('node:crypto');
 
-// Hypothetical HMAC validation method:
-hmacValidate(alg, sig, key, object.encode());     // Note that object.encode()
-                                                  // reserializes all but sig.
+// CSF constants
+const CSF_ALG_LBL = CBOR.Int(1);
+const CSF_SIG_LBL = CBOR.Int(6);
+
+// COSE => Node.js algorithm translation
+const HASH_ALGORITHMS = new Map()
+    .set(5, "sha256") .set(6, "sha384").set(7, "sha512");
+
+function hmac(coseAlg, key, data) {
+    let alg = HASH_ALGORITHMS.get(coseAlg);
+    if (alg === undefined) throw "Unknown alg: " + coseAlg;
+    return crypto.createHmac(alg, key).update(data).digest();
+}
+
+const SHARED_KEY = crypto.createSecretKey(
+    '7fdd851a3b9d2dafc5f0d00030e22b9343900cd42ede4948568a4a2ee655291a', 'hex');
+
+const APP_P1_LBL  = CBOR.Int(1);                   // Application label
+const APP_P2_LBL  = CBOR.Int(2);                   //        ""
+const APP_CSF_LBL = CBOR.Int(-1);                  // Where to put the
+                                                   // CSF container
+////////////////////////////////////
+// Create an unsigned CBOR object //
+////////////////////////////////////
+let object = CBOR.Map()
+    .set(APP_P1_LBL, CBOR.String("data"))          // Application data
+    .set(APP_P2_LBL, CBOR.String("more data"));    //        ""
+
+////////////////////////////////////////
+// Add a signature to the CBOR object //
+////////////////////////////////////////
+const COSE_ALG = 5;                                // Selected algorithm
+
+let csf = CBOR.Map()                               // Create CSF container
+    .set(CSF_ALG_LBL, CBOR.Int(COSE_ALG));         // Add algorithm
+object.set(APP_CSF_LBL, csf);                      // Add CSF container to object
+// Generate signature and add it to the CSF container
+csf.set(CSF_SIG_LBL, CBOR.Bytes(hmac(COSE_ALG, SHARED_KEY, object.encode())));
+let cborBinary = object.encode();                  // Uint8Array
+        
+console.log(object.toString());                    // Show in Diagnostic Notation
+
+/////////////////////////////////////
+// Validate the signed CBOR object //
+/////////////////////////////////////
+object = CBOR.decode(cborBinary);                  // Decode
+csf = object.get(APP_CSF_LBL);                     // Get CSF container
+let alg = csf.get(CSF_ALG_LBL).getInt();           // Get COSE algorithm
+let sig = csf.remove(CSF_SIG_LBL).getBytes();      // Get and remove signature value
+let res = hmac(alg, SHARED_KEY, object.encode());  // Note that object.encode()
+                                                   // reserializes all but sig.
+if (CBOR.compareArrays(res, sig)) {
+    throw "Didn't validate";
+}
 // Validated object, access the "payload":
-let param = object.get(CBOR.Int(1)).getString();  // param should now contain "data"]]></sourcecode>
+let p1 = object.get(APP_P1_LBL).getString();       // p1 should now contain "data"]]></sourcecode>
 <t>
 Note that this code depends heavily on the CBOR tool features
 outlined in <xref target="ucbor.tools" format="default"/>.
@@ -943,6 +1011,11 @@ See also <xref target="ucbor.invalid" format="default"/>.</t>
       <ul>
         <li>00. First cut.</li>
         <li>01. Editorial.  Changed order of columns in invalid encoding.</li>
+        <li>02. Editorial.  "unwrapped" changed to "non-wrapped".</li>
+        <li>
+        <t>03. NOT YET PUBLISHED</t>
+        <t>Updated code example to actually use crypto</t>
+        </li>
       </ul>
     </section>
 
