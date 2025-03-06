@@ -120,7 +120,7 @@ actual specification.
 <li>This document uses the conventions defined in CDDL <xref target="RFC8610"/> 
 for expressing the type of CBOR <xref target="RFC8949"/> data items.</li>
 <li>Examples showing CBOR data, are expressed in "diagnostic notation" as defined
-in section 8 of <xref target="RFC8949"/>.</li>
+in <xref section="8" sectionFormat="of"  target="RFC8949"/>.</li>
 <li>The term "CBOR&nbsp;object" is equivalent to "CBOR&nbsp;data&nbsp;item"
 used in <xref target="RFC8949"/>.</li>
 <li>The term "Universal CBOR" is in this document abbreviated to "U-CBOR".</li>
@@ -174,13 +174,75 @@ through mapping concepts, support additional, "virtual" data types,
 analogous to how you map an application's data model to the
 set of data types available, be it a data interchange format,
 a database, or a programming language.
+</t>
+<t>
+OpenAPI <xref target="OPENAPI"/> is an example of an API which defines
+data types through mapping.
+</t>
+
+        <section anchor="platform.numbers">
+        <name>Platform Number Support</name>
+        <t>
+To facilitate cross-platform <em>protocol interoperability</em>, U-CBOR tool vendors
+SHOULD implement <em>decoder</em>
+API support for the following number types:
         </t>
+<table>
+<name>Platform Number Support</name>
+<thead>
+  <tr><th align="center">Name</th>
+  <th align="center">Note</th></tr>
+</thead>
+<tbody>
+<tr><td align="center"><tt>Int8</tt></td><td>8-bit signed integer [1]</td></tr>
+<tr><td align="center"><tt>Uint8</tt></td><td>8-bit unsigned integer [1]</td></tr>
+<tr><td align="center"><tt>Int16</tt></td><td>16-bit signed integer [1]</td></tr>
+<tr><td align="center"><tt>Uint16</tt></td><td>16-bit unsigned integer [1]</td></tr>
+<tr><td align="center"><tt>Int32</tt></td><td>32-bit signed integer [1]</td></tr>
+<tr><td align="center"><tt>Uint32</tt></td><td>32-bit unsigned integer [1]</td></tr>
+<tr><td align="center"><tt>Int64</tt></td><td>64-bit signed integer [1]</td></tr>
+<tr><td align="center"><tt>Uint64</tt></td><td>64-bit unsigned integer [1]</td></tr>
+<tr><td align="center"><tt>BigInt</tt></td><td>Integer of arbitrary size [2]</td></tr>
+<tr><td align="center"><tt>Float16</tt></td><td>16-bit floating-point numbers [3]</td></tr>
+<tr><td align="center"><tt>Float32</tt></td><td>32-bit floating-point numbers [3]</td></tr>
+<tr><td align="center"><tt>Float64</tt></td><td>64-bit floating-point numbers</td></tr>
+</tbody>
+</table>
+<ol>
+<li>
+<t>Range testing SHOULD be performed.  That is, a hypothetical <tt>getInt8()</tt>,
+SHOULD reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
+</t>
+</li>
+<li>
+<t>
+Note that a hypothetical <tt>getBigInt()</tt> MUST also accept CBOR <tt>int</tt>
+objects.
+</t>
+</li>
+<li>
+<t>
+Some platforms do not natively support <tt>float16</tt> and/or <tt>float32</tt>.
+In this case the return value from a hypothetical <tt>getFloat16()</tt> would
+use the closest bigger type.  Range checking SHOULD be performed.
+</t>
+</li>
+</ol>
+<t>
+Due to considerable variations between platforms, corresponding <em>encoder</em>
+API support does not appear to be meaningful to specify in detail:
+Java doesn't have built-in support for unsigned integers, whereas
+JavaScript requires the use of the JavaScript <tt>BigInt</tt> type
+for dealing with 64-bit integers.
+</t>
+      </section>
+
       </section>
       
       <section anchor="ucbor.encoding">
         <name>Deterministic Encoding Scheme</name>
         <t>
-The U-CBOR encoding scheme adheres to section 4.2 of <xref target="RFC8949"/>,
+The U-CBOR encoding scheme adheres to <xref section="4.2" sectionFormat="of" target="RFC8949"/>,
 but adds a few constraints (denoted by RFC+), where the RFC offers choices.
 The deterministic encoding rules are as follows:
         </t>
@@ -188,7 +250,7 @@ The deterministic encoding rules are as follows:
         <li>
 RFC+: Floating point and integer objects MUST be treated as <em>distinct types</em>
 regardless of their numeric value. This is compliant with
-Rule&nbsp;2 in section 4.2.2 of <xref target="RFC8949"/>.
+Rule&nbsp;2 in <xref section="4.2.2" sectionFormat="of" target="RFC8949"/>.
         </li>
         <li>
         <t>
@@ -246,7 +308,8 @@ RFC+: Indefinite length objects MUST be <em>rejected</em>.
 <t>
 The primary feature that deterministic encoding brings to the table is
 that wrapping CBOR data to be signed in <tt>bstr</tt> objects, like
-specified by COSE <xref target="RFC9052"/> (Section 2), no longer is a prerequisite.
+specified by COSE in <xref section="2" sectionFormat="of" target="RFC9052"/>,
+no longer is a prerequisite.
 That is, cryptographic operations can <em>optionally</em> be performed
 on "raw" CBOR data.
 Turn to <xref target="enveloped.signatures" format="default"/> for
@@ -341,7 +404,7 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8785.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8259.xml"/>
 
-        <reference anchor="CSF"  target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/signatures.html">
+        <reference anchor="CSF" target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/signatures.html">
           <front>
             <title>CBOR Signature Format (CSF)</title>
             <author initials="A" surname="Rundgren">
@@ -359,23 +422,30 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
           </front>
         </reference>
 
-        <reference anchor="CONSTR"  target="https://github.com/cyberphone/D-CBOR/blob/main/d-cbor-4-constrained-devices.md">
+        <reference anchor="CONSTR" target="https://github.com/cyberphone/D-CBOR/blob/main/d-cbor-4-constrained-devices.md">
           <front>
             <title>D-CBOR for Constrained Devices</title>
             <author/>
           </front>
         </reference>
  
-        <reference anchor="NODE.JS"  target="https://nodejs.org/">
+        <reference anchor="NODE.JS" target="https://nodejs.org/">
           <front>
             <title>Node.js - JavaScript server</title>
             <author/>
           </front>
         </reference>
  
-        <reference anchor="CBOR.JS"  target="https://github.com/cyberphone/CBOR.js">
+        <reference anchor="CBOR.JS" target="https://github.com/cyberphone/CBOR.js">
           <front>
             <title>CBOR.js - CBOR for JavaScript</title>
+            <author/>
+          </front>
+        </reference>
+
+        <reference anchor="OPENAPI" target="https://openapis.org/">
+          <front>
+            <title>The OpenAPI Initiative</title>
             <author/>
           </front>
         </reference>
@@ -401,7 +471,7 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
           <refcontent>Standard ECMA-262, 11th Edition</refcontent>
         </reference>
 
-        <reference anchor="GordianEnvelope" target="https://datatracker.ietf.org/doc/draft-mcnally-envelope/">
+        <reference anchor="GORDIAN" target="https://datatracker.ietf.org/doc/draft-mcnally-envelope/">
           <front>
             <title>The Gordian Envelope Structured Data Format</title>
             <author fullname="Wolf McNally" initials="W." surname="McNally">
@@ -744,7 +814,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
       <t>This is a <em>non-normative</em> appendix showing how U-CBOR
       can be used for supporting enveloped signatures.</t>
       <t>The primary advantages with enveloped signatures compared to
-      the approach used by COSE <xref target="RFC9052"/> include:</t>
+      enveloping signatures (like used by COSE <xref target="RFC9052"/>), include:</t>
       <ul>
         <li>Keeping the <em>structure</em> of the original (unsigned) data intact,
         by simply making signatures an additional attribute.</li>
@@ -874,9 +944,9 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 
       <section anchor="example.code">
         <name>Code Example</name>
-        <t>Using the JavaScript implementation mentioned in
-        <xref target="CBOR.JS" format="default"/> together with Node.js,
-        <xref target="NODE.JS" format="default"/>
+        <t>Using a JavaScript implementation <xref target="CBOR.JS" format="default"/>
+        of U-CBOR, together with Node.js
+        <xref target="NODE.JS" format="default"/>,
         basic signature creation and validation supporting
         the example in  <xref target="example.unsigned" format="default"/>,
         could be performed by the following code:</t>
@@ -1015,14 +1085,15 @@ See also <xref target="ucbor.invalid" format="default"/>.</t>
         <li>
         <t>03. NOT YET PUBLISHED</t>
         <t>Updated code example to actually use crypto</t>
+        <t>Platform Number Support sub-sction added.</t>
         </li>
       </ul>
     </section>
 
     <section anchor="Acknowledgements" numbered="false">
       <name>Acknowledgements</name>
-      <t>This work was inspired by a CBOR based project known as
-      <xref target="GordianEnvelope"/>, pioneered by Wolf McNally and Christopher Allen.
+      <t>This work was inspired by a CBOR based project known as Gordian&nbsp;Envelope
+      <xref target="GORDIAN"/>, pioneered by Wolf McNally and Christopher Allen.
       This project also exploits the ability to hash "raw" (non-wrapped) CBOR data, enabled by the use of a deterministic encoding scheme.</t>
     </section>
     
