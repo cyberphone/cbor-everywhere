@@ -8,7 +8,7 @@ const CSF_SIG_LBL = CBOR.Int(6);
 
 // COSE => Node.js algorithm translation
 const HASH_ALGORITHMS = new Map()
-    .set(5, "sha256") .set(6, "sha384").set(7, "sha512");
+    .set(5, "sha256").set(6, "sha384").set(7, "sha512");
 
 function hmac(coseAlg, key, data) {
     let alg = HASH_ALGORITHMS.get(coseAlg);

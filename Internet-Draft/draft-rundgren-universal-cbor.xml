@@ -649,6 +649,12 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <tr><td align="right"><tt>-0.0000033333333333333333</tt></td>
 <td align="right"><tt>fbbecbf647612f3696</tt></td>
 <td>Randomly selected number</td></tr>
+<tr><td align="right"><tt>10.559998512268066</tt></td>
+<td align="right"><tt>fa4128f5c1</tt></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<tr><td align="right"><tt>10.559998512268068</tt></td>
+<td align="right"><tt>fb40251eb820000001</tt></td>
+<td>Next in succession</td></tr>
 <tr><td align="right"><tt>295147905179352830000.0</tt></td>
 <td align="right"><tt>fa61800000</tt></td>
 <td><tt>~2<sup>68</sup></tt></td></tr>
@@ -961,7 +967,7 @@ const CSF_SIG_LBL = CBOR.Int(6);
 
 // COSE => Node.js algorithm translation
 const HASH_ALGORITHMS = new Map()
-    .set(5, "sha256") .set(6, "sha384").set(7, "sha512");
+    .set(5, "sha256").set(6, "sha384").set(7, "sha512");
 
 function hmac(coseAlg, key, data) {
     let alg = HASH_ALGORITHMS.get(coseAlg);
