@@ -59,8 +59,8 @@ mobile phones, and Web servers.
 To foster interoperability, deterministic encoding
 is mandated.  Furthermore, the document outlines how
 deterministic encoding combined with enhanced CBOR tools,
-can be used for cryptographic constructs that
-operate on "raw" (non-wrapped) CBOR data.
+enable cryptographic methods like signing and hashing,
+to optionally use "raw" (non-wrapped) CBOR data as input.
 This document mainly targets CBOR tool developers.
       </t>
     </abstract>
