@@ -80,7 +80,7 @@ To cope with this, U-CBOR defines a specific (non-variant) encoding scheme,
 aka &quot;Deterministic Encoding&quot;.  The selected encoding
 scheme is believed to be <em>compatible</em> with most existing
 <em>systems</em> using CBOR.
-See also <xref target="legacy.systems" format="default"/>.
+See also <xref target="legacy.systems"/>.
         </t>
     <t>
 U-CBOR is intended to be agnostic with respect to programming
@@ -99,10 +99,10 @@ general-purpose computing platforms like mobile phones and Web servers.
 However, for unleashing the full power of deterministic encoding,
 the ability to perform cryptographic operations on "raw" (non-wrapped)
 CBOR data, compliant U-CBOR tools need additional functionality.
-See also <xref target="enveloped.signatures" format="default"/>.
+See also <xref target="enveloped.signatures"/>.
         </t>
         <t>
-<xref target="detailed.description" format="default"/> contains the
+<xref target="detailed.description"/> contains the
 actual specification.
         </t>
       
@@ -219,14 +219,16 @@ SHOULD reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
 <li>
 <t>
 Note that a hypothetical <tt>getBigInt()</tt> MUST also accept CBOR <tt>int</tt>
-objects.
+objects since <tt>int</tt> is used for integers that fit in
+CBOR major type 0 and 1 objects.  See also <xref target="ucbor.integers"/>.
 </t>
 </li>
 <li>
 <t>
-Some platforms do not natively support <tt>float16</tt> and/or <tt>float32</tt>.
-In this case the return value from a hypothetical <tt>getFloat16()</tt> would
-use the closest bigger type.  Range checking SHOULD be performed.
+Some platforms do not natively support <tt>float32</tt> and/or <tt>float16</tt>.
+In this case a hypothetical <tt>getFloat16()</tt> would
+need to use a bigger floating-point type for the return value.  
+Range checking SHOULD be performed.
 </t>
 </li>
 </ol>
@@ -261,7 +263,7 @@ RFC: Integers, represented by the <tt>int</tt> and
 type if the value is between <tt>-2<sup>64</sup></tt>
 and <tt>2<sup>64</sup>-1</tt>,
 otherwise the <tt>bigint</tt> type MUST be used.
-<xref target="ucbor.integers" format="default"/>
+<xref target="ucbor.integers"/>
 features a list of compliant integer sample values.
         </t>
         </li>
@@ -270,7 +272,7 @@ features a list of compliant integer sample values.
 RFC+: Floating point numbers MUST always use the shortest
 <xref target="IEEE754"/> variant that
 preserves the precision of the original value.
-<xref target="ucbor.floats" format="default"/>
+<xref target="ucbor.floats"/>
 features a list of compliant floating point sample values.
         </t>
         <t>
@@ -314,7 +316,7 @@ specified by COSE in <xref section="2" sectionFormat="of" target="RFC9052"/>,
 no longer is a prerequisite.
 That is, cryptographic operations can <em>optionally</em> be performed
 on "raw" CBOR data.
-Turn to <xref target="enveloped.signatures" format="default"/> for
+Turn to <xref target="enveloped.signatures"/> for
 an example of an application depending on such features.
 </t>
 <t>
@@ -357,7 +359,7 @@ How this separation actually is accomplished is out of scope for this specificat
 However, <em>encapsulation</em> of CBOR data in <em>high-level</em>, and
 <em>self-rendering objects</em>, represents a usable method.
 Similar approaches are used by most ASN.1 tools.
-The code in <xref target="example.code" format="default"/> shows an example
+The code in <xref target="example.code"/> shows an example
 that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
 </t>
       </section>
@@ -810,7 +812,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 </tbody>
 </table>
 <ol>
-<li>See also <xref target="legacy.systems" format="default"/>.</li>
+<li>See also <xref target="legacy.systems"/>.</li>
 </ol>
 
     </section>
@@ -840,7 +842,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
       signature schema, the example uses the CBOR Signature Format
       <xref target="CSF"/>.
       For the sake of simplicity, the example uses an HMAC
-      (see <xref target="example.parameters" format="default"/>)
+      (see <xref target="example.parameters"/>)
       as signature algorithm.</t>
 
       <section anchor="example.unsigned">
@@ -853,13 +855,13 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
   2: "more data"
 }]]></sourcecode>
       <t>Then continue to the next section 
-      (<xref target="example.signing" format="default"/>)...</t>
+      (<xref target="example.signing"/>)...</t>
       </section>
       <section anchor="example.signing">
         <name>Signature Process</name>
         <t>This section describes the steps required for adding an
         enveloped signature to the CBOR map object in
-        <xref target="example.unsigned" format="default"/>.
+        <xref target="example.unsigned"/>.
         </t>
         <ol>
         <li>Add an empty CSF container (a CBOR map) to the unsigned CBOR map
@@ -884,7 +886,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
         using the CSF signature label (6).</li>
         </ol>
         <t>The result after the final step (using the parameters 
-        from <xref target="example.parameters" format="default"/>), should
+        from <xref target="example.parameters"/>), should
         match the following CBOR object:</t>
 <sourcecode name="Unsigned Data" type="cbor">
 <![CDATA[{
@@ -902,7 +904,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
       <section anchor="example.validation">
         <name>Validation Process</name>
         <t>In order to validate the enveloped signature created in the
-        <xref target="example.signing" format="default"/>,
+        <xref target="example.signing"/>,
         the following steps are performed:</t>
         <ol>
         <li><t>Fetch a <em>reference</em> to the CSF container using the
@@ -914,7 +916,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
           <li>Remove the CSF algorithm label (6) and its associated value.</li>
         </ol>
         <t>Now we should have exactly the same CBOR object as we had <em>before</em>
-        step #4 in <xref target="example.signing" format="default"/>.
+        step #4 in <xref target="example.signing"/>.
         That is:</t>
 <sourcecode name="Unsigned Data" type="cbor">
 <![CDATA[{
@@ -929,7 +931,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
         signature validation method with the following arguments:</t>
           <ul>
           <li>the designated signature key
-          (in the example taken from <xref target="example.parameters" format="default"/>).</li>
+          (in the example taken from <xref target="example.parameters"/>).</li>
           <li>the signature algorithm retrieved in step #1.</li>
           <li>the signature value retrieved in step #1.</li>
           <li>the <em>deterministic encoding</em> of the
@@ -952,11 +954,11 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 
       <section anchor="example.code">
         <name>Code Example</name>
-        <t>Using a JavaScript implementation <xref target="CBOR.JS" format="default"/>
+        <t>Using a JavaScript implementation <xref target="CBOR.JS"/>
         of U-CBOR, together with Node.js
-        <xref target="NODE.JS" format="default"/>,
+        <xref target="NODE.JS"/>,
         basic signature creation and validation supporting
-        the example in  <xref target="example.unsigned" format="default"/>,
+        the example in  <xref target="example.unsigned"/>,
         could be performed by the following code:</t>
         <sourcecode name="code.with.node.js" type="javascript">
 <![CDATA[// hmac.mjs
@@ -1021,7 +1023,7 @@ if (CBOR.compareArrays(res, sig)) {
 let p1 = object.get(APP_P1_LBL).getString();       // p1 should now contain "data"]]></sourcecode>
 <t>
 Note that this code depends heavily on the CBOR tool features
-outlined in <xref target="ucbor.tools" format="default"/>.
+outlined in <xref target="ucbor.tools"/>.
 </t>
       </section>
 
@@ -1052,7 +1054,7 @@ the rigidness of deterministic encoding with respect to:</t>
 </ul>
 <t>Note that regardless of the format of received CBOR data, a compliant
 U-CBOR implementation MUST maintain deterministic encoding.
-See also <xref target="ucbor.invalid" format="default"/>.</t>
+See also <xref target="ucbor.invalid"/>.</t>
     </section>
 
     <section anchor="tools.online">
@@ -1092,6 +1094,7 @@ See also <xref target="ucbor.invalid" format="default"/>.</t>
         <li>02. Editorial.  "unwrapped" changed to "non-wrapped".</li>
         <li>
         <t>03. NOT YET PUBLISHED</t>
+        <t>Tweaking the abstract.</t>
         <t>Updated code example to actually use crypto</t>
         <t>Platform Number Support sub-sction added.</t>
         </li>
