@@ -326,15 +326,15 @@ provided by CBOR tools compliant with this specification:
 <ul>
   <li>
   It MUST be possible to <em>add</em>, <em>delete</em>, and
-  <em>update</em> the contents of CBOR <tt>map</tt> and <tt>array</tt> objects, of
-  received and decoded CBOR data.  Note: CBOR primitives MUST remain <em>immutable</em>.
+  <em>update</em> the contents of CBOR <tt>map</tt> and <tt>array</tt> objects,
+  of decoded CBOR data.  Note: CBOR primitives MUST remain <em>immutable</em>.
   </li>
   <li>
-  It MUST be possible to <em>reserialize</em> received CBOR data,
+  It MUST be possible to <em>reserialize</em> decoded CBOR data,
   be it updated or not.
   </li>
   <li>
-  Irrespective of if CBOR data was received, updated, or created 
+  Irrespective of if CBOR data was decoded, updated, or created 
   programmatically, deterministic encoding MUST be maintained.
   </li>
     <li>
@@ -357,8 +357,8 @@ like in this Chrome browser console example:
 <t>
 How this separation actually is accomplished is out of scope for this specification.
 However, <em>encapsulation</em> of CBOR data in <em>high-level</em>, and
-<em>self-rendering objects</em>, represents a usable method.
-Similar approaches are used by most ASN.1 tools.
+<em>self-rendering objects</em>, represents an established method,
+featured in similar tools for ASN.1.
 The code in <xref target="example.code"/> shows an example
 that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
 </t>
