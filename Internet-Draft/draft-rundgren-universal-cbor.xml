@@ -350,9 +350,9 @@ since the latter may not always <em>reserialize</em> as expected,
 like in this Chrome browser console example:
 </t>
 <sourcecode name="Platform issues" type="cbor">
-<![CDATA[> let date = new Date('2025-03-02T13:08:55.0001Z');
+<![CDATA[> let date = new Date('2025-03-02T13:08:55.0001+03:00');
 > date.toISOString()
-'2025-03-02T13:08:55.000Z']]>
+'2025-03-02T10:08:55.000Z']]>
 </sourcecode>
 <t>
 How this separation actually is accomplished is out of scope for this specification.
