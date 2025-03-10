@@ -33,28 +33,31 @@ let object = CBOR.Map()
 ////////////////////////////////////////
 // Add a signature to the CBOR object //
 ////////////////////////////////////////
-const COSE_ALG = 5;                                // Selected algorithm
+const COSE_ALG = 5;                                // Selected HMAC algorithm
 
-let csf = CBOR.Map()                               // Create CSF container
-    .set(CSF_ALG_LBL, CBOR.Int(COSE_ALG));         // Add algorithm
+let csf = CBOR.Map()                               // Create CSF container and
+    .set(CSF_ALG_LBL, CBOR.Int(COSE_ALG));         // add COSE algorithm to it
 object.set(APP_CSF_LBL, csf);                      // Add CSF container to object
-// Generate signature and add it to the CSF container
-csf.set(CSF_SIG_LBL, CBOR.Bytes(hmac(COSE_ALG, SHARED_KEY, object.encode())));
-let cborBinary = object.encode();                  // Uint8Array
+let sig = hmac(COSE_ALG,                           // Generate signature over
+               SHARED_KEY,                         // the current object
+               object.encode());                   // encode(): all we got so far
+csf.set(CSF_SIG_LBL, CBOR.Bytes(sig));             // Add signature to CSF container
+let cborBinary = object.encode();                  // Return CBOR as an Uint8Array
         
 console.log(object.toString());                    // Show in Diagnostic Notation
 
 /////////////////////////////////////
 // Validate the signed CBOR object //
 /////////////////////////////////////
-object = CBOR.decode(cborBinary);                  // Decode
+object = CBOR.decode(cborBinary);                  // Decode CBOR object
 csf = object.get(APP_CSF_LBL);                     // Get CSF container
 let alg = csf.get(CSF_ALG_LBL).getInt();           // Get COSE algorithm
-let sig = csf.remove(CSF_SIG_LBL).getBytes();      // Get and remove signature value
-let res = hmac(alg, SHARED_KEY, object.encode());  // Note that object.encode()
-                                                   // reserializes all but sig.
-if (CBOR.compareArrays(res, sig)) {
-    throw "Didn't validate";
+let readSig = csf.remove(CSF_SIG_LBL).getBytes();  // Get and REMOVE signature value
+let actualSig = hmac(alg,                          // Calculate signature over
+                     SHARED_KEY,                   // the current object
+                     object.encode());             // encode(): all but the signature
+if (CBOR.compareArrays(readSig, actualSig)) {      // HMAC validation
+    throw "Signature did not validate";
 }
 // Validated object, access the "payload":
 let p1 = object.get(APP_P1_LBL).getString();       // p1 should now contain "data"
