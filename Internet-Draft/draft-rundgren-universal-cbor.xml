@@ -246,9 +246,10 @@ for dealing with 64-bit integers.
       <section anchor="ucbor.encoding">
         <name>Deterministic Encoding Scheme</name>
         <t>
-The U-CBOR encoding scheme adheres to <xref section="4.2" sectionFormat="of" target="RFC8949"/>,
+In U-CBOR determinstic encoding is <em>mandatory</em>.
+The encoding scheme adheres to <xref section="4.2" sectionFormat="of" target="RFC8949"/>,
 but adds a few constraints (denoted by RFC+), where the RFC offers choices.
-The deterministic encoding rules are as follows:
+The following list contains a summary of the U-CBOR deterministic encoding rules:
         </t>
       <ul>
         <li>
@@ -293,16 +294,16 @@ Somewhat surprisingly the following represents a properly sorted map:</t>
 }]]></sourcecode>
         </li>
         <li>
-RFC+: Since CBOR encoding according to this specification
-maintains type and data uniqueness, there are no specific restrictions or
+RFC+: Since CBOR encodings according to this specification
+maintain uniqueness, there are no specific restrictions or
 tests needed in order to determine map key equivalence.
-As an example, the floating-point numbers <tt>0.0</tt> and
+As an (extreme) example, the floating-point numbers <tt>0.0</tt> and
 <tt>-0.0</tt>, and the integer number <tt>0</tt>
-represent the distinct keys
+could represent the distinct keys
 <tt>f90000</tt>, <tt>f98000</tt>, and <tt>00</tt> respectively.
         </li>
         <li>
-RFC+: Indefinite length objects MUST be <em>rejected</em>.
+RFC: Indefinite length objects MUST be <em>rejected</em>.
         </li>
       </ul>
       </section>
@@ -374,6 +375,10 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
     <section anchor="Security">
        <name>Security Considerations</name>
       <t>All is good &#x1f638;</t>
+      <t>U-CBOR does not introduce security issues beyond
+      what is already applicable to  <xref target="RFC8949"/>.
+      Applications may certainly add security issues, but these are
+      out of scope for this specification.</t>
     </section>
     
    </middle>
@@ -426,6 +431,15 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
           </front>
         </reference>
 
+        <reference anchor="COTX" target="https://www.ietf.org/archive/id/draft-rundgren-cotx-04.html">
+          <front>
+            <title>CBOR Object Type Extension (COTX)</title>
+            <author initials="A" surname="Rundgren">
+              <organization/>
+            </author>
+          </front>
+        </reference>
+
         <reference anchor="CONSTR" target="https://github.com/cyberphone/D-CBOR/blob/main/d-cbor-4-constrained-devices.md">
           <front>
             <title>D-CBOR for Constrained Devices</title>
@@ -447,6 +461,34 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
           </front>
         </reference>
 
+        <reference anchor="CSF-LAB" target="https://test.webpki.org/csf-lab">
+          <front>
+            <title>Online CBOR and CSF test tool</title>
+            <author/>
+          </front>
+        </reference>
+
+        <reference anchor="PLAYGROUND" target="https://cyberphone.github.io/CBOR.js/doc/playground.html">
+          <front>
+            <title>Online CBOR testing tool</title>
+            <author/>
+          </front>
+        </reference>
+
+        <reference anchor="OPENKEYSTORE" target="https://github.com/cyberphone/openkeystore">
+          <front>
+            <title>Java library supporting JSON, CBOR, and Crypto</title>
+            <author/>
+          </front>
+        </reference>
+
+        <reference anchor="ANDROID-CBOR" target="https://github.com/cyberphone/android-cbor">
+          <front>
+            <title>Android/Java library supporting CBOR and Crypto</title>
+            <author/>
+          </front>
+        </reference>
+
         <reference anchor="OPENAPI" target="https://openapis.org/">
           <front>
             <title>The OpenAPI Initiative</title>
@@ -463,16 +505,25 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
             <date year="2025"/>
           </front>
         </reference> 
+
+        <reference anchor="CBOR.ME" target="https://cbor.me/">
+          <front>
+            <title>Online CBOR testing tool</title>
+            <author initials="C" surname="Bormann">
+               <organization/>
+            </author>
+          </front>
+        </reference> 
        
         <reference anchor="ECMASCRIPT" target="https://www.ecma-international.org/publications/standards/Ecma-262.htm" quoteTitle="true" derivedAnchor="ECMA262">
           <front>
-            <title>ECMAScript 2020 Language Specification</title>
+            <title>ECMAScript® 2024 Language Specification</title>
             <author>
               <organization showOnFrontPage="true">Ecma International</organization>
             </author>
-            <date year="2020" month="June"/>
+            <date year="2024" month="June"/>
           </front>
-          <refcontent>Standard ECMA-262, 11th Edition</refcontent>
+          <refcontent>Standard ECMA-262, 15th Edition</refcontent>
         </reference>
 
         <reference anchor="GORDIAN" target="https://datatracker.ietf.org/doc/draft-mcnally-envelope/">
@@ -828,6 +879,20 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
       <ul>
         <li>Keeping the <em>structure</em> of the original (unsigned) data intact,
         by simply making signatures an additional attribute.</li>
+        <li>
+        <t>
+        Enabling top-level, <em>object identifiers</em> 
+        to become a part of the signed data as well:</t>
+               <sourcecode name="Tag object-id" type="cbor">
+<![CDATA[123456789({       # CBOR tag object
+  1: "data",
+  2: "more data",
+  3: «signature covering the entire object»
+})]]></sourcecode>
+<t>
+See also <xref target="COTX"/>.
+</t>
+        </li>
         <li>Permitting signing CBOR data and associated security
         attributes (aka "headers"), <em>in one go</em>, without
         having to wrap data in CBOR "bstr" objects.</li>
@@ -1065,28 +1130,25 @@ See also <xref target="ucbor.invalid"/>.</t>
       <t>For testing and learning about U-CBOR,
       there are currently a number of compatible
       online tools (subject to availability...).</t>
-      <dl newline="true">
-        <dt>Browser-based CBOR "playground":</dt>
-        <dd>https://cyberphone.github.io/CBOR.js/doc/playground.html</dd>
-        <dt>Server-based CBOR and <xref target="CSF"/> test system:</dt>
-        <dd>https://test.webpki.org/csf-lab</dd>
-      </dl>
+      <ul>
+        <li>Browser-based CBOR "playground": <xref target="PLAYGROUND"/></li>
+        <li>Server-based CBOR and <xref target="CSF"/> 
+        test system: <xref target="CSF-LAB"/></li>
+      </ul>
     </section>
 
     <section anchor="tools.implementations">
       <name>Compatible Implementations</name>
       <t>For using U-CBOR in applications, there are
       currently a number of compatible ibraries.</t>
-      <dl newline="true">
-        <dt>JavaScript-based implementation:</dt>
-        <dd>https://github.com/cyberphone/CBOR.js</dd>
-        <dt>Java-based implementation that also 
-        supports <xref target="CSF"/> and <xref target="CEF"/>:</dt>
-        <dd>https://github.com/cyberphone/openkeystore</dd>
-        <dt>Android Java-based implementation that also 
-        supports <xref target="CSF"/> and <xref target="CEF"/>:</dt>
-        <dd>https://github.com/cyberphone/android-cbor</dd>
-      </dl>
+      <ul>
+        <li>JavaScript-based implementation supporting
+        browsers as well as <xref target="NODE.JS"/>: <xref target="CBOR.JS"/></li>
+        <li>Java-based implementation that also 
+        supports <xref target="CSF"/> and <xref target="CEF"/>: <xref target="OPENKEYSTORE"/></li>
+        <li>Android Java-based implementation that also 
+        supports <xref target="CSF"/> and <xref target="CEF"/>: <xref target="ANDROID-CBOR"/></li>
+      </ul>
     </section>
 
     <section anchor="DocHistory" numbered="false">
@@ -1100,6 +1162,8 @@ See also <xref target="ucbor.invalid"/>.</t>
         <t>Tweaking the abstract.</t>
         <t>Updated code example to actually use crypto</t>
         <t>Platform Number Support sub-sction added.</t>
+        <t>Updated Acknowledgements.</t>
+        <t>Updated Security Considerations.</t>
         </li>
       </ul>
     </section>
@@ -1109,6 +1173,9 @@ See also <xref target="ucbor.invalid"/>.</t>
       <t>This work was inspired by a CBOR based project known as Gordian&nbsp;Envelope
       <xref target="GORDIAN"/>, pioneered by Wolf McNally and Christopher Allen.
       This project also exploits the ability to hash "raw" (non-wrapped) CBOR data, enabled by the use of a deterministic encoding scheme.</t>
+      <t>For verifying the correctness of the encoding scheme, the <xref target="CBOR.ME"/> 
+      on-line CBOR tool, by the <xref target="RFC8949"/> author,
+      Carsten Bormann, proved to be invaluable.</t>
     </section>
     
  </back>
