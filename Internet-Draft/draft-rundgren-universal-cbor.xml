@@ -1133,25 +1133,29 @@ See also <xref target="ucbor.invalid"/>.</t>
       <t>For testing and learning about U-CBOR,
       there are currently a number of compatible
       online tools (subject to availability...).</t>
-      <ul>
-        <li>Browser-based CBOR "playground": <xref target="PLAYGROUND"/></li>
-        <li>Server-based CBOR and <xref target="CSF"/> 
-        test system: <xref target="CSF-LAB"/></li>
-      </ul>
+      <dl newline="true">
+        <dt><xref target="PLAYGROUND"/>:</dt>
+        <dd>Browser-based CBOR "playground" </dd>
+        <dt><xref target="CSF-LAB"/>:</dt>
+        <dd>Server-based CBOR and <xref target="CSF"/> test system</dd>
+      </dl>
     </section>
 
     <section anchor="tools.implementations">
       <name>Compatible Implementations</name>
       <t>For using U-CBOR in applications, there are
       currently a number of compatible ibraries.</t>
-      <ul>
-        <li>JavaScript-based implementation supporting
-        browsers as well as <xref target="NODE.JS"/>: <xref target="CBOR.JS"/></li>
-        <li>Java-based implementation that also 
-        supports <xref target="CSF"/> and <xref target="CEF"/>: <xref target="OPENKEYSTORE"/></li>
-        <li>Android Java-based implementation that also 
-        supports <xref target="CSF"/> and <xref target="CEF"/>: <xref target="ANDROID-CBOR"/></li>
-      </ul>
+      <dl newline="true">
+        <dt><xref target="CBOR.JS"/>:</dt>
+        <dd>JavaScript-based implementation supporting
+        browsers as well as <xref target="NODE.JS"/></dd>
+        <dt><xref target="OPENKEYSTORE"/>:</dt>
+        <dd>Java-based implementation that also 
+        supports <xref target="CSF"/> and <xref target="CEF"/></dd>
+        <dt><xref target="ANDROID-CBOR"/>:</dt>
+        <dd>Android Java-based implementation that also 
+        supports <xref target="CSF"/> and <xref target="CEF"/></dd>
+      </dl>
     </section>
 
     <section anchor="DocHistory" numbered="false">
