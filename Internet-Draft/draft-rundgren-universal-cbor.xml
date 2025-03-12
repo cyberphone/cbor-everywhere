@@ -227,8 +227,11 @@ CBOR major type 0 and 1 objects.  See also <xref target="ucbor.integers"/>.
 <t>
 Some platforms do not natively support <tt>float32</tt> and/or <tt>float16</tt>.
 In this case a hypothetical <tt>getFloat16()</tt> would
-need to use a bigger floating-point type for the return value.  
-Range checking SHOULD be performed.
+need to use a bigger floating-point type for the return value.
+</t>
+<t>
+Note that a hypothetical <tt>getFloat16()</tt> MUST <em>reject</em> encountered
+<tt>Float32</tt> and <tt>Float64</tt> objects.  See also <xref target="legacy.systems"/>.
 </t>
 </li>
 </ol>
@@ -246,7 +249,7 @@ for dealing with 64-bit integers.
       <section anchor="ucbor.encoding">
         <name>Deterministic Encoding Scheme</name>
         <t>
-In U-CBOR determinstic encoding is <em>mandatory</em>.
+In U-CBOR deterministic encoding is <em>mandatory</em>.
 The encoding scheme adheres to <xref section="4.2" sectionFormat="of" target="RFC8949"/>,
 but adds a few constraints (denoted by RFC+), where the RFC offers choices.
 The following list contains a summary of the U-CBOR deterministic encoding rules:
