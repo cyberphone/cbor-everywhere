@@ -142,7 +142,7 @@ used in <xref target="RFC8949"/>.</li>
 <name>Supported CBOR Objects</name>
 <thead>
   <tr><th align="center">CDDL</th>
-  <th align="center">Note</th></tr>
+  <th align="center">Description</th></tr>
 </thead>
 <tbody>
 <tr><td align="center"><tt>int</tt></td><td>Integer</td></tr>
@@ -272,7 +272,7 @@ The following list contains a summary of the U-CBOR deterministic encoding rules
         </t>
       <ul>
         <li>
-RFC+: Floating point and integer objects MUST be treated as <em>distinct types</em>
+RFC+: Floating-point and integer objects MUST be treated as <em>distinct types</em>
 regardless of their numeric value. This is compliant with
 Rule&nbsp;2 in <xref section="4.2.2" sectionFormat="of" target="RFC8949"/>.
         </li>
@@ -289,11 +289,11 @@ features a list of compliant integer sample values.
         </li>
         <li>
         <t>
-RFC+: Floating point numbers MUST always use the shortest
+RFC+: Floating-point numbers MUST always use the shortest
 <xref target="IEEE754"/> variant that
 preserves the precision of the original value.
 <xref target="ucbor.floats"/>
-features a list of compliant floating point sample values.
+features a list of compliant floating-point sample values.
         </t>
         <t>
 Note that <tt>NaN</tt> "signaling" (like <tt>f97e01</tt>),
@@ -364,10 +364,9 @@ provided by CBOR tools compliant with this specification:
   </li>
 </ul>
 <t>
-It is RECOMMENDED <em>separating</em> CBOR data and 
-application / platform-level data,
-since the latter may not always <em>reserialize</em> as expected,
-like in this Chrome browser console example:
+In practice this means that CBOR data and application / platform-level data,
+MUST be <em>separated</em> for cases where <em>reserialization</em>
+could present a problem, like in this Chrome browser console example:
 </t>
 <sourcecode name="Platform issues" type="cbor">
 <![CDATA[> let date = new Date('2025-03-02T13:08:55.0001+03:00');
@@ -656,7 +655,7 @@ the serialization method for the <tt>Number</tt> data type,
 defined by <xref target="ECMASCRIPT"/> with one change:
 to comply with diagnostic notation
 (section 8 of <xref target="RFC8949"/>), all values are
-expressed as floating point numbers.
+expressed as floating-point numbers.
 The rationale for using <xref target="ECMASCRIPT"/> serialization is
 because it supposed to generate the shortest and most
 correct representation of <xref target="IEEE754"/> numbers.</t>
