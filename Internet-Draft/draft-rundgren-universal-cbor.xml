@@ -928,8 +928,11 @@ See also <xref target="COTX"/>.
       rely on <em>canonicalization schemes</em> like JCS <xref target="RFC8785"/>,
       that require specialized encoders and decoders, whereas U-CBOR works
       "straight out of the box".</t>
+
+      <section anchor="example.signature">
+      <name>Sample Signature</name>
       <t>Although this specification is not "married" to any particular
-      signature schema, the example uses the CBOR Signature Format
+      signature schema, the following example uses the CBOR Signature Format
       <xref target="CSF"/>.
       For the sake of simplicity, the example uses an HMAC
       (see <xref target="example.parameters"/>)
@@ -944,8 +947,6 @@ See also <xref target="COTX"/>.
   1: "data",
   2: "more data"
 }]]></sourcecode>
-      <t>Then continue to the next section 
-      (<xref target="example.signing"/>)...</t>
       </section>
       <section anchor="example.signing">
         <name>Signature Process</name>
@@ -1042,13 +1043,15 @@ See also <xref target="COTX"/>.
 <![CDATA[7fdd851a3b9d2dafc5f0d00030e22b9343900cd42ede4948568a4a2ee655291a]]></sourcecode>
       </section>
 
+      </section>
+
       <section anchor="example.code">
         <name>Code Example</name>
         <t>Using a JavaScript implementation <xref target="CBOR.JS"/>
         of U-CBOR, together with Node.js
         <xref target="NODE.JS"/>,
         basic signature creation and validation supporting
-        the example in  <xref target="example.unsigned"/>,
+        the example in  <xref target="example.signature"/>,
         could be performed by the following code:</t>
         <sourcecode name="code.with.node.js" type="javascript">
 <![CDATA[// hmac.mjs
