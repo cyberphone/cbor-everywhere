@@ -19,7 +19,7 @@ let table = rfcMode ? "<table>\n<name>" + (intMode ? "Integers" : "Floating Poin
 <thead>
   <tr><th align="center">Value</th>
   <th align="center">CBOR Encoding</th>
-  <th align="center">Note</th></tr>
+  <th align="center">Description</th></tr>
 </thead>
 <tbody>\n`: `<table>`;
 

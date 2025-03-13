@@ -193,26 +193,32 @@ API support for the following number types:
 <name>Platform Number Support</name>
 <thead>
   <tr><th align="center">Name</th>
-  <th align="center">Note</th></tr>
+  <th align="center">Description</th><th align="center">Note</th></tr>
 </thead>
 <tbody>
-<tr><td align="center"><tt>Int8</tt></td><td>8-bit signed integer [1]</td></tr>
-<tr><td align="center"><tt>Uint8</tt></td><td>8-bit unsigned integer [1]</td></tr>
-<tr><td align="center"><tt>Int16</tt></td><td>16-bit signed integer [1]</td></tr>
-<tr><td align="center"><tt>Uint16</tt></td><td>16-bit unsigned integer [1]</td></tr>
-<tr><td align="center"><tt>Int32</tt></td><td>32-bit signed integer [1]</td></tr>
-<tr><td align="center"><tt>Uint32</tt></td><td>32-bit unsigned integer [1]</td></tr>
-<tr><td align="center"><tt>Int64</tt></td><td>64-bit signed integer [1]</td></tr>
-<tr><td align="center"><tt>Uint64</tt></td><td>64-bit unsigned integer [1]</td></tr>
-<tr><td align="center"><tt>BigInt</tt></td><td>Integer of arbitrary size [2]</td></tr>
-<tr><td align="center"><tt>Float16</tt></td><td>16-bit floating-point numbers [3]</td></tr>
-<tr><td align="center"><tt>Float32</tt></td><td>32-bit floating-point numbers [3]</td></tr>
-<tr><td align="center"><tt>Float64</tt></td><td>64-bit floating-point numbers</td></tr>
+<tr><td align="center"><tt>Int8</tt></td><td>8-bit signed integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Uint8</tt></td><td>8-bit unsigned integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Int16</tt></td><td>16-bit signed integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Uint16</tt></td><td>16-bit unsigned integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Int32</tt></td><td>32-bit signed integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Uint32</tt></td><td>32-bit unsigned integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Int64</tt></td><td>64-bit signed integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Uint64</tt></td><td>64-bit unsigned integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>BigInt</tt></td><td>Integer of arbitrary size</td><td align="center">2</td></tr>
+<tr><td align="center"><tt>Float16</tt></td><td>16-bit floating-point number</td><td align="center">3</td></tr>
+<tr><td align="center"><tt>Float32</tt></td><td>32-bit floating-point number</td><td align="center">3</td></tr>
+<tr><td align="center"><tt>Float64</tt></td><td>64-bit floating-point number</td><td></td></tr>
+<tr><td align="center"><tt>Epoch</tt></td><td>Time-object expressed as a number</td><td align="center">4</td></tr>
+<tr><td align="center"><tt>DateTime</tt></td><td>Time-object expressed as a text string</td><td align="center">4</td></tr>
 </tbody>
 </table>
 <ol>
 <li>
-<t>Range testing SHOULD be performed.  That is, a hypothetical <tt>getInt8()</tt>,
+<t>Range testing SHOULD be performed using the traditional ranges for
+<em>unsigned</em> respectively <em>two-complement</em> numbers.
+That is, a hypothetical <tt>getUint8()</tt> SHOULD reject numbers
+outside of <tt>0</tt> to <tt>255</tt>,
+whereas a hypothetical <tt>getInt8()</tt>,
 SHOULD reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
 </t>
 </li>
@@ -232,6 +238,16 @@ need to use a bigger floating-point type for the return value.
 <t>
 Note that a hypothetical <tt>getFloat16()</tt> MUST <em>reject</em> encountered
 <tt>Float32</tt> and <tt>Float64</tt> objects.  See also <xref target="legacy.systems"/>.
+</t>
+</li>
+<li>
+<t>
+Since CBOR does not feature a native-level time-object,
+<xref section="3.4" sectionFormat="of"  target="RFC8949"/>
+introduces two variants of time-objects using the 
+CBOR tags <tt>0</tt> and <tt>1</tt>.
+The time-objects SHOULD also be supported without the
+tag construct.
 </t>
 </li>
 </ol>
@@ -557,7 +573,7 @@ of CBOR integer values, with an emphasize on edge cases.</t>
 <thead>
   <tr><th align="center">Value</th>
   <th align="center">CBOR Encoding</th>
-  <th align="center">Note</th></tr>
+  <th align="center">Description</th></tr>
 </thead>
 <tbody>
 <tr><td align="right"><tt>0</tt></td>
@@ -650,7 +666,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <thead>
   <tr><th align="center">Value</th>
   <th align="center">CBOR Encoding</th>
-  <th align="center">Note</th></tr>
+  <th align="center">Description</th></tr>
 </thead>
 <tbody>
 <tr><td align="right"><tt>0.0</tt></td>
@@ -795,72 +811,77 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <name>Invalid Encodings</name>
 <thead>
   <tr><th align="center">CBOR Encoding</th><th align="center">Diagnostic Notation</th>
-  <th align="center">Note</th></tr>
+  <th align="center">Description</th><th align="center">Note</th></tr>
 </thead>
 <tbody>
-<!--
-<tr><td><tt>hjjh</tt></td>
-<td><tt>enc</tt></td>
-<td>tjoho</td></tr>
--->
 <tr>
 <td><tt>a2616200616101</tt></td>
 <td><tt>{"b":0,"a":1}</tt></td>
-<td>Improper map key ordering [1]</td>
+<td>Improper map key ordering</td>
+<td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>1900ff</tt></td>
 <td><tt>255</tt></td>
-<td>Number with leading zero bytes [1]</td>
+<td>Number with leading zero bytes</td>
+<td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>c34a00010000000000000000</tt></td>
 <td><tt>-18446744073709551617</tt></td>
-<td>Number with leading zero bytes [1]</td>
+<td>Number with leading zero bytes</td>
+<td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>Fa41280000</tt></td>
 <td><tt>10.5</tt></td>
-<td>Not in shortest encoding [1]</td>
+<td>Not in shortest encoding</td>
+<td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>fa7fc00000</tt></td>
 <td><tt>NaN</tt></td>
-<td>Not in shortest encoding [1]</td>
+<td>Not in shortest encoding</td>
+<td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>c243010000</tt></td>
 <td><tt>65536</tt></td>
-<td>Incorrect value for <tt>bigint</tt> [1]</td>
+<td>Incorrect value for <tt>bigint</tt></td>
+<td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>f97e01</tt></td>
 <td><tt>NaN</tt></td>
-<td>NaN with payload [1]</td>
+<td>NaN with payload</td>
+<td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>f7</tt></td>
 <td><tt>undefined</tt></td>
 <td>Unsupported simple type</td>
+<td></td>
 </tr>
 
 <tr>
 <td><tt>f0</tt></td>
 <td><tt>simple(16)</tt></td>
 <td>Unsupported simple type</td>
+<td></td>
 </tr>
 
 <tr>
 <td><tt>5f4101420203ff</tt></td>
 <td><tt>(_ h'01', h'0203')</tt></td>
 <td>Unsupported indefinite length object</td>
+<td></td>
 </tr>
 
 </tbody>
@@ -877,8 +898,9 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
       <name>Enveloped Signatures</name>
       <t>This is a <em>non-normative</em> appendix showing how U-CBOR
       can be used for supporting enveloped signatures.</t>
-      <t>The primary advantages with enveloped signatures compared to
-      enveloping signatures (like used by COSE <xref target="RFC9052"/>), include:</t>
+      <t>The primary advantages with <em>enveloped</em> signatures compared to
+      <em>enveloping</em> signatures (like used by COSE <xref target="RFC9052"/>), 
+      include:</t>
       <ul>
         <li>Keeping the <em>structure</em> of the original (unsigned) data intact,
         by simply making signatures an additional attribute.</li>
@@ -887,9 +909,9 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
         Enabling top-level, <em>object identifiers</em> 
         to become a part of the signed data as well:</t>
                <sourcecode name="Tag object-id" type="cbor">
-<![CDATA[123456789({       # CBOR tag object
-  1: "data",
-  2: "more data",
+<![CDATA[123456789({                            # CBOR tag (objectId)
+  1: "This is not rocket science!",    # Object instance data
+  2: [38.8882, -77.01988],             #         ""
   3: «signature covering the entire object»
 })]]></sourcecode>
 <t>
@@ -898,7 +920,8 @@ See also <xref target="COTX"/>.
         </li>
         <li>Permitting signing CBOR data and associated security
         attributes (aka "headers"), <em>in one go</em>, without
-        having to wrap data in CBOR "bstr" objects.</li>
+        having to wrap data in CBOR "bstr" objects.
+        Non-wrapped data also makes debugging and documentation easier.</li>
       </ul>
       <t>Enveloped signatures are for example featured in Verified Credentials 
       <xref target="CREDENTIALS"/>.
@@ -1144,7 +1167,7 @@ See also <xref target="ucbor.invalid"/>.</t>
     <section anchor="tools.implementations">
       <name>Compatible Implementations</name>
       <t>For using U-CBOR in applications, there are
-      currently a number of compatible ibraries.</t>
+      currently a number of compatible libraries.</t>
       <dl newline="true">
         <dt><xref target="CBOR.JS"/>:</dt>
         <dd>JavaScript-based implementation supporting
