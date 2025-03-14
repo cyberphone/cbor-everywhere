@@ -137,7 +137,8 @@ if (intMode) {
   oneTurn("10.559998512268066", "fa4128f5c1", text);
   oneTurn("10.559998512268068", "fb40251eb820000001", "Next in succession");
 
-  oneTurn("295147905179352830000.0", "fa61800000", codeWord("~2<sup>68</sup>"));
+  oneTurn("295147905179352830000.0", "fa61800000", codeWord("2<sup>68</sup>") +
+    " (diagnostic notation truncates precision)");
   
   oneTurn("2.0", "f94000", "Number without a fractional part");
 

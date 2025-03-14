@@ -182,83 +182,6 @@ OpenAPI <xref target="OPENAPI"/> is an example of an API which defines
 data types through mapping.
 </t>
 
-        <section anchor="platform.numbers">
-        <name>Platform Number Support</name>
-        <t>
-To facilitate cross-platform <em>protocol interoperability</em>, U-CBOR tool vendors
-SHOULD implement <em>decoder</em>
-API support for the following number types:
-        </t>
-<table>
-<name>Platform Number Support</name>
-<thead>
-  <tr><th align="center">Name</th>
-  <th align="center">Description</th><th align="center">Note</th></tr>
-</thead>
-<tbody>
-<tr><td align="center"><tt>Int8</tt></td><td>8-bit signed integer</td><td align="center">1</td></tr>
-<tr><td align="center"><tt>Uint8</tt></td><td>8-bit unsigned integer</td><td align="center">1</td></tr>
-<tr><td align="center"><tt>Int16</tt></td><td>16-bit signed integer</td><td align="center">1</td></tr>
-<tr><td align="center"><tt>Uint16</tt></td><td>16-bit unsigned integer</td><td align="center">1</td></tr>
-<tr><td align="center"><tt>Int32</tt></td><td>32-bit signed integer</td><td align="center">1</td></tr>
-<tr><td align="center"><tt>Uint32</tt></td><td>32-bit unsigned integer</td><td align="center">1</td></tr>
-<tr><td align="center"><tt>Int64</tt></td><td>64-bit signed integer</td><td align="center">1</td></tr>
-<tr><td align="center"><tt>Uint64</tt></td><td>64-bit unsigned integer</td><td align="center">1</td></tr>
-<tr><td align="center"><tt>BigInt</tt></td><td>Integer of arbitrary size</td><td align="center">2</td></tr>
-<tr><td align="center"><tt>Float16</tt></td><td>16-bit floating-point number</td><td align="center">3</td></tr>
-<tr><td align="center"><tt>Float32</tt></td><td>32-bit floating-point number</td><td align="center">3</td></tr>
-<tr><td align="center"><tt>Float64</tt></td><td>64-bit floating-point number</td><td></td></tr>
-<tr><td align="center"><tt>Epoch</tt></td><td>Time-object expressed as a number</td><td align="center">4</td></tr>
-<tr><td align="center"><tt>DateTime</tt></td><td>Time-object expressed as a text string</td><td align="center">4</td></tr>
-</tbody>
-</table>
-<ol>
-<li>
-<t>Range testing SHOULD be performed using the traditional ranges for
-<em>unsigned</em> respectively <em>two-complement</em> numbers.
-That is, a hypothetical <tt>getUint8()</tt> SHOULD reject numbers
-outside of <tt>0</tt> to <tt>255</tt>,
-whereas a hypothetical <tt>getInt8()</tt>,
-SHOULD reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
-</t>
-</li>
-<li>
-<t>
-Note that a hypothetical <tt>getBigInt()</tt> MUST also accept CBOR <tt>int</tt>
-objects since <tt>int</tt> is used for integers that fit in
-CBOR major type 0 and 1 objects.  See also <xref target="ucbor.integers"/>.
-</t>
-</li>
-<li>
-<t>
-Some platforms do not natively support <tt>float32</tt> and/or <tt>float16</tt>.
-In this case a hypothetical <tt>getFloat16()</tt> would
-need to use a bigger floating-point type for the return value.
-</t>
-<t>
-Note that a hypothetical <tt>getFloat16()</tt> MUST <em>reject</em> encountered
-<tt>Float32</tt> and <tt>Float64</tt> objects.  See also <xref target="legacy.systems"/>.
-</t>
-</li>
-<li>
-<t>
-Since CBOR does not feature a native-level time-object,
-<xref section="3.4" sectionFormat="of"  target="RFC8949"/>
-introduces two variants of time-objects using the 
-CBOR tags <tt>0</tt> and <tt>1</tt>.
-The time-objects SHOULD also be supported without the
-tag construct.
-</t>
-</li>
-</ol>
-<t>
-Due to considerable variations between platforms, corresponding <em>encoder</em>
-API support does not appear to be meaningful to specify in detail:
-Java doesn't have built-in support for unsigned integers, whereas
-JavaScript requires the use of the JavaScript <tt>BigInt</tt> type
-for dealing with 64-bit integers.
-</t>
-      </section>
 
       </section>
       
@@ -381,7 +304,98 @@ featured in similar tools for ASN.1.
 The code in <xref target="example.code"/> shows an example
 that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
 </t>
+
+        <section anchor="platform.numbers">
+        <name>Platform Number Support</name>
+        <t>
+To facilitate cross-platform <em>protocol interoperability</em>,
+implementers of U-CBOR compatible tools SHOULD include <em>decoder</em>
+API support for the following number types:
+        </t>
+<table>
+<name>Platform Number Support</name>
+<thead>
+  <tr><th align="center">Name</th>
+  <th align="center">Description</th><th align="center">Note</th></tr>
+</thead>
+<tbody>
+<tr><td align="center"><tt>Int8</tt></td><td>8-bit signed integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Uint8</tt></td><td>8-bit unsigned integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Int16</tt></td><td>16-bit signed integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Uint16</tt></td><td>16-bit unsigned integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Int32</tt></td><td>32-bit signed integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Uint32</tt></td><td>32-bit unsigned integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Int64</tt></td><td>64-bit signed integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>Uint64</tt></td><td>64-bit unsigned integer</td><td align="center">1</td></tr>
+<tr><td align="center"><tt>BigInt</tt></td><td>Integer of arbitrary size</td><td align="center">2</td></tr>
+<tr><td align="center"><tt>Float16</tt></td><td>16-bit floating-point number</td><td align="center">3</td></tr>
+<tr><td align="center"><tt>Float32</tt></td><td>32-bit floating-point number</td><td align="center">3</td></tr>
+<tr><td align="center"><tt>Float64</tt></td><td>64-bit floating-point number</td><td></td></tr>
+<tr><td align="center"><tt>Epoch</tt></td><td>Time-object expressed as a number</td><td align="center">4</td></tr>
+<tr><td align="center"><tt>DateTime</tt></td><td>Time-object expressed as a text string</td><td align="center">4</td></tr>
+</tbody>
+</table>
+<ol>
+<li>
+<t>Range testing SHOULD be performed using the traditional ranges for
+<em>unsigned</em> respectively <em>two-complement</em> numbers.
+That is, a hypothetical <tt>getUint8()</tt> SHOULD reject numbers
+outside of <tt>0</tt> to <tt>255</tt>,
+whereas a hypothetical <tt>getInt8()</tt>,
+SHOULD reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
+</t>
+</li>
+<li>
+<t>
+Note that a hypothetical <tt>getBigInt()</tt> MUST also accept CBOR <tt>int</tt>
+objects since <tt>int</tt> is used for integers that fit in
+CBOR major type 0 and 1 objects.  See also <xref target="ucbor.integers"/>.
+</t>
+</li>
+<li>
+<t>
+Some platforms do not natively support <tt>float32</tt> and/or <tt>float16</tt>.
+In this case a hypothetical <tt>getFloat16()</tt> would
+need to use a bigger floating-point type for the return value.
+</t>
+<t>
+Note that a hypothetical <tt>getFloat16()</tt> MUST <em>reject</em> encountered
+<tt>Float32</tt> and <tt>Float64</tt> objects.  See also <xref target="legacy.systems"/>.
+</t>
+</li>
+<li>
+<t>
+Since CBOR does not feature a native-level time-object,
+<xref section="3.4" sectionFormat="of"  target="RFC8949"/>
+introduces two variants of time-objects using the 
+CBOR tags <tt>0</tt> and <tt>1</tt>.
+The time-objects SHOULD also be supported without the
+tag construct.
+</t>
+</li>
+</ol>
+<t>
+Due to considerable variations between platforms, corresponding <em>encoder</em>
+API support does not appear to be meaningful to specify in detail:
+Java doesn't have built-in support for unsigned integers, whereas
+JavaScript requires the use of the JavaScript <tt>BigInt</tt> type
+for dealing with 64-bit integers.
+</t>
       </section>
+
+
+<section anchor="diagnostic.notation">
+<name>Diagnostic Notation Support</name>
+<t>Compliant U-CBOR implementations SHOULD include support for
+<em>bi-directional</em> diagnostic notation, to facilitate:</t>
+<ul>
+<li>Human-centric debugging and logging</li>
+<li>Easy creation of test and configuration data</li>
+</ul>
+<t>SPECIFICATION: To be furnished...</t>
+      </section>
+
+    </section>  
    
     </section>   
     
@@ -552,6 +566,15 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
             </author>
             <author fullname="Christopher Allen" initials="C." surname="Allen">
               <organization>Blockchain Commons</organization>
+            </author>
+          </front>
+        </reference>
+
+        <reference anchor="WALLET" target="https://cyberphone.github.io/doc/defensive-publications/partial-encryption-full-signature.pdf">
+          <front>
+            <title>Defensive publication: Partial Encryption, Full Signature</title>
+            <author fullname="Anders Rundgren" initials="A." surname="Rundgren">
+              <organization/>
             </author>
           </front>
         </reference>
@@ -730,7 +753,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>Next in succession</td></tr>
 <tr><td align="right"><tt>295147905179352830000.0</tt></td>
 <td align="right"><tt>fa61800000</tt></td>
-<td><tt>~2<sup>68</sup></tt></td></tr>
+<td><tt>2<sup>68</sup></tt> (diagnostic notation truncates precision)</td></tr>
 <tr><td align="right"><tt>2.0</tt></td>
 <td align="right"><tt>f94000</tt></td>
 <td>Number without a fractional part</td></tr>
@@ -937,6 +960,8 @@ See also <xref target="COTX"/>.
       For the sake of simplicity, the example uses an HMAC
       (see <xref target="example.parameters"/>)
       as signature algorithm.</t>
+      <t>For a more sophistcated use of U-CBOR, combining
+      signatures and encryption, see <xref target="WALLET"/>.</t>
 
       <section anchor="example.unsigned">
         <name>Unsigned Data</name>
@@ -1144,11 +1169,13 @@ since deterministic encoding "by design" is <em>strict</em>.
 Due to this potential obstacle, implementers of U-CBOR tools,
 are RECOMMENDED to offer <em>decoder</em> options that permit "relaxing"
 the rigidness of deterministic encoding with respect to:</t>
-<ul>
-<li>Numbers.  Numbers MUST still be compliant with <xref target="RFC8949"/>.</li>
-<li>Sorted maps.  Duplicate keys MUST still be rejected.</li>
-</ul>
-<t>Note that regardless of the format of received CBOR data, a compliant
+<dl newline="true">
+<dt>Numbers:</dt>
+<dd>Numbers MUST still be compliant with <xref target="RFC8949"/>.</dd>
+<dt>Sorted maps:</dt>
+<dd>Duplicate keys MUST still be rejected.</dd>
+</dl>
+<t>Note that regardless of the format of decoded CBOR data, a compliant
 U-CBOR implementation MUST maintain deterministic encoding.
 See also <xref target="ucbor.invalid"/>.</t>
     </section>
