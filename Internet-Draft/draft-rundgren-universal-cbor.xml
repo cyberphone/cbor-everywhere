@@ -978,6 +978,8 @@ See also <xref target="COTX"/>.
         <t>This section describes the steps required for adding an
         enveloped signature to the CBOR map object in
         <xref target="example.unsigned"/>.
+        To avoid confusing CBOR <tt>map</tt> keys with cryptographic keys,
+        the former are referred to as "labels".
         </t>
         <ol>
         <li>Add an empty CSF container (a CBOR map) to the unsigned CBOR map
