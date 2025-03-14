@@ -91,8 +91,8 @@ By combining the compact binary representation and the rich set of
 data types offered by CBOR, with a deterministic encoding scheme,
 U-CBOR could for <em>new designs</em>, serve as viable alternative
 to JSON <xref target="RFC8259"/>.
-Although the mandated encoding scheme is deployable in constrained 
-<xref target="CONSTR"/> environments, the primary target is rather
+Although the mandated encoding scheme is deployable in
+<xref target="CONSTRAINED"/> environments, the primary target is rather
 general-purpose computing platforms like mobile phones and Web servers.
     </t>
         <t>
@@ -472,7 +472,7 @@ for dealing with 64-bit integers.
           </front>
         </reference>
 
-        <reference anchor="CONSTR" target="https://github.com/cyberphone/D-CBOR/blob/main/d-cbor-4-constrained-devices.md">
+        <reference anchor="CONSTRAINED" target="https://github.com/cyberphone/D-CBOR/blob/main/d-cbor-4-constrained-devices.md">
           <front>
             <title>D-CBOR for Constrained Devices</title>
             <author/>
@@ -762,7 +762,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>Smallest negative <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>-5.960464477539062e-8</tt></td>
 <td align="right"><tt>fbbe6fffffffffffff</tt></td>
-<td>Close to smallest negative <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
+<td>Adjacent smallest negative <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>-5.960464477539064e-8</tt></td>
 <td align="right"><tt>fbbe70000000000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
@@ -771,7 +771,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
 <tr><td align="right"><tt>0.0000609755516052246</tt></td>
 <td align="right"><tt>fb3f0ff7ffffffffff</tt></td>
-<td>Close to largest <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
+<td>Adjacent largest <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>0.000060975551605224616</tt></td>
 <td align="right"><tt>fb3f0ff80000000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
@@ -780,7 +780,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
 <tr><td align="right"><tt>0.00006103515624999999</tt></td>
 <td align="right"><tt>fb3f0fffffffffffff</tt></td>
-<td>Close to smallest 16-bit <tt>float</tt></td></tr>
+<td>Adjacent smallest 16-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>0.00006103515625000001</tt></td>
 <td align="right"><tt>fb3f10000000000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
@@ -789,7 +789,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
 <tr><td align="right"><tt>65503.99999999999</tt></td>
 <td align="right"><tt>fb40effbffffffffff</tt></td>
-<td>Close to largest 16-bit <tt>float</tt></td></tr>
+<td>Adjacent largest 16-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>65504.00000000001</tt></td>
 <td align="right"><tt>fb40effc0000000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
@@ -798,25 +798,25 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
 <tr><td align="right"><tt>1.4012984643248169e-45</tt></td>
 <td align="right"><tt>fb369fffffffffffff</tt></td>
-<td>Close to smallest <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
+<td>Adjacent smallest <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>1.4012984643248174e-45</tt></td>
 <td align="right"><tt>fb36a0000000000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
 <tr><td align="right"><tt>1.175494210692441e-38</tt></td>
 <td align="right"><tt>fb380fffffbfffffff</tt></td>
-<td>Close to largest <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
+<td>Adjacent largest <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>1.1754942106924412e-38</tt></td>
 <td align="right"><tt>fb380fffffc0000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
 <tr><td align="right"><tt>1.1754943508222874e-38</tt></td>
 <td align="right"><tt>fb380fffffffffffff</tt></td>
-<td>Close to smallest 32-bit <tt>float</tt></td></tr>
+<td>Adjacent smallest 32-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>1.1754943508222878e-38</tt></td>
 <td align="right"><tt>fb3810000000000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
 <tr><td align="right"><tt>3.4028234663852882e+38</tt></td>
 <td align="right"><tt>fb47efffffdfffffff</tt></td>
-<td>Close to largest 32-bit <tt>float</tt></td></tr>
+<td>Adjacent largest 32-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>3.402823466385289e+38</tt></td>
 <td align="right"><tt>fb47efffffe0000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
