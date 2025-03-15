@@ -7,6 +7,7 @@
   <!ENTITY zwsp   "&#8203;">
   <!ENTITY nbhy   "&#8209;">
   <!ENTITY wj     "&#8288;">
+  <!ENTITY pm     "&#xb1;">
 ]>
 
 <rfc
@@ -397,7 +398,178 @@ for dealing with 64-bit integers.
 <li>Human-centric debugging and logging</li>
 <li>Easy creation of test and configuration data</li>
 </ul>
-<t>SPECIFICATION: To be furnished...</t>
+
+<table>
+<name>Diagnostic Notation Support</name>
+<thead>
+  <tr>
+  <th align="center">CDDL</th>
+  <th align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Syntax&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  <th align="center">Description</th>
+  <th align="center">Notes</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td></td>
+    <td align="center"><tt>/</tt>&nbsp;<em>comment&nbsp;text</em>&nbsp;<tt>/</tt></td>
+    <td>
+      Multi-line comment.
+      Multi-line comments are treated as whitespace and may thus also be used
+      <em>between</em> CBOR objects.
+    </td>
+    <td align="center">6</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td align="center"><tt>#</tt>&nbsp;<em>comment&nbsp;text</em></td>
+    <td>
+      Single-line comment.
+      Single-line comments are terminated by a newline character (<tt>'\n'</tt>) or <tt>EOF</tt>.
+      Single-line comments amy also terminate lines holding regular CBOR items.
+    </td>
+    <td align="center">6</td>
+  </tr>
+  <tr>
+    <td align="center"><tt>int</tt> &amp; <tt>bigint</tt></td>
+    <td align="center">{<em>sign</em>}{<tt>0b</tt>|<tt>0o</tt>|<tt>0x</tt>}<em>n</em></td>
+    <td>
+      Arbitrary sized integers without fractional components or exponents.
+      See also CBOR integer encoding.
+      For <em>input</em> data in diagnostic notation, binary, octal, and hexadecimal notation
+      is also supported by prepending numbers with <tt>0b</tt>, <tt>0o</tt>, and <tt>0x</tt> respectively.
+      The latter also permit arbitrary insertions of <tt>'_'</tt> characters between digits to
+      enable grouping of data like <tt>0b100_000000001</tt>.
+    </td>
+    <td align="center">1, 2</td>
+  </tr>
+  <tr>
+    <td align="center"><tt>float</tt></td>
+    <td align="center">{<em>sign</em>}<em>n</em><tt>.</tt><em>{n}</em>{<tt>e&pm;</tt><em>n</em>}</td>
+    <td>
+      Floating point values MUST include a decimal point, whereas exponents are <em>optional</em>.
+    </td>
+    <td align="center">1, 2</td>
+  </tr>
+  <tr>
+    <td align="center"><tt>float</tt></td>
+    <td align="center"><tt>NaN</tt></td>
+    <td>
+      Not a number.
+    </td>
+    <td align="center"></td>
+  </tr>
+  <tr>
+    <td align="center"><tt>float</tt></td>
+    <td align="center">{<em>sign</em>}<tt>Infinity</tt></td>
+    <td>
+      Infinity.
+    </td>
+    <td align="center">2</td>
+  </tr>
+  <tr>
+    <td align="center"><tt>bstr</tt></td>
+    <td align="center"><tt>h'</tt><em>hex&nbsp;data</em><tt>'</tt></td>
+    <td>
+      Byte data provided in hexadecimal notation.
+      Each byte MUST be represented by two hexadecimal digits.
+    </td>
+    <td align="center">3</td>
+  </tr>
+  <tr>
+    <td align="center"><tt>bstr</tt></td>
+    <td align="center"><tt>b64'</tt><em>base64&nbsp;data</em><tt>'</tt></td>
+    <td>
+      Byte data provided in base64 or base64URL notation.
+      Padding with <tt>'='</tt> characters is <em>optional</em>.
+    </td>
+    <td align="center">3, 6</td>
+  </tr>
+  <tr>
+    <td align="center"><tt>bstr</tt></td>
+    <td align="center"><tt>'</tt><em>text</em><tt>'</tt></td>
+    <td>Byte data provided as UTF-8 encoded text.</td>
+    <td align="center">4,&nbsp;5,&nbsp;6</td>
+  </tr>
+  <tr>
+   <td align="center"><tt>bstr</tt></td>
+    <td align="center"><tt>&lt;&lt;</tt>&nbsp;<em>object</em>&nbsp;<tt>&gt;&gt;</tt></td>
+    <td>Construct holding a CBOR object which is subsequently embedded in a byte-string.</td>
+    <td align="center">6</td>
+  </tr>
+  <tr>
+    <td align="center"><tt>tstr</tt></td>
+    <td align="center"><tt>&quot;</tt><em>text</em><tt>&quot;</tt></td>
+    <td>UTF-8 encoded text-string.</td>
+    <td align="center">4, 5</td>
+  </tr>
+  <tr>
+    <td align="center"><tt>bool</tt></td>
+    <td align="center"><tt>true</tt> | <tt>false</tt></td>
+    <td>Boolean value.</td>
+    <td align="center"></td>
+  </tr>
+  <tr>
+    <td align="center"><tt>null</tt></td>
+    <td align="center"><tt>null</tt></td>
+    <td>Null value.</td>
+    <td align="center"></td>
+  </tr>
+  <tr>
+    <td align="center"><tt>[]</tt></td>
+    <td align="center"><tt>[</tt>&nbsp;<em>{object, }...</em>&nbsp;<tt>]</tt></td>
+    <td>Array with zero or more comma-separated CBOR objects.</td>
+    <td align="center"></td>
+  </tr>
+  <tr>
+    <td align="center"><tt>{}</tt></td>
+    <td align="center"><tt>{</tt>&nbsp;<em>{key</em><tt>:</tt><em>value, }...</em>&nbsp;<tt>}</tt></td>
+    <td>
+      Map with zero or more comma-separated key/value pairs.
+      Keys and values are expressed as CBOR objects.
+    </td>
+    <td align="center"></td>
+  </tr>
+  <tr>
+    <td align="center"><tt>#6.n</tt></td>
+    <td align="center"><em>n</em><tt>(</tt>&nbsp;<em>object</em>&nbsp;<tt>)</tt></td>
+    <td>Tag holding a CBOR object.</td>
+    <td align="center">1</td>
+  </tr>
+</tbody>
+</table>
+
+  <ol>
+    <li>The letter <em>n</em> in the Syntax column denotes one or more digits.</li>
+    <li>The optional {<em>sign</em>} must be a single hyphen (<tt>'-'</tt>) character.</li>
+    <li>
+      <em>Input only</em>: between the quotes, the whitespace characters
+      (<tt>' '</tt>, <tt>'\t'</tt>, <tt>'\r'</tt>, <tt>'\n'</tt>)
+      are <em>ignored</em>.
+    </li>
+    <li>
+      <em>Input only</em>: the control characters
+      (<tt>'\t'</tt> and <tt>'\n'</tt>)
+      inside of string quotes <em>become a part of the text</em>.
+      For nomalizing line terminators,
+      a single <tt>'\r'</tt> or the combination <tt>'\r\n'</tt>
+      are rewritten as <tt>'\n'</tt>.
+      To <em>avoid</em> getting newline characters (<tt>'\n'</tt>)
+      included in multi-line text strings,
+      a <em>line continuation marker</em> consisting of a backslash&nbsp;(<tt>'\'</tt>)
+      immediately preceding the newline may be used.
+    </li>
+    <li>
+      Text strings may also include JavaScript compatible escape sequences
+      (<tt>'\''</tt>, <tt>'\"'</tt>, <tt>'\\'</tt>,
+      <tt>'\b'</tt>, <tt>'\f'</tt>, <tt>'\n'</tt>,
+      <tt>'\r'</tt>, <tt>'\t'</tt>, <tt>'\u</tt><em>hhhh</em><tt>'</tt>).
+    </li>
+    <li>
+      <em>Input only</em>.
+    </li>
+  </ol>
+
       </section>
 
     </section>  
