@@ -267,10 +267,15 @@ However, to make this a reality, the following functionality MUST be
 provided by CBOR tools compliant with this specification:
 </t>
 <ul>
+ <li>
+  CBOR primitives MUST remain <em>immutable</em>, regardless if they are stand-alone
+  or being a part of a tagged object like
+  <tt>bigfloat</tt> (see <xref section="3.4.4" sectionFormat="of"  target="RFC8949"/>).
+  </li>
   <li>
   It MUST be possible to <em>add</em>, <em>delete</em>, and
   <em>update</em> the contents of CBOR <tt>map</tt> and <tt>array</tt> objects,
-  of decoded CBOR data.  Note: CBOR primitives MUST remain <em>immutable</em>.
+  of decoded CBOR data.
   </li>
   <li>
   It MUST be possible to <em>reserialize</em> decoded CBOR data,
@@ -287,7 +292,7 @@ provided by CBOR tools compliant with this specification:
   </li>
 </ul>
 <t>
-In practice this means that CBOR data and application / platform-level data,
+As a consequence of these rules, CBOR data and application / platform-level data,
 MUST be <em>separated</em> for cases where <em>reserialization</em>
 could present a problem, like in this Chrome browser console example:
 </t>
@@ -331,7 +336,7 @@ API support for the following number types:
 <tr><td align="center"><tt>Float16</tt></td><td>16-bit floating-point number</td><td align="center">3</td></tr>
 <tr><td align="center"><tt>Float32</tt></td><td>32-bit floating-point number</td><td align="center">3</td></tr>
 <tr><td align="center"><tt>Float64</tt></td><td>64-bit floating-point number</td><td></td></tr>
-<tr><td align="center"><tt>Epoch</tt></td><td>Time-object expressed as a number</td><td align="center">4</td></tr>
+<tr><td align="center"><tt>EpochTime</tt></td><td>Time-object expressed as a number</td><td align="center">4</td></tr>
 <tr><td align="center"><tt>DateTime</tt></td><td>Time-object expressed as a text string</td><td align="center">4</td></tr>
 </tbody>
 </table>
