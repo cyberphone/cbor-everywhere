@@ -269,7 +269,7 @@ provided by CBOR tools compliant with this specification:
 </t>
 <ul>
  <li>
-  CBOR primitives MUST remain <em>immutable</em>, regardless if they are stand-alone
+  Decoded CBOR primitives MUST remain <em>immutable</em>, regardless if they are stand-alone
   or being a part of a tagged object like
   <tt>bigfloat</tt> (see <xref section="3.4.4" sectionFormat="of"  target="RFC8949"/>).
   </li>
@@ -378,7 +378,7 @@ API support for the following primitives:
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>int/bigint</tt></td>
+<td align="center"><tt>int</tt>&nbsp;/ <tt>bigint</tt></td>
 <td align="center"><tt>BigInt</tt></td>
 <td>Integer of arbitrary size</td>
 <td align="center">2</td>
@@ -390,13 +390,13 @@ API support for the following primitives:
 <td align="center">3</td>
 </tr>
 <tr>
-<td align="center"><tt>float32</tt></td>
+<td align="center"><tt>float16</tt>&nbsp;/ <tt>float32</tt></td>
 <td align="center"><tt>Float32</tt></td>
 <td>32-bit floating-point number</td>
 <td align="center">3</td>
 </tr>
 <tr>
-<td align="center"><tt>float64</tt></td>
+<td align="center"><tt>float</tt></td>
 <td align="center"><tt>Float64</tt></td>
 <td>64-bit floating-point number</td><td>
 </td>
@@ -429,19 +429,20 @@ API support for the following primitives:
 </table>
 <ol>
 <li>
-<t>Range testing SHOULD be performed using the traditional ranges for
+<t>Range testing MUST be performed using the traditional ranges for
 <em>unsigned</em> respectively <em>two-complement</em> numbers.
-That is, a hypothetical <tt>getUint8()</tt> SHOULD reject numbers
+That is, a hypothetical <tt>getUint8()</tt> MUST reject numbers
 outside of <tt>0</tt> to <tt>255</tt>,
 whereas a hypothetical <tt>getInt8()</tt>,
-SHOULD reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
+MUST reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
 </t>
 </li>
 <li>
 <t>
 Note that a hypothetical <tt>getBigInt()</tt> MUST also accept CBOR <tt>int</tt>
 objects since <tt>int</tt> is used for integers that fit in
-CBOR major type 0 and 1 objects.  See also <xref target="ucbor.integers"/>.
+CBOR major type 0 and 1 objects. 
+See also <xref target="ucbor.integers"/> and <xref target="legacy.systems"/>.
 </t>
 </li>
 <li>
@@ -451,15 +452,14 @@ In this case a hypothetical <tt>getFloat16()</tt> would
 need to use a bigger floating-point type for the return value.
 </t>
 <t>
-Note that a hypothetical <tt>getFloat16()</tt> MUST <em>reject</em> encountered
+Note that a hypothetical <tt>getFloat16()</tt> MUST reject encountered
 <tt>Float32</tt> and <tt>Float64</tt> objects.  See also <xref target="legacy.systems"/>.
 </t>
 </li>
 <li>
 <t>
 Since a CBOR <tt>null</tt> typically represents the absence of a value,
-a decoder SHOULD preferable introduce support for <tt>null</tt>
-through a test-function, like <tt>isNull()</tt>.
+a decoder MUST provide a test-function, like <tt>isNull()</tt>.
 </t>
 </li>
 <li>
@@ -494,6 +494,13 @@ for dealing with 64-bit integers.
 <li>Human-centric debugging and logging</li>
 <li>Easy creation of test and configuration data</li>
 </ul>
+<t>
+The supported notation is compliant with a subset of 
+<xref section="8" sectionFormat="of"  target="RFC8949"/>
+(<tt>b32'</tt> and encoding indicators were left out),
+but adds a few items to make diagnostic notation
+slightly more adapted for parsing, like single-line comments:
+</t>
 
 <table>
 <name>Diagnostic Notation Support</name>
@@ -522,12 +529,12 @@ for dealing with 64-bit integers.
     <td>
       Single-line comment.
       Single-line comments are terminated by a newline character (<tt>'\n'</tt>) or <tt>EOF</tt>.
-      Single-line comments amy also terminate lines holding regular CBOR items.
+      Single-line comments may also terminate lines holding regular CBOR items.
     </td>
     <td align="center">6</td>
   </tr>
   <tr>
-    <td align="center"><tt>int</tt> &amp; <tt>bigint</tt></td>
+    <td align="center"><tt>int</tt>&nbsp;/ <tt>bigint</tt></td>
     <td align="center">{<em>sign</em>}{<tt>0b</tt>|<tt>0o</tt>|<tt>0x</tt>}<em>n</em></td>
     <td>
       Arbitrary sized integers without fractional components or exponents.
@@ -540,7 +547,7 @@ for dealing with 64-bit integers.
     <td align="center">1, 2</td>
   </tr>
   <tr>
-    <td align="center"><tt>float</tt></td>
+    <td align="center"><tt>float16</tt>&nbsp;/ <tt>float32</tt>&nbsp;/ <tt>float64</tt></td>
     <td align="center">{<em>sign</em>}<em>n</em><tt>.</tt><em>n</em>{<tt>e&pm;</tt><em>n</em>}</td>
     <td>
       Floating point values MUST include a decimal point and at least one
@@ -549,7 +556,7 @@ for dealing with 64-bit integers.
     <td align="center">1, 2</td>
   </tr>
   <tr>
-    <td align="center"><tt>float</tt></td>
+    <td align="center"><tt>float16</tt></td>
     <td align="center"><tt>NaN</tt></td>
     <td>
       Not a number.
@@ -557,7 +564,7 @@ for dealing with 64-bit integers.
     <td align="center"></td>
   </tr>
   <tr>
-    <td align="center"><tt>float</tt></td>
+    <td align="center"><tt>float16</tt></td>
     <td align="center">{<em>sign</em>}<tt>Infinity</tt></td>
     <td>
       Infinity.
@@ -590,8 +597,9 @@ for dealing with 64-bit integers.
   </tr>
   <tr>
    <td align="center"><tt>bstr</tt></td>
-    <td align="center"><tt>&lt;&lt;</tt>&nbsp;<em>object</em>&nbsp;<tt>&gt;&gt;</tt></td>
-    <td>Construct holding a CBOR object which is subsequently embedded in a byte-string.</td>
+    <td align="center"><tt>&lt;&lt;</tt>&nbsp;{<em>object</em>, }...&nbsp;<tt>&gt;&gt;</tt></td>
+    <td>Construct holding zero or more comma-separated CBOR objects
+    which are subsequently wrapped in a byte-string.</td>
     <td align="center">6</td>
   </tr>
   <tr>
@@ -648,7 +656,7 @@ for dealing with 64-bit integers.
       <em>Input only</em>: the control characters
       (<tt>'\t'</tt> and <tt>'\n'</tt>)
       inside of string quotes <em>become a part of the text</em>.
-      For nomalizing line terminators,
+      For normalizing line terminators,
       a single <tt>'\r'</tt> or the combination <tt>'\r\n'</tt>
       are rewritten as <tt>'\n'</tt>.
       To <em>avoid</em> getting newline characters (<tt>'\n'</tt>)
@@ -1234,7 +1242,7 @@ See also <xref target="COTX"/>.
       For the sake of simplicity, the example uses an HMAC
       (see <xref target="example.parameters"/>)
       as signature algorithm.</t>
-      <t>For a more sophistcated use of U-CBOR, combining
+      <t>For a more sophisticated use of U-CBOR, combining
       signatures and encryption, see <xref target="WALLET"/>.</t>
 
       <section anchor="example.unsigned">
@@ -1493,10 +1501,12 @@ See also <xref target="ucbor.invalid"/>.</t>
         <li>01. Editorial.  Changed order of columns in invalid encoding.</li>
         <li>02. Editorial.  "unwrapped" changed to "non-wrapped".</li>
         <li>
-        <t>03. NOT YET PUBLISHED</t>
+        <t>03:</t>
         <t>Tweaking the abstract.</t>
+        <t>Protocol Primitives Support sub-section added.</t>
+        <t>Diagnostic Notation Support sub-section added.</t>
+        <t>Updated CBOR Tool Requirements</t>
         <t>Updated code example to actually use crypto</t>
-        <t>Platform Number Support sub-sction added.</t>
         <t>Updated Acknowledgements.</t>
         <t>Updated Security Considerations.</t>
         </li>
