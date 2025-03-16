@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-universal-cbor-03"
+  docName="draft-rundgren-universal-cbor-04"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title abbrev="U-CBOR">Universal CBOR (U-CBOR)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-03"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-04"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -272,6 +272,9 @@ provided by CBOR tools compliant with this specification:
   Decoded CBOR primitives MUST remain <em>immutable</em>, regardless if they are stand-alone
   or being a part of a tagged object like
   <tt>bigfloat</tt> (see <xref section="3.4.4" sectionFormat="of"  target="RFC8949"/>).
+  </li>
+   <li>
+  It MUST be possible to find out the type of a CBOR object, <em>before</em> it is accessed.
   </li>
   <li>
   It MUST be possible to <em>add</em>, <em>delete</em>, and
@@ -1509,6 +1512,10 @@ See also <xref target="ucbor.invalid"/>.</t>
         <t>Updated code example to actually use crypto</t>
         <t>Updated Acknowledgements.</t>
         <t>Updated Security Considerations.</t>
+        </li>
+                <li>
+        <t>04:</t>
+        <t>NOT YET PUBLISHED</t>
         </li>
       </ul>
     </section>
