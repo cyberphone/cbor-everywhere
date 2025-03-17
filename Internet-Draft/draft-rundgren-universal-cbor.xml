@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-universal-cbor-04"
+  docName="draft-rundgren-universal-cbor-05"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title abbrev="U-CBOR">Universal CBOR (U-CBOR)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-04"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-05"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -843,18 +843,6 @@ slightly more adapted for parsing, like single-line comments:
           <refcontent>Standard ECMA-262, 15th Edition</refcontent>
         </reference>
 
-        <reference anchor="GORDIAN" target="https://datatracker.ietf.org/doc/draft-mcnally-envelope/">
-          <front>
-            <title>The Gordian Envelope Structured Data Format</title>
-            <author fullname="Wolf McNally" initials="W." surname="McNally">
-              <organization>Blockchain Commons</organization>
-            </author>
-            <author fullname="Christopher Allen" initials="C." surname="Allen">
-              <organization>Blockchain Commons</organization>
-            </author>
-          </front>
-        </reference>
-
         <reference anchor="WALLET" target="https://cyberphone.github.io/doc/defensive-publications/partial-encryption-full-signature.pdf">
           <front>
             <title>Defensive publication: Partial Encryption, Full Signature</title>
@@ -1513,10 +1501,14 @@ See also <xref target="ucbor.invalid"/>.</t>
         <t>Updated Acknowledgements.</t>
         <t>Updated Security Considerations.</t>
         </li>
-                <li>
+        <li>
         <t>04:</t>
         <t>Minor addition in CBOR tools</t>
         <t>Updated Acknowledgements</t>
+        </li>
+        <li>
+        <t>05:</t>
+        <t>Regression bug fix</t>
         </li>
       </ul>
     </section>
