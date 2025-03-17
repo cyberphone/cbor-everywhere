@@ -1515,16 +1515,14 @@ See also <xref target="ucbor.invalid"/>.</t>
         </li>
                 <li>
         <t>04:</t>
-        <t>NOT YET PUBLISHED</t>
+        <t>Minor addition in CBOR tools</t>
+        <t>Updated Acknowledgements</t>
         </li>
       </ul>
     </section>
 
     <section anchor="Acknowledgements" numbered="false">
       <name>Acknowledgements</name>
-      <t>This work was inspired by a CBOR based project known as Gordian&nbsp;Envelope
-      <xref target="GORDIAN"/>, pioneered by Wolf McNally and Christopher Allen.
-      This project also exploits the ability to hash "raw" (non-wrapped) CBOR data, enabled by the use of a deterministic encoding scheme.</t>
       <t>For verifying the correctness of the encoding scheme, the <xref target="CBOR.ME"/> 
       on-line CBOR tool, by the <xref target="RFC8949"/> author,
       Carsten Bormann, proved to be invaluable.</t>
