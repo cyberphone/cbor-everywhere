@@ -132,7 +132,7 @@ if (intMode) {
   floatGenBase(2, 5, 0x400n);
   floatGenBase(4, 8, 0x800000n);
   floatGenBase(8, 11, 0x10000000000000n);
-  let text = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""';
+  let text = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-';
   oneTurn("-0.0000033333333333333333", "fbbecbf647612f3696", "Randomly selected number");
   oneTurn("10.559998512268066", "fa4128f5c1", text);
   oneTurn("10.559998512268068", "fb40251eb820000001", "Next in succession");

@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-universal-cbor-05"
+  docName="draft-rundgren-universal-cbor-06"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title abbrev="U-CBOR">Universal CBOR (U-CBOR)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-05"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-06"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -183,7 +183,6 @@ OpenAPI <xref target="OPENAPI"/> is an example of an API which defines
 data types through mapping.
 </t>
 
-
       </section>
       
       <section anchor="ucbor.encoding">
@@ -314,7 +313,7 @@ The code in <xref target="example.code"/> shows an example
 that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
 </t>
 
-        <section anchor="platform.numbers">
+        <section anchor="protocol.primitives">
         <name>Protocol Primitives Support</name>
         <t>
 To facilitate cross-platform <em>protocol interoperability</em>,
@@ -488,6 +487,10 @@ for dealing with 64-bit integers.
 </t>
       </section>
 
+<section anchor="media.tyoe">
+<name>Media Type</name>
+<t>Protocols building on U-CBOR, are RECOMMENDED using the media type: <tt>application/cbor</tt>.</t> 
+</section>
 
 <section anchor="diagnostic.notation">
 <name>Diagnostic Notation Support</name>
@@ -1020,7 +1023,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>Randomly selected number</td></tr>
 <tr><td align="right"><tt>10.559998512268066</tt></td>
 <td align="right"><tt>fa4128f5c1</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>10.559998512268068</tt></td>
 <td align="right"><tt>fb40251eb820000001</tt></td>
 <td>Next in succession</td></tr>
@@ -1038,61 +1041,61 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>Adjacent smallest negative <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>-5.960464477539064e-8</tt></td>
 <td align="right"><tt>fbbe70000000000001</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>-5.960465188081798e-8</tt></td>
 <td align="right"><tt>fab3800001</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>0.0000609755516052246</tt></td>
 <td align="right"><tt>fb3f0ff7ffffffffff</tt></td>
 <td>Adjacent largest <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>0.000060975551605224616</tt></td>
 <td align="right"><tt>fb3f0ff80000000001</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>0.000060975555243203416</tt></td>
 <td align="right"><tt>fa387fc001</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>0.00006103515624999999</tt></td>
 <td align="right"><tt>fb3f0fffffffffffff</tt></td>
 <td>Adjacent smallest 16-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>0.00006103515625000001</tt></td>
 <td align="right"><tt>fb3f10000000000001</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>0.00006103516352595761</tt></td>
 <td align="right"><tt>fa38800001</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>65503.99999999999</tt></td>
 <td align="right"><tt>fb40effbffffffffff</tt></td>
 <td>Adjacent largest 16-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>65504.00000000001</tt></td>
 <td align="right"><tt>fb40effc0000000001</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>65504.00390625</tt></td>
 <td align="right"><tt>fa477fe001</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>1.4012984643248169e-45</tt></td>
 <td align="right"><tt>fb369fffffffffffff</tt></td>
 <td>Adjacent smallest <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>1.4012984643248174e-45</tt></td>
 <td align="right"><tt>fb36a0000000000001</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>1.175494210692441e-38</tt></td>
 <td align="right"><tt>fb380fffffbfffffff</tt></td>
 <td>Adjacent largest <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>1.1754942106924412e-38</tt></td>
 <td align="right"><tt>fb380fffffc0000001</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>1.1754943508222874e-38</tt></td>
 <td align="right"><tt>fb380fffffffffffff</tt></td>
 <td>Adjacent smallest 32-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>1.1754943508222878e-38</tt></td>
 <td align="right"><tt>fb3810000000000001</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>3.4028234663852882e+38</tt></td>
 <td align="right"><tt>fb47efffffdfffffff</tt></td>
 <td>Adjacent largest 32-bit <tt>float</tt></td></tr>
 <tr><td align="right"><tt>3.402823466385289e+38</tt></td>
 <td align="right"><tt>fb47efffffe0000001</tt></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;""</td></tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 </tbody>
 </table>
 
@@ -1509,6 +1512,10 @@ See also <xref target="ucbor.invalid"/>.</t>
         <li>
         <t>05:</t>
         <t>Regression bug fix</t>
+        </li>
+        <li>
+        <t>06:</t>
+        <t>Media type added</t>
         </li>
       </ul>
     </section>
