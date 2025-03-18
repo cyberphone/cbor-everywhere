@@ -251,7 +251,7 @@ RFC: Indefinite length objects MUST be <em>rejected</em>.
       <section anchor="ucbor.tools">
         <name>CBOR Tool Requirements</name>
 <t>
-The primary feature that deterministic encoding brings to the table is
+An important feature that deterministic encoding brings to the table is
 that wrapping CBOR data to be signed in <tt>bstr</tt> objects, like
 specified by COSE in <xref section="2" sectionFormat="of" target="RFC9052"/>,
 no longer is a prerequisite.
