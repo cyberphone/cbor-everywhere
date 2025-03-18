@@ -211,17 +211,15 @@ features a list of compliant integer sample values.
         </t>
         </li>
         <li>
-        <t>
-RFC+: Floating-point numbers MUST always use the shortest
+RFC: Floating-point numbers MUST always use the shortest
 <xref target="IEEE754"/> variant that
 preserves the precision of the original value.
 <xref target="ucbor.floats"/>
 features a list of compliant floating-point sample values.
-        </t>
-        <t>
-Note that <tt>NaN</tt> "signaling" (like <tt>f97e01</tt>),
+        </li>
+        <li>
+RFC+: <tt>NaN</tt> "signaling" items (like <tt>f97e01</tt>),
 MUST be <em>rejected</em>.
-        </t>
         </li>
         <li><t>
 RFC: Map keys MUST be sorted in the bytewise lexicographic
