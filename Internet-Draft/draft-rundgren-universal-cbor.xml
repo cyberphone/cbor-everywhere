@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-universal-cbor-06"
+  docName="draft-rundgren-universal-cbor-07"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title abbrev="U-CBOR">Universal CBOR (U-CBOR)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-06"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-07"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -102,10 +102,20 @@ the ability to perform cryptographic operations on "raw" (non-wrapped)
 CBOR data, compliant U-CBOR tools need additional functionality.
 See also <xref target="enveloped.signatures"/>.
         </t>
+        <section anchor="design.goals">
+        <name>Design Goals</name>
+        <t>
+The primary goal with this specification, is providing a foundation
+for CBOR tools that enable application developers to use CBOR without requiring
+insights in low-level details like encoding.  In most cases, it should be sufficient
+to consult a list of supported data types.  See also <xref target="protocol.primitives"/>.
+        </t>
         <t>
 <xref target="detailed.description"/> contains the
 actual specification.
         </t>
+        </section>
+
       
       <section>
         <name>Requirements Language</name>
@@ -207,7 +217,7 @@ type if the value is between <tt>-2<sup>64</sup></tt>
 and <tt>2<sup>64</sup>-1</tt>,
 otherwise the <tt>bigint</tt> type MUST be used.
 <xref target="ucbor.integers"/>
-features a list of compliant integer sample values.
+features a list of integer sample values and their expected encoding.
         </t>
         </li>
         <li>
@@ -215,7 +225,7 @@ RFC: Floating-point numbers MUST always use the shortest
 <xref target="IEEE754"/> variant that
 preserves the precision of the original value.
 <xref target="ucbor.floats"/>
-features a list of compliant floating-point sample values.
+features a list of floating-point sample values and their expected encoding.
         </li>
         <li>
 RFC+: <tt>NaN</tt> "signaling" items (like <tt>f97e01</tt>),
@@ -495,9 +505,14 @@ for dealing with 64-bit integers.
 <t>Compliant U-CBOR implementations SHOULD include support for
 <em>bi-directional</em> diagnostic notation, to facilitate:</t>
 <ul>
-<li>Human-centric debugging and logging</li>
+<li>Generation of developer-friendly debugging and logging data</li>
 <li>Easy creation of test and configuration data</li>
 </ul>
+<t>
+Note that decoders for diagnostic notation, MUST always produce
+deterministically encoded CBOR data, compliant with this specification.
+This includes <em>automatic</em> sorting of map keys as well.
+</t>
 <t>
 The supported notation is compliant with a subset of 
 <xref section="8" sectionFormat="of"  target="RFC8949"/>
@@ -954,7 +969,7 @@ to comply with diagnostic notation
 (section 8 of <xref target="RFC8949"/>), all values are
 expressed as floating-point numbers.
 The rationale for using <xref target="ECMASCRIPT"/> serialization is
-because it supposed to generate the shortest and most
+because it is supposed to generate the shortest and most
 correct representation of <xref target="IEEE754"/> numbers.</t>
 
 <table>
@@ -1513,6 +1528,10 @@ See also <xref target="ucbor.invalid"/>.</t>
         </li>
         <li>
         <t>06:</t>
+        <t>Media type added</t>
+        </li>
+        <li>
+        <t>07:</t>
         <t>Media type added</t>
         </li>
       </ul>
