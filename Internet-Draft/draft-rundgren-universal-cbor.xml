@@ -660,6 +660,12 @@ slightly more adapted for parsing, like single-line comments:
     <td>Tag holding a CBOR object.</td>
     <td align="center">1</td>
   </tr>
+  <tr>
+    <td align="center"></td>
+    <td align="center"><tt>,</tt></td>
+    <td>Separator character for CBOR sequences.</td>
+    <td align="center">6</td>
+  </tr>
 </tbody>
 </table>
 
@@ -695,6 +701,12 @@ slightly more adapted for parsing, like single-line comments:
   </ol>
 
       </section>
+      <section anchor="sequences">
+      <name>CBOR Sequences</name>
+      <t>
+Decoders compliant with this specification MUST support CBOR sequences <xref target="RFC8742"/>.
+    </t>
+      </section>
 
     </section>  
    
@@ -726,6 +738,7 @@ slightly more adapted for parsing, like single-line comments:
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8949.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8610.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3629.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8742.xml"/>
         <reference anchor="IEEE754" target="https://ieeexplore.ieee.org/document/8766229" quoteTitle="true" derivedAnchor="IEEE754">
           <front>
             <title>IEEE Standard for Floating-Point Arithmetic</title>
@@ -1532,7 +1545,8 @@ See also <xref target="ucbor.invalid"/>.</t>
         </li>
         <li>
         <t>07:</t>
-        <t>Media type added</t>
+        <t>Design Goals added</t>
+        <t>CBOR Sequences added</t>
         </li>
       </ul>
     </section>
