@@ -554,7 +554,7 @@ slightly more adapted for parsing, like single-line comments:
   </tr>
   <tr>
     <td align="center"><tt>int</tt>&nbsp;/ <tt>bigint</tt></td>
-    <td align="center">{<em>sign</em>}{<tt>0b</tt>|<tt>0o</tt>|<tt>0x</tt>}<em>n</em></td>
+    <td align="center"><em>{sign}&#x2009;{&#x2009;</em><tt>0b</tt>|<tt>0o</tt>|<tt>0x</tt><em>}&#x2009;n</em></td>
     <td>
       Arbitrary sized integers without fractional components or exponents.
       See also CBOR integer encoding.
@@ -567,7 +567,7 @@ slightly more adapted for parsing, like single-line comments:
   </tr>
   <tr>
     <td align="center"><tt>float16</tt>&nbsp;/ <tt>float32</tt>&nbsp;/ <tt>float64</tt></td>
-    <td align="center">{<em>sign</em>}<em>n</em><tt>.</tt><em>n</em>{<tt>e&pm;</tt><em>n</em>}</td>
+    <td align="center"><em>{sign}&#x2009;n</em><tt>.</tt><em>n&#x2009;{&#x2009;</em><tt>e&pm;</tt><em>n&#x2009;}</em></td>
     <td>
       Floating point values MUST include a decimal point and at least one
       fractional digit, whereas exponents are <em>optional</em>.
@@ -584,7 +584,7 @@ slightly more adapted for parsing, like single-line comments:
   </tr>
   <tr>
     <td align="center"><tt>float16</tt></td>
-    <td align="center">{<em>sign</em>}<tt>Infinity</tt></td>
+    <td align="center"><em>{sign}&#x2009;</em><tt>Infinity</tt></td>
     <td>
       Infinity.
     </td>
@@ -616,7 +616,7 @@ slightly more adapted for parsing, like single-line comments:
   </tr>
   <tr>
    <td align="center"><tt>bstr</tt></td>
-    <td align="center"><tt>&lt;&lt;</tt>&nbsp;{<em>object</em>, }...&nbsp;<tt>&gt;&gt;</tt></td>
+    <td align="center"><tt>&lt;&lt;</tt>&nbsp;<em>object...</em>&nbsp;<tt>&gt;&gt;</tt></td>
     <td>Construct holding zero or more comma-separated CBOR objects
     which are subsequently wrapped in a byte-string.</td>
     <td align="center">6</td>
@@ -641,13 +641,13 @@ slightly more adapted for parsing, like single-line comments:
   </tr>
   <tr>
     <td align="center"><tt>[]</tt></td>
-    <td align="center"><tt>[</tt>&nbsp;{<em>object</em>, }...&nbsp;<tt>]</tt></td>
+    <td align="center"><tt>[</tt>&nbsp;<em>object...</em>&nbsp;<tt>]</tt></td>
     <td>Array with zero or more comma-separated CBOR objects.</td>
     <td align="center"></td>
   </tr>
   <tr>
     <td align="center"><tt>{}</tt></td>
-    <td align="center"><tt>{</tt>&nbsp;{<em>key</em><tt>:</tt><em>value</em>, }...&nbsp;<tt>}</tt></td>
+    <td align="center"><tt>{</tt>&nbsp;<em>key</em><tt>:</tt><em>value...</em>&nbsp;<tt>}</tt></td>
     <td>
       Map with zero or more comma-separated key/value pairs.
       Keys and values are expressed as CBOR objects.
@@ -671,7 +671,7 @@ slightly more adapted for parsing, like single-line comments:
 
   <ol>
     <li>The letter <em>n</em> in the Syntax column denotes one or more digits.</li>
-    <li>The optional {<em>sign</em>} must be a single hyphen (<tt>'-'</tt>) character.</li>
+    <li>The optional <em>{sign}</em> MUST be a single hyphen (<tt>'-'</tt>) character.</li>
     <li>
       <em>Input only</em>: between the quotes, the whitespace characters
       (<tt>' '</tt>, <tt>'\t'</tt>, <tt>'\r'</tt>, <tt>'\n'</tt>)
