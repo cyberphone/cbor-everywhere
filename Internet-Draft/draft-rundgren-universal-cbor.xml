@@ -152,7 +152,7 @@ used in <xref target="RFC8949"/>.</li>
 <table>
 <name>Supported CBOR Objects</name>
 <thead>
-  <tr><th align="center">CDDL</th>
+  <tr><th align="center">CBOR</th>
   <th align="center">Description</th></tr>
 </thead>
 <tbody>
@@ -332,7 +332,7 @@ API support for the following primitives:
 <name>Protocol Primitives Support</name>
 <thead>
   <tr>
-  <th align="center">CDDL</th>
+  <th align="center">CBOR</th>
   <th align="center">Primitive</th>
   <th align="center">Description</th>
   <th align="center">Note</th>
@@ -484,7 +484,7 @@ tag construct.
 </li>
 </ol>
 <t>
-If a call does not match the underlying CDDL type, the call MUST be rejected,
+If a call does not match the underlying CBOR type, the call MUST be rejected,
 </t>
 <t>
 Due to considerable variations between platforms, corresponding <em>encoder</em>
@@ -525,7 +525,7 @@ slightly more adapted for parsing, like single-line comments:
 <name>Diagnostic Notation Support</name>
 <thead>
   <tr>
-  <th align="center">CDDL</th>
+  <th align="center">CBOR</th>
   <th align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Syntax&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
   <th align="center">Description</th>
   <th align="center">Notes</th>
