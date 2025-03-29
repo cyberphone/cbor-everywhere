@@ -553,7 +553,7 @@ slightly more adapted for parsing, like single-line comments:
     <td align="center">6</td>
   </tr>
   <tr>
-    <td align="center"><tt>int</tt>&nbsp;/ <tt>bigint</tt></td>
+    <td align="center"><tt>integer</tt></td>
     <td align="center"><em>{sign}&#x2009;{&#x2009;</em><tt>0b</tt>|<tt>0o</tt>|<tt>0x</tt><em>}&#x2009;n</em></td>
     <td>
       Arbitrary sized integers without fractional components or exponents.
@@ -566,7 +566,7 @@ slightly more adapted for parsing, like single-line comments:
     <td align="center">1, 2</td>
   </tr>
   <tr>
-    <td align="center"><tt>float16</tt>&nbsp;/ <tt>float32</tt>&nbsp;/ <tt>float64</tt></td>
+    <td align="center"><tt>float</tt></td>
     <td align="center"><em>{sign}&#x2009;n</em><tt>.</tt><em>n&#x2009;{&#x2009;</em><tt>e&pm;</tt><em>n&#x2009;}</em></td>
     <td>
       Floating point values MUST include a decimal point and at least one
