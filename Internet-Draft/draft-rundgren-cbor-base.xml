@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-base-00"
+  docName="draft-rundgren-cbor-base-01"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title abbrev="bCBOR">CBOR&nbsp;Base (bCBOR)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-base-00"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-base-01"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -700,7 +700,7 @@ slightly more adapted for parsing, like single-line comments:
     </li>
   </ol>
   <t>The <xref target="PLAYGROUND"/> is an excellent way of getting acquainted
-  with CBOR snd diagnostic notation.</t>
+  with CBOR and diagnostic notation.</t>
 
       </section>
       <section anchor="sequences">
@@ -1555,6 +1555,10 @@ See also <xref target="ucbor.invalid"/>.</t>
         <t>Renamed from "Universal CBOR" to "CBOR Base"</t>
         <t>Design Goals added</t>
         <t>CBOR Sequences added</t>
+        </li>
+        <li>
+        <t>01:</t>
+        <t>Language nits</t>
         </li>
       </ul>
     </section>
