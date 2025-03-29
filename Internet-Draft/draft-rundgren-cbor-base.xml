@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-universal-cbor-07"
+  docName="draft-rundgren-cbor-base-00"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -22,9 +22,9 @@
   version="3">
 
   <front>
-    <title abbrev="U-CBOR">Universal CBOR (U-CBOR)</title>
+    <title abbrev="bCBOR">CBOR&nbsp;Base (bCBOR)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-universal-cbor-07"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-base-00"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -52,7 +52,7 @@
 
     <abstract>
       <t>
-This document defines Universal CBOR (U-CBOR),
+This document defines CBOR&nbsp;Base (bCBOR),
 a strict subset of CBOR (RFC 8949)
 intended to serve as a viable replacement for JSON in
 computationally advanced systems like Internet browsers,
@@ -73,24 +73,24 @@ This document mainly targets CBOR tool developers.
     <section>
       <name>Introduction</name>
           <t>
-The Universal CBOR (U-CBOR) specification is based on CBOR <xref target="RFC8949"/>.
+The CBOR&nbsp;Base (bCBOR) specification is based on CBOR <xref target="RFC8949"/>.
 While there are different ways you can encode certain CBOR objects,
 this is non-trivial to support in general purpose platform-based tools,
 not to mention the limited utility of such measures.
-To cope with this, U-CBOR defines a specific (non-variant) encoding scheme,
+To cope with this, bCBOR defines a specific (non-variant) encoding scheme,
 aka &quot;Deterministic Encoding&quot;.  The selected encoding
 scheme is believed to be <em>compatible</em> with most existing
 <em>systems</em> using CBOR.
 See also <xref target="legacy.systems"/>.
         </t>
     <t>
-U-CBOR is intended to be agnostic with respect to programming
+bCBOR is intended to be agnostic with respect to programming
 languages.
         </t>
         <t>
 By combining the compact binary representation and the rich set of
 data types offered by CBOR, with a deterministic encoding scheme,
-U-CBOR could for <em>new designs</em>, serve as viable alternative
+bCBOR could for <em>new designs</em>, serve as viable alternative
 to JSON <xref target="RFC8259"/>.
 Although the mandated encoding scheme is deployable in
 <xref target="CONSTRAINED"/> environments, the primary target is rather
@@ -99,7 +99,7 @@ general-purpose computing platforms like mobile phones and Web servers.
         <t>
 However, for unleashing the full power of deterministic encoding,
 the ability to perform cryptographic operations on "raw" (non-wrapped)
-CBOR data, compliant U-CBOR tools need additional functionality.
+CBOR data, compliant bCBOR tools need additional functionality.
 See also <xref target="enveloped.signatures"/>.
         </t>
         <section anchor="design.goals">
@@ -136,7 +136,7 @@ for expressing the type of CBOR <xref target="RFC8949"/> data items.</li>
 in <xref section="8" sectionFormat="of"  target="RFC8949"/>.</li>
 <li>The term "CBOR&nbsp;object" is equivalent to "CBOR&nbsp;data&nbsp;item"
 used in <xref target="RFC8949"/>.</li>
-<li>The term "Universal CBOR" is in this document abbreviated to "U-CBOR".</li>
+<li>The term "CBOR&nbsp;Base" is in this document abbreviated to "bCBOR".</li>
 </ul>
       </section>
 
@@ -144,11 +144,11 @@ used in <xref target="RFC8949"/>.</li>
     
     <section anchor="detailed.description">
       <name>Detailed Description</name>
-      <t>This section describes the three pillars that U-CBOR relies on.</t>
+      <t>This section describes the three pillars that bCBOR relies on.</t>
 
       <section anchor="ucbor.objects">
         <name>Supported CBOR Objects</name>
-        <t>The following table shows the CBOR subset supported by U-CBOR:</t>
+        <t>The following table shows the CBOR subset supported by bCBOR:</t>
 <table>
 <name>Supported CBOR Objects</name>
 <thead>
@@ -169,7 +169,7 @@ used in <xref target="RFC8949"/>.</li>
 </tbody>
 </table>
         <t>
-Conforming implementations (of course) only have to implement the U-CBOR types
+Conforming implementations (of course) only have to implement the bCBOR types
 required by the targeted application(s).
         </t>
         <t>
@@ -198,10 +198,10 @@ data types through mapping.
       <section anchor="ucbor.encoding">
         <name>Deterministic Encoding Scheme</name>
         <t>
-In U-CBOR deterministic encoding is <em>mandatory</em>.
+In bCBOR deterministic encoding is <em>mandatory</em>.
 The encoding scheme adheres to <xref section="4.2" sectionFormat="of" target="RFC8949"/>,
 but adds a few constraints (denoted by RFC+), where the RFC offers choices.
-The following list contains a summary of the U-CBOR deterministic encoding rules:
+The following list contains a summary of the bCBOR deterministic encoding rules:
         </t>
       <ul>
         <li>
@@ -325,7 +325,7 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
         <name>Protocol Primitives Support</name>
         <t>
 To facilitate cross-platform <em>protocol interoperability</em>,
-implementers of U-CBOR compatible tools SHOULD include <em>decoder</em>
+implementers of bCBOR compatible tools SHOULD include <em>decoder</em>
 API support for the following primitives:
         </t>
 <table>
@@ -497,12 +497,12 @@ for dealing with 64-bit integers.
 
 <section anchor="media.tyoe">
 <name>Media Type</name>
-<t>Protocols building on U-CBOR, are RECOMMENDED using the media type: <tt>application/cbor</tt>.</t> 
+<t>Protocols building on bCBOR, are RECOMMENDED using the media type: <tt>application/cbor</tt>.</t> 
 </section>
 
 <section anchor="diagnostic.notation">
 <name>Diagnostic Notation Support</name>
-<t>Compliant U-CBOR implementations SHOULD include support for
+<t>Compliant bCBOR implementations SHOULD include support for
 <em>bi-directional</em> diagnostic notation, to facilitate:</t>
 <ul>
 <li>Generation of developer-friendly debugging and logging data</li>
@@ -592,7 +592,7 @@ slightly more adapted for parsing, like single-line comments:
   </tr>
   <tr>
     <td align="center"><tt>bstr</tt></td>
-    <td align="center"><tt>h'</tt><em>hex&nbsp;data</em><tt>'</tt></td>
+    <td align="center"><tt>h'</tt><em>hex-data</em><tt>'</tt></td>
     <td>
       Byte data provided in hexadecimal notation.
       Each byte MUST be represented by two hexadecimal digits.
@@ -601,7 +601,7 @@ slightly more adapted for parsing, like single-line comments:
   </tr>
   <tr>
     <td align="center"><tt>bstr</tt></td>
-    <td align="center"><tt>b64'</tt><em>base64&nbsp;data</em><tt>'</tt></td>
+    <td align="center"><tt>b64'</tt><em>base64-data</em><tt>'</tt></td>
     <td>
       Byte data provided in base64 or base64URL notation.
       Padding with <tt>'='</tt> characters is <em>optional</em>.
@@ -629,7 +629,7 @@ slightly more adapted for parsing, like single-line comments:
   </tr>
   <tr>
     <td align="center"><tt>bool</tt></td>
-    <td align="center"><tt>true</tt> | <tt>false</tt></td>
+    <td align="center"><tt>true</tt>|<tt>false</tt></td>
     <td>Boolean value.</td>
     <td align="center"></td>
   </tr>
@@ -650,7 +650,7 @@ slightly more adapted for parsing, like single-line comments:
     <td align="center"><tt>{</tt>&nbsp;<em>key</em><tt>:</tt><em>value...</em>&nbsp;<tt>}</tt></td>
     <td>
       Map with zero or more comma-separated key/value pairs.
-      Keys and values are expressed as CBOR objects.
+      Key and value pairs are expressed as CBOR objects, separated by <tt>':'</tt> characters.
     </td>
     <td align="center"></td>
   </tr>
@@ -683,11 +683,11 @@ slightly more adapted for parsing, like single-line comments:
       inside of string quotes <em>become a part of the text</em>.
       For normalizing line terminators,
       a single <tt>'\r'</tt> or the combination <tt>'\r\n'</tt>
-      are rewritten as <tt>'\n'</tt>.
+      MUST (internally) be rewritten as <tt>'\n'</tt>.
       To <em>avoid</em> getting newline characters (<tt>'\n'</tt>)
       included in multi-line text strings,
       a <em>line continuation marker</em> consisting of a backslash&nbsp;(<tt>'\'</tt>)
-      immediately preceding the newline may be used.
+      immediately preceding the newline may be used. 
     </li>
     <li>
       Text strings may also include JavaScript compatible escape sequences
@@ -699,6 +699,8 @@ slightly more adapted for parsing, like single-line comments:
       <em>Input only</em>.
     </li>
   </ol>
+  <t>The <xref target="PLAYGROUND"/> is an excellent way of getting acquainted
+  with CBOR snd diagnostic notation.</t>
 
       </section>
       <section anchor="sequences">
@@ -706,6 +708,11 @@ slightly more adapted for parsing, like single-line comments:
       <t>
 Decoders compliant with this specification MUST support CBOR sequences <xref target="RFC8742"/>.
     </t>
+    <t>For decoders of "true" (binary) CBOR, there are additional requirements:</t>
+    <ul>
+    <li>It MUST be possible to decode one CBOR object at a time.</li>
+    <li>The decoder MUST NOT do any assumptions about the nature of unread code (it might not even be CBOR).</li>
+    </ul>
       </section>
 
     </section>  
@@ -720,7 +727,7 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
     <section anchor="Security">
        <name>Security Considerations</name>
       <t>All is good &#x1f638;</t>
-      <t>U-CBOR does not introduce security issues beyond
+      <t>bCBOR does not introduce security issues beyond
       what is already applicable to  <xref target="RFC8949"/>.
       Applications may certainly add security issues, but these are
       out of scope for this specification.</t>
@@ -1130,7 +1137,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
     <section anchor="ucbor.invalid">
       <name>Invalid Encodings</name>
       <t>The following table holds a selection of valid CBOR objects,
-      not permitted by U-CBOR.</t>
+      not permitted by bCBOR.</t>
 <table>
 <name>Invalid Encodings</name>
 <thead>
@@ -1220,7 +1227,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
     
     <section anchor="enveloped.signatures">
       <name>Enveloped Signatures</name>
-      <t>This is a <em>non-normative</em> appendix showing how U-CBOR
+      <t>This is a <em>non-normative</em> appendix showing how bCBOR
       can be used for supporting enveloped signatures.</t>
       <t>The primary advantages with <em>enveloped</em> signatures compared to
       <em>enveloping</em> signatures (like used by COSE <xref target="RFC9052"/>), 
@@ -1251,7 +1258,7 @@ See also <xref target="COTX"/>.
       <xref target="CREDENTIALS"/>.
       A drawback with designs based on JSON <xref target="RFC8259"/> is that they
       rely on <em>canonicalization schemes</em> like JCS <xref target="RFC8785"/>,
-      that require specialized encoders and decoders, whereas U-CBOR works
+      that require specialized encoders and decoders, whereas bCBOR works
       "straight out of the box".</t>
 
       <section anchor="example.signature">
@@ -1262,7 +1269,7 @@ See also <xref target="COTX"/>.
       For the sake of simplicity, the example uses an HMAC
       (see <xref target="example.parameters"/>)
       as signature algorithm.</t>
-      <t>For a more sophisticated use of U-CBOR, combining
+      <t>For a more sophisticated use of bCBOR, combining
       signatures and encryption, see <xref target="WALLET"/>.</t>
 
       <section anchor="example.unsigned">
@@ -1377,7 +1384,7 @@ See also <xref target="COTX"/>.
       <section anchor="example.code">
         <name>Code Example</name>
         <t>Using a JavaScript implementation <xref target="CBOR.JS"/>
-        of U-CBOR, together with Node.js
+        of bCBOR, together with Node.js
         <xref target="NODE.JS"/>,
         basic signature creation and validation supporting
         the example in  <xref target="example.signature"/>,
@@ -1461,16 +1468,16 @@ It is assumed that <em>most</em>
 systems using CBOR are able to process an (<em>application specific</em>), 
 selection of CBOR data items that are encoded in compliance with
 <xref target="RFC8949"/>.  Since the deterministic encoding scheme
-mandated by U-CBOR, also is compliant with <xref target="RFC8949"/>,
+mandated by bCBOR, also is compliant with <xref target="RFC8949"/>,
 there should be no major interoperability issues. 
 That is, if the previous assumption actually is correct &#x1f60f;
 </t>
 <t>
-However, in the <em>other</em> direction (U-CBOR tools processing
+However, in the <em>other</em> direction (bCBOR tools processing
 data from Systems using "legacy" CBOR encoding schemes),
 the situation is likely to be considerably more challenging
 since deterministic encoding "by design" is <em>strict</em>.
-Due to this potential obstacle, implementers of U-CBOR tools,
+Due to this potential obstacle, implementers of bCBOR tools,
 are RECOMMENDED to offer <em>decoder</em> options that permit "relaxing"
 the rigidness of deterministic encoding with respect to:</t>
 <dl newline="true">
@@ -1480,13 +1487,13 @@ the rigidness of deterministic encoding with respect to:</t>
 <dd>Duplicate keys MUST still be rejected.</dd>
 </dl>
 <t>Note that regardless of the format of decoded CBOR data, a compliant
-U-CBOR implementation MUST maintain deterministic encoding.
+bCBOR implementation MUST maintain deterministic encoding.
 See also <xref target="ucbor.invalid"/>.</t>
     </section>
 
     <section anchor="tools.online">
       <name>Compatible Online Tools</name>
-      <t>For testing and learning about U-CBOR,
+      <t>For testing and learning about bCBOR,
       there are currently a number of compatible
       online tools (subject to availability...).</t>
       <dl newline="true">
@@ -1499,7 +1506,7 @@ See also <xref target="ucbor.invalid"/>.</t>
 
     <section anchor="tools.implementations">
       <name>Compatible Implementations</name>
-      <t>For using U-CBOR in applications, there are
+      <t>For using bCBOR in applications, there are
       currently a number of compatible libraries.</t>
       <dl newline="true">
         <dt><xref target="CBOR.JS"/>:</dt>
@@ -1544,7 +1551,8 @@ See also <xref target="ucbor.invalid"/>.</t>
         <t>Media type added</t>
         </li>
         <li>
-        <t>07:</t>
+        <t>07-&gt;00:</t>
+        <t>Renamed from "Universal CBOR" to "CBOR Base"</t>
         <t>Design Goals added</t>
         <t>CBOR Sequences added</t>
         </li>
