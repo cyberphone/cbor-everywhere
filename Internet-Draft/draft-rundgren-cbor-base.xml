@@ -566,7 +566,7 @@ slightly more adapted for parsing, like single-line comments:
   </tr>
   <tr>
     <td align="center"><tt>integer</tt></td>
-    <td align="center"><em>{sign}&#x2009;{&#x2009;</em><tt>0b</tt>|<tt>0o</tt>|<tt>0x</tt><em>}&#x2009;n</em></td>
+    <td align="center"><em>{sign}&#x2009;{&#x2008;</em><tt>0b</tt>|<tt>0o</tt>|<tt>0x</tt><em>}&#x2009;n</em></td>
     <td>
       Arbitrary sized integers without fractional components or exponents.
       See also CBOR integer encoding.
@@ -579,7 +579,7 @@ slightly more adapted for parsing, like single-line comments:
   </tr>
   <tr>
     <td align="center"><tt>float</tt></td>
-    <td align="center"><em>{sign}&#x2009;n</em><tt>.</tt><em>n&#x2009;{&#x2009;</em><tt>e&pm;</tt><em>n&#x2009;}</em></td>
+    <td align="center"><em>{sign}&#x2009;n</em><tt>.</tt><em>n&#x2009;{&#x2008;</em><tt>e&pm;</tt><em>n&#x2009;}</em></td>
     <td>
       Floating point values MUST include a decimal point and at least one
       fractional digit, whereas exponents are <em>optional</em>.
@@ -1150,7 +1150,40 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 </table>
 
     </section>
+    <section anchor="ucbor.misc">
+        <name>Miscellaneous Items</name>
+<t>This <em>normative</em> section holds a selection
+of miscellaneous CBOR objects and their encoding.</t>
+<table>
+<name>Miscellaneous Items</name>
+<thead>
+  <tr><th align="center">CBOR Encoding</th>
+  <th align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diagnostic&nbsp;Notation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  <th align="center">Description</th></tr>
+</thead>
+<tbody>
+<tr><td><tt>f5</tt></td>
+<td><tt>true</tt></td>
+<td>Boolean true</td></tr>
+<tr><td><tt>f6</tt></td>
+<td><tt>null</tt></td>
+<td>Null</td></tr>
+<tr><td><tt>f83b</tt></td>
+<td><tt>simple(59)</tt></td>
+<td>Simple value</td></tr>
+<tr><td><tt>c074323032352d30332d33305431323a32343a31365a</tt></td>
+<td><tt>0("2025-03-30T12:24:16Z")</tt></td>
+<td>ISO date/time</td></tr>
+<tr><td><tt>8301820203820405</tt></td>
+<td><tt>[1, [2, 3], [4, 5]]</tt></td>
+<td>Array combinations</td></tr>
+<tr><td><tt>6cf09f9a8020736369656e6365</tt></td>
+<td><tt>"&#x1f680; science"</tt></td>
+<td>Text string with emoji</td></tr>
+</tbody>
+</table>
 
+    </section>
     <section anchor="ucbor.invalid">
       <name>Invalid Encodings</name>
       <t>The following table holds a selection of objects, not permitted by bCBOR.</t>
@@ -1233,7 +1266,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 </table>
 <ol>
 <li>See also <xref target="legacy.systems"/>.</li>
-<li>Supported by <xref target="RFC8949"/>.</li>
+<li><em>Non-deterministic</em> encoding is supported by <xref target="RFC8949"/>.</li>
 </ol>
 
     </section>
@@ -1579,15 +1612,25 @@ See also <xref target="ucbor.invalid"/>.</t>
         <li>
         <t>02:</t>
         <t>Language nits</t>
+        <t>Miscellaneous Items added</t>
         </li>
       </ul>
     </section>
 
     <section anchor="Acknowledgements" numbered="false">
       <name>Acknowledgements</name>
-      <t>For verifying the correctness of the encoding scheme, the <xref target="CBOR.ME"/> 
-      on-line CBOR tool, by the <xref target="RFC8949"/> author,
-      Carsten Bormann, proved to be invaluable.</t>
+<t>
+For verifying the correctness of the encoding scheme, the <xref target="CBOR.ME"/> 
+on-line CBOR tool, by the <xref target="RFC8949"/> author,
+Carsten Bormann, proved to be invaluable.
+</t>
+<t>
+Non-exhaustive list of people who directly (and sometimes indirectly) contributed
+to this specification include: Carsten Bormann,
+Alan DeKok, Vadim Goncharov, Joe Hildebrand,
+Laurence Lundblade, Rohan Mahy, Wolf McNally,
+Michael Richardson, Göran Selander, and Orie Steele.
+</t>
     </section>
     
  </back>
