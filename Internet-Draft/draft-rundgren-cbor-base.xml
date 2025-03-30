@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-base-01"
+  docName="draft-rundgren-cbor-base-02"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title abbrev="bCBOR">CBOR&nbsp;Base (bCBOR)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-base-01"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-base-02"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -80,7 +80,7 @@ not to mention the limited utility of such measures.
 To cope with this, bCBOR defines a specific (non-variant) encoding scheme,
 aka &quot;Deterministic Encoding&quot;.  The selected encoding
 scheme is believed to be <em>compatible</em> with most existing
-<em>systems</em> using CBOR.
+systems using CBOR.
 See also <xref target="legacy.systems"/>.
         </t>
     <t>
@@ -1489,7 +1489,7 @@ That is, if the previous assumption actually is correct &#x1f60f;
 </t>
 <t>
 However, in the <em>other</em> direction (bCBOR tools processing
-data from Systems using "legacy" CBOR encoding schemes),
+data from systems using "legacy" CBOR encoding schemes),
 the situation is likely to be considerably more challenging
 since deterministic encoding "by design" is <em>strict</em>.
 Due to this potential obstacle, implementers of bCBOR tools,
@@ -1574,6 +1574,10 @@ See also <xref target="ucbor.invalid"/>.</t>
         <li>
         <t>01:</t>
         <t>#7.n (simple) added</t>
+        <t>Language nits</t>
+        </li>
+        <li>
+        <t>02:</t>
         <t>Language nits</t>
         </li>
       </ul>
