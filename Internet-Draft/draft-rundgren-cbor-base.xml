@@ -53,7 +53,7 @@
     <abstract>
       <t>
 This document defines CBOR&nbsp;Base (bCBOR),
-a strict subset of CBOR (RFC 8949)
+a profile of CBOR (RFC 8949)
 intended to serve as a viable replacement for JSON in
 computationally advanced systems like Internet browsers,
 mobile phones, and Web servers.
@@ -166,6 +166,7 @@ used in <xref target="RFC8949"/>.</li>
 <tr><td align="center"><tt>[]</tt></td><td>Array</td></tr>
 <tr><td align="center"><tt>{}</tt></td><td>Map</td></tr>
 <tr><td align="center"><tt>#6.nnn(type)</tt></td><td>Tagged data</td></tr>
+<tr><td align="center"><tt>#7.nnn</tt></td><td>Simple values</td></tr>
 </tbody>
 </table>
         <t>
@@ -173,8 +174,7 @@ Conforming implementations (of course) only have to implement the bCBOR types
 required by the targeted application(s).
         </t>
         <t>
-Although extensions are imaginable (like supporting all
-"simple" types), extensions will most likely cause
+Although extensions are imaginable, extensions will most likely cause
 <em>interoperability issues</em> and are thus NOT&nbsp;RECOMMENDED.  In addition,
 the mandated CBOR subset is compatible with most computer languages and platforms.
 Compared to the current state-of-the-art, JSON <xref target="RFC8259"/>,
@@ -424,16 +424,22 @@ API support for the following primitives:
 <td align="center">4</td>
 </tr>
 <tr>
+<td align="center"><tt>#7.n</tt></td>
+<td align="center"><tt>Simple</tt></td>
+<td>Simple values</td>
+<td align="center">5</td>
+</tr>
+<tr>
 <td align="center">See note</td>
 <td align="center"><tt>EpochTime</tt></td>
 <td>Time-object expressed as a number</td>
-<td align="center">5</td>
+<td align="center">6</td>
 </tr>
 <tr>
 <td align="center">See note</td>
 <td align="center"><tt>DateTime</tt></td>
 <td>Time-object expressed as a text string</td>
-<td align="center">5</td>
+<td align="center">6</td>
 </tr>
 </tbody>
 </table>
@@ -470,6 +476,12 @@ Note that a hypothetical <tt>getFloat16()</tt> MUST reject encountered
 <t>
 Since a CBOR <tt>null</tt> typically represents the absence of a value,
 a decoder MUST provide a test-function, like <tt>isNull()</tt>.
+</t>
+</li>
+<li>
+<t>
+Simple values include the ranges <tt>0-23</tt> and <tt>32-255</tt>.
+Note that <tt>bool</tt> and <tt>null</tt> actually are simple values.
 </t>
 </li>
 <li>
@@ -658,6 +670,12 @@ slightly more adapted for parsing, like single-line comments:
     <td align="center"><tt>#6.n</tt></td>
     <td align="center"><em>n</em><tt>(</tt>&nbsp;<em>object</em>&nbsp;<tt>)</tt></td>
     <td>Tag holding a CBOR object.</td>
+    <td align="center">1</td>
+  </tr>
+  <tr>
+    <td align="center"><tt>#7.n</tt></td>
+    <td align="center"><tt>simple(</tt><em>n</em><tt>)</tt></td>
+    <td>Simple value.</td>
     <td align="center">1</td>
   </tr>
   <tr>
@@ -1195,20 +1213,6 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 </tr>
 
 <tr>
-<td><tt>f7</tt></td>
-<td><tt>undefined</tt></td>
-<td>Unsupported simple type</td>
-<td></td>
-</tr>
-
-<tr>
-<td><tt>f0</tt></td>
-<td><tt>simple(16)</tt></td>
-<td>Unsupported simple type</td>
-<td></td>
-</tr>
-
-<tr>
 <td><tt>5f4101420203ff</tt></td>
 <td><tt>(_ h'01', h'0203')</tt></td>
 <td>Unsupported indefinite length object</td>
@@ -1558,6 +1562,7 @@ See also <xref target="ucbor.invalid"/>.</t>
         </li>
         <li>
         <t>01:</t>
+        <t>#7.n (simple) added</t>
         <t>Language nits</t>
         </li>
       </ul>
