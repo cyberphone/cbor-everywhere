@@ -1277,6 +1277,12 @@ of miscellaneous CBOR objects and their encoding.</t>
 <td>Invalid simple value</td>
 <td></td>
 </tr>
+<tr>
+<td><tt>5b0010000000000000</tt></td>
+<td></td>
+<td>Extremely large <tt>bstr</tt> length indicator: 4503599627370496</td>
+<td></td>
+</tr>
 
 </tbody>
 </table>
