@@ -149,7 +149,7 @@ used in <xref target="RFC8949"/>.</li>
       <section anchor="core.objects">
         <name>Supported CBOR Objects</name>
         <t>The following table shows the set of CBOR objects supported by CBOR/c:</t>
-<table>
+<table align="left">
 <name>Supported CBOR Objects</name>
 <thead>
   <tr><th align="center">CBOR</th>
@@ -329,7 +329,7 @@ To facilitate cross-platform <em>protocol interoperability</em>,
 implementers of CBOR/c compatible tools SHOULD include <em>decoder</em>
 API support for the following primitives:
         </t>
-<table>
+<table align="left">
 <name>Protocol Primitives Support</name>
 <thead>
   <tr>
@@ -534,7 +534,7 @@ but adds a few items to make diagnostic notation
 slightly more adapted for parsing, like single-line comments:
 </t>
 
-<table>
+<table align="left">
 <name>Diagnostic Notation Support</name>
 <thead>
   <tr>
@@ -921,7 +921,7 @@ but this is out of scope for this specification.
 <t>This <em>normative</em> section holds a selection
 of CBOR integer values, with an emphasize on edge cases.</t>
 
-<table>
+<table align="left">
 <name>Integers</name>
 <thead>
   <tr><th align="center">Value</th>
@@ -1014,7 +1014,7 @@ The rationale for using <xref target="ECMASCRIPT"/> serialization is
 because it is supposed to generate the shortest and most
 correct representation of <xref target="IEEE754"/> numbers.</t>
 
-<table>
+<table align="left">
 <name>Floating Point Numbers</name>
 <thead>
   <tr><th align="center">Value</th>
@@ -1159,7 +1159,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
         <name>Miscellaneous Items</name>
 <t>This <em>normative</em> section holds a selection
 of miscellaneous CBOR objects and their encoding.</t>
-<table>
+<table align="left">
 <name>Miscellaneous Items</name>
 <thead>
   <tr><th align="center">CBOR Encoding</th>
@@ -1193,7 +1193,7 @@ of miscellaneous CBOR objects and their encoding.</t>
     <section anchor="core.invalid">
       <name>Invalid Encodings</name>
       <t>The following table holds a selection of objects, not permitted by CBOR/c.</t>
-<table>
+<table align="left">
 <name>Invalid Encodings</name>
 <thead>
   <tr><th align="center">CBOR Encoding</th><th align="center">Diagnostic Notation</th>
@@ -1623,6 +1623,7 @@ See also <xref target="core.invalid"/>.</t>
         </li>
         <li>
         <t>01:</t>
+        <t>&lt;table align="left"&gt;</t>
         </li>
       </ul>
     </section>
