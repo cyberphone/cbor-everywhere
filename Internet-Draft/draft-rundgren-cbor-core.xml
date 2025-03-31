@@ -1185,9 +1185,9 @@ of miscellaneous CBOR objects and their encoding.</t>
 <td>Array combinations</td></tr>
 <tr><td><tt>a361610161620262616103</tt></td>
 <td><tt>{<br/>
-&nbsp;&nbsp;"a": 1,<br/>
-&nbsp;&nbsp;"b": 2,<br/>
-&nbsp;&nbsp;"aa": 3<br/>
+&nbsp;&nbsp;"a": 0,<br/>
+&nbsp;&nbsp;"b": 1,<br/>
+&nbsp;&nbsp;"aa": 2<br/>
 }</tt></td>
 <td>Map object</td></tr>
 <tr><td><tt>6cf09f9a8020736369656e6365</tt></td>
@@ -1209,7 +1209,10 @@ of miscellaneous CBOR objects and their encoding.</t>
 <tbody>
 <tr>
 <td><tt>a2616200616101</tt></td>
-<td><tt>{"b":0,"a":1}</tt></td>
+<td><tt>{<br/>
+&nbsp;&nbsp;"b": 0,<br/>
+&nbsp;&nbsp;"a": 1<br/>
+}</tt></td>
 <td>Improper map key ordering</td>
 <td align="center">1, 2</td>
 </tr>
@@ -1279,7 +1282,7 @@ of miscellaneous CBOR objects and their encoding.</t>
 </table>
 <ol>
 <li>See also <xref target="legacy.systems"/>.</li>
-<li><em>Non-deterministic</em> encoding is supported by <xref target="RFC8949"/>.</li>
+<li><em>Non-deterministic</em> encoding supported by <xref target="RFC8949"/>.</li>
 </ol>
 
     </section>
