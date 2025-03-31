@@ -425,7 +425,7 @@ API support for the following primitives:
 <td align="center">4</td>
 </tr>
 <tr>
-<td align="center"><tt>#7.n</tt></td>
+<td align="center"><tt>#7.nnn</tt></td>
 <td align="center"><tt>Simple</tt></td>
 <td>Simple values</td>
 <td align="center">5</td>
@@ -668,13 +668,13 @@ slightly more adapted for parsing, like single-line comments:
     <td align="center"></td>
   </tr>
   <tr>
-    <td align="center"><tt>#6.n</tt></td>
+    <td align="center"><tt>#6.nnn</tt></td>
     <td align="center"><em>n</em><tt>(</tt>&nbsp;<em>object</em>&nbsp;<tt>)</tt></td>
     <td>Tag holding a CBOR object.</td>
     <td align="center">1</td>
   </tr>
   <tr>
-    <td align="center"><tt>#7.n</tt></td>
+    <td align="center"><tt>#7.nnn</tt></td>
     <td align="center"><tt>simple(</tt><em>n</em><tt>)</tt></td>
     <td>Simple value.</td>
     <td align="center">1</td>
@@ -1183,6 +1183,13 @@ of miscellaneous CBOR objects and their encoding.</t>
 <tr><td><tt>8301820203820405</tt></td>
 <td><tt>[1, [2, 3], [4, 5]]</tt></td>
 <td>Array combinations</td></tr>
+<tr><td><tt>a361610161620262616103</tt></td>
+<td><tt>{<br/>
+&nbsp;&nbsp;"a": 1,<br/>
+&nbsp;&nbsp;"b": 2,<br/>
+&nbsp;&nbsp;"aa": 3<br/>
+}</tt></td>
+<td>Map object</td></tr>
 <tr><td><tt>6cf09f9a8020736369656e6365</tt></td>
 <td><tt>"&#x1f680; science"</tt></td>
 <td>Text string with emoji</td></tr>
@@ -1612,7 +1619,7 @@ See also <xref target="core.invalid"/>.</t>
         </li>
         <li>
         <t>01:</t>
-        <t>#7.n (simple) added</t>
+        <t>#7.nnn (simple) added</t>
         <t>Language nits</t>
         </li>
         <li>
