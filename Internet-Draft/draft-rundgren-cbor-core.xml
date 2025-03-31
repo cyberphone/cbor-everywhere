@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-00"
+  docName="draft-rundgren-cbor-core-01"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title abbrev="CBOR/c">CBOR&nbsp;Core (CBOR/c)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-00"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-01"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -1616,10 +1616,13 @@ See also <xref target="core.invalid"/>.</t>
         <t>Language nits</t>
         </li>
         <li>
-        <t>02-&gt;00::</t>
+        <t>02-&gt;00:</t>
         <t>Renamed from "CBOR Base" to "CBOR Core"</t>
         <t>Language nits</t>
         <t>Miscellaneous Items added</t>
+        </li>
+        <li>
+        <t>01:</t>
         </li>
       </ul>
     </section>
