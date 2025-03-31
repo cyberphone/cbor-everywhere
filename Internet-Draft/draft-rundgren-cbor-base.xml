@@ -744,10 +744,14 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
     
     <section anchor="Security">
        <name>Security Considerations</name>
-      <t>bCBOR does not introduce security issues beyond
-      what is already applicable to  <xref target="RFC8949"/>.
-      Applications may certainly add security issues, but these are
-      out of scope for this specification.</t>
+<t>
+bCBOR does not introduce security issues beyond
+what is already applicable to  <xref target="RFC8949"/>.
+</t>
+<t>
+Poorly written tools and applications may certainly introduce security issues,
+but this is out of scope for this specification.
+</t>
     </section>
     
    </middle>
