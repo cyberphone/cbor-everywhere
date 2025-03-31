@@ -1171,7 +1171,8 @@ of miscellaneous CBOR objects and their encoding.</t>
 <tr><td><tt>f83b</tt></td>
 <td><tt>simple(59)</tt></td>
 <td>Simple value</td></tr>
-<tr><td><tt>c074323032352d30332d33305431323a32343a31365a</tt></td>
+<tr><td><tt>c074323032352d30332d33<br/>
+305431323a32343a31365a</tt></td>
 <td><tt>0("2025-03-30T12:24:16Z")</tt></td>
 <td>ISO date/time</td></tr>
 <tr><td><tt>8301820203820405</tt></td>
