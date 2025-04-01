@@ -153,7 +153,7 @@ used in <xref target="RFC8949"/>.</li>
 <name>Supported CBOR Objects</name>
 <thead>
   <tr><th align="center">CBOR</th>
-  <th align="center">Description</th></tr>
+  <th align="center">Comment</th></tr>
 </thead>
 <tbody>
 <tr><td align="center"><tt>int</tt></td><td>Integer</td></tr>
@@ -335,7 +335,7 @@ API support for the following primitives:
   <tr>
   <th align="center">CBOR</th>
   <th align="center">Primitive</th>
-  <th align="center">Description</th>
+  <th align="center">Comment</th>
   <th align="center">Note</th>
   </tr>
 </thead>
@@ -540,7 +540,7 @@ slightly more adapted for parsing, like single-line comments:
   <tr>
   <th align="center">CBOR</th>
   <th align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Syntax&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-  <th align="center">Description</th>
+  <th align="center">Comment</th>
   <th align="center">Notes</th>
   </tr>
 </thead>
@@ -924,9 +924,9 @@ of CBOR integer values, with an emphasize on edge cases.</t>
 <table align="left">
 <name>Integers</name>
 <thead>
-  <tr><th align="center">Value</th>
+  <tr><th align="center">Diagnostic&nbsp;Notation</th>
   <th align="center">CBOR Encoding</th>
-  <th align="center">Description</th></tr>
+  <th align="center">Comment</th></tr>
 </thead>
 <tbody>
 <tr><td align="right"><tt>0</tt></td>
@@ -1017,9 +1017,9 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <table align="left">
 <name>Floating Point Numbers</name>
 <thead>
-  <tr><th align="center">Value</th>
+  <tr><th align="center">Diagnostic&nbsp;Notation</th>
   <th align="center">CBOR Encoding</th>
-  <th align="center">Description</th></tr>
+  <th align="center">Comment</th></tr>
 </thead>
 <tbody>
 <tr><td align="right"><tt>0.0</tt></td>
@@ -1164,7 +1164,7 @@ of miscellaneous CBOR objects and their encoding.</t>
 <thead>
   <tr><th align="center">CBOR Encoding</th>
   <th align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diagnostic&nbsp;Notation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-  <th align="center">Description</th></tr>
+  <th align="center">Comment</th></tr>
 </thead>
 <tbody>
 <tr><td><tt>f5</tt></td>
@@ -1204,7 +1204,7 @@ of miscellaneous CBOR objects and their encoding.</t>
 <name>Invalid Encodings</name>
 <thead>
   <tr><th align="center">CBOR Encoding</th><th align="center">Diagnostic Notation</th>
-  <th align="center">Description</th><th align="center">Notes</th></tr>
+  <th align="center">Comment</th><th align="center">Notes</th></tr>
 </thead>
 <tbody>
 <tr>

@@ -17,9 +17,9 @@ console.log("Mode: " + args[0]);
 let table = rfcMode ? "<table>\n<name>" + (intMode ? "Integers" : "Floating Point Numbers") + 
 `</name>
 <thead>
-  <tr><th align="center">Value</th>
-  <th align="center">CBOR Encoding</th>
-  <th align="center">Description</th></tr>
+  <tr><th align="center">Diagnostic&nbsp;Notation</th>
+  <th align="center">CBOR&nbsp;Encoding</th>
+  <th align="center">Comment</th></tr>
 </thead>
 <tbody>\n`: `<table>`;
 
