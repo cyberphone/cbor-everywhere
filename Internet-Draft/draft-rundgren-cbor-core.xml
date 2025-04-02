@@ -323,14 +323,14 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
 </t>
 
         <section anchor="protocol.primitives">
-        <name>Protocol Primitives Support</name>
+        <name>Protocol Primitives</name>
         <t>
 To facilitate cross-platform <em>protocol interoperability</em>,
 implementers of CBOR/c compatible tools SHOULD include <em>decoder</em>
 API support for the following primitives:
         </t>
 <table align="left">
-<name>Protocol Primitives Support</name>
+<name>Protocol Primitives</name>
 <thead>
   <tr>
   <th align="center">CBOR</th>
@@ -389,7 +389,7 @@ API support for the following primitives:
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>int</tt>&nbsp;/ <tt>bigint</tt></td>
+<td align="center"><tt>integer</tt></td>
 <td align="center"><tt>BigInt</tt></td>
 <td>Integer of arbitrary size</td>
 <td align="center">2</td>
@@ -514,7 +514,7 @@ for dealing with 64-bit integers.
 </section>
 
 <section anchor="diagnostic.notation">
-<name>Diagnostic Notation Support</name>
+<name>Diagnostic Notation</name>
 <t>Compliant CBOR/c implementations SHOULD include support for
 <em>bi-directional</em> diagnostic notation, to facilitate:</t>
 <ul>
@@ -535,7 +535,7 @@ slightly more adapted for parsing, like single-line comments:
 </t>
 
 <table align="left">
-<name>Diagnostic Notation Support</name>
+<name>Diagnostic Notation</name>
 <thead>
   <tr>
   <th align="center">CBOR</th>
@@ -663,7 +663,7 @@ slightly more adapted for parsing, like single-line comments:
     <td align="center"><tt>{</tt>&nbsp;<em>key</em><tt>:</tt><em>value...</em>&nbsp;<tt>}</tt></td>
     <td>
       Map with zero or more comma-separated key/value pairs.
-      Key and value pairs are expressed as CBOR objects, separated by <tt>':'</tt> characters.
+      Key and value pairs are expressed as CBOR objects, separated by a <tt>':'</tt> character.
     </td>
     <td align="center"></td>
   </tr>
@@ -1162,36 +1162,41 @@ of miscellaneous CBOR objects and their encoding.</t>
 <table align="left">
 <name>Miscellaneous Items</name>
 <thead>
-  <tr><th align="center">CBOR Encoding</th>
-  <th align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diagnostic&nbsp;Notation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-  <th align="center">Comment</th></tr>
+<tr>
+<th align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diagnostic&nbsp;Notation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+<th align="center">CBOR Encoding</th>
+<th align="center">Comment</th>
+</tr>
 </thead>
 <tbody>
-<tr><td><tt>f5</tt></td>
-<td><tt>true</tt></td>
+<tr><td><tt>true</tt></td>
+<td><tt>f5</tt></td>
 <td>Boolean true</td></tr>
-<tr><td><tt>f6</tt></td>
-<td><tt>null</tt></td>
+<tr><td><tt>null</tt></td>
+<td><tt>f6</tt></td>
 <td>Null</td></tr>
-<tr><td><tt>f83b</tt></td>
-<td><tt>simple(59)</tt></td>
+<tr><td><tt>simple(59)</tt></td>
+<td><tt>f83b</tt></td>
 <td>Simple value</td></tr>
-<tr><td><tt>c074323032352d30332d33<br/>
+<tr><td><tt>0("2025-03-30T12:24:16Z")</tt></td>
+<td><tt>c074323032352d30332d33<br/>
 305431323a32343a31365a</tt></td>
-<td><tt>0("2025-03-30T12:24:16Z")</tt></td>
 <td>ISO date/time</td></tr>
-<tr><td><tt>8301820203820405</tt></td>
-<td><tt>[1, [2, 3], [4, 5]]</tt></td>
+<tr><td><tt>[1, [2, 3], [4, 5]]</tt></td>
+<td><tt>8301820203820405</tt></td>
 <td>Array combinations</td></tr>
-<tr><td><tt>a361610161620262616103</tt></td>
-<td><tt>{<br/>
+<tr><td><tt>{<br/>
 &nbsp;&nbsp;"a": 0,<br/>
 &nbsp;&nbsp;"b": 1,<br/>
 &nbsp;&nbsp;"aa": 2<br/>
 }</tt></td>
+<td><tt>a361610161620262616103</tt></td>
 <td>Map object</td></tr>
-<tr><td><tt>6cf09f9a8020736369656e6365</tt></td>
-<td><tt>"&#x1f680; science"</tt></td>
+<tr><td><tt>h'48656c6c6f2043424f5221'</tt></td>
+<td><tt>4b48656c6c6f2043424f5221</tt></td>
+<td>Binary string</td></tr>
+<tr><td><tt>"&#x1f680; science"</tt></td>
+<td><tt>6cf09f9a8020736369656e6365</tt></td>
 <td>Text string with emoji</td></tr>
 </tbody>
 </table>
@@ -1199,7 +1204,7 @@ of miscellaneous CBOR objects and their encoding.</t>
     </section>
     <section anchor="core.invalid">
       <name>Invalid Encodings</name>
-      <t>The following table holds a selection of objects, not permitted by CBOR/c.</t>
+      <t>The following table holds a selection of CBOR-encoded objects, not permitted by CBOR/c.</t>
 <table align="left">
 <name>Invalid Encodings</name>
 <thead>
@@ -1208,10 +1213,10 @@ of miscellaneous CBOR objects and their encoding.</t>
 </thead>
 <tbody>
 <tr>
-<td><tt>a2616200616101</tt></td>
+<td><tt>a2616201616100</tt></td>
 <td><tt>{<br/>
-&nbsp;&nbsp;"b": 0,<br/>
-&nbsp;&nbsp;"a": 1<br/>
+&nbsp;&nbsp;"b": 1,<br/>
+&nbsp;&nbsp;"a": 0<br/>
 }</tt></td>
 <td>Improper map key ordering</td>
 <td align="center">1, 2</td>
@@ -1288,7 +1293,7 @@ of miscellaneous CBOR objects and their encoding.</t>
 </table>
 <ol>
 <li>See also <xref target="legacy.systems"/>.</li>
-<li><em>Non-deterministic</em> encoding supported by <xref target="RFC8949"/>.</li>
+<li><em>Non-deterministically</em> encoded CBOR supported by <xref target="RFC8949"/>.</li>
 </ol>
 
     </section>
@@ -1600,8 +1605,8 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>03:</t>
         <t>Tweaking the abstract.</t>
-        <t>Protocol Primitives Support sub-section added.</t>
-        <t>Diagnostic Notation Support sub-section added.</t>
+        <t>Protocol Primitives sub-section added.</t>
+        <t>Diagnostic Notation sub-section added.</t>
         <t>Updated CBOR Tool Requirements</t>
         <t>Updated code example to actually use crypto</t>
         <t>Updated Acknowledgements.</t>
@@ -1639,6 +1644,7 @@ See also <xref target="core.invalid"/>.</t>
         </li>
         <li>
         <t>01:</t>
+        <t>Language nits</t>
         <t>&lt;table align="left"&gt;</t>
         </li>
       </ul>
