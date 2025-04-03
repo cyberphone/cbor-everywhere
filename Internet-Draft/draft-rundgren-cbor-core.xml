@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-01"
+  docName="draft-rundgren-cbor-core-02"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title abbrev="CBOR/c">CBOR&nbsp;Core (CBOR/c)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-01"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-02"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -698,7 +698,7 @@ slightly more adapted for parsing, like single-line comments:
     </li>
     <li>
       <em>Input only</em>: the control characters
-      (<tt>'\t'</tt> and <tt>'\n'</tt>)
+      <tt>'\t'</tt> and <tt>'\n'</tt>
       inside of string quotes <em>become a part of the text</em>.
       For normalizing line terminators,
       a single <tt>'\r'</tt> or the combination <tt>'\r\n'</tt>
@@ -1036,7 +1036,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>-Infinity</td></tr>
 <tr><td align="right"><tt>NaN</tt></td>
 <td align="right"><tt>f97e00</tt></td>
-<td>NaN</td></tr>
+<td>Not a number</td></tr>
 <tr><td align="right"><tt>5.960464477539063e-8</tt></td>
 <td align="right"><tt>f90001</tt></td>
 <td>Smallest positive <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
@@ -1646,6 +1646,10 @@ See also <xref target="core.invalid"/>.</t>
         <t>01:</t>
         <t>Language nits</t>
         <t>&lt;table align="left"&gt;</t>
+        </li>
+        <li>
+        <t>02:</t>
+        <t>Editorial</t>
         </li>
       </ul>
     </section>

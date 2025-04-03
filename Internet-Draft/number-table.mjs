@@ -128,7 +128,7 @@ if (intMode) {
   oneTurn("-0.0", "f98000", "Negative zero");
   oneTurn("Infinity", "f97c00", "Infinity");
   oneTurn("-Infinity", "f9fc00", "-Infinity");
-  oneTurn("NaN", "f97e00", "NaN");
+  oneTurn("NaN", "f97e00", "Not a number");
   floatGenBase(2, 5, 0x400n);
   floatGenBase(4, 8, 0x800000n);
   floatGenBase(8, 11, 0x10000000000000n);
