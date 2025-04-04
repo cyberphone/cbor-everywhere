@@ -85,12 +85,12 @@ See also <xref target="legacy.systems"/>.
         </t>
     <t>
 CBOR/c is intended to be agnostic with respect to programming
-languages.
+languages and platforms.
         </t>
         <t>
 By combining the compact binary representation and the rich set of
 data types offered by CBOR, with a deterministic encoding scheme,
-CBOR/c could for <em>new designs</em>, serve as viable alternative
+CBOR/c could for <em>new designs</em>, serve as a viable alternative
 to JSON <xref target="RFC8259"/>.
 Although the mandated encoding scheme is deployable in
 <xref target="CONSTRAINED"/> environments, the primary target is rather
@@ -175,11 +175,7 @@ required by the targeted application(s).
         </t>
         <t>
 Although extensions are imaginable, extensions will most likely cause
-<em>interoperability issues</em> and are thus NOT&nbsp;RECOMMENDED.  In addition,
-the mandated CBOR subset is compatible with most computer languages and platforms.
-Compared to the current state-of-the-art, JSON <xref target="RFC8259"/>,
-the availability of <tt>bigint</tt>, <tt>bstr</tt>, and "tagged data"
-represent major improvements.
+<em>interoperability issues</em> and are thus NOT&nbsp;RECOMMENDED.
   </t>
   <t>
 However, nothing prevents developers from at the application (API) level, 
@@ -588,7 +584,7 @@ slightly more adapted for parsing, like single-line comments:
     <td align="center">1, 2</td>
   </tr>
   <tr>
-    <td align="center"><tt>float16</tt></td>
+    <td align="center"><tt>float</tt></td>
     <td align="center"><tt>NaN</tt></td>
     <td>
       Not a number.
@@ -596,7 +592,7 @@ slightly more adapted for parsing, like single-line comments:
     <td align="center"></td>
   </tr>
   <tr>
-    <td align="center"><tt>float16</tt></td>
+    <td align="center"><tt>float</tt></td>
     <td align="center"><em>{sign}&#x2009;</em><tt>Infinity</tt></td>
     <td>
       Infinity.
@@ -631,7 +627,7 @@ slightly more adapted for parsing, like single-line comments:
    <td align="center"><tt>bstr</tt></td>
     <td align="center"><tt>&lt;&lt;</tt>&nbsp;<em>object...</em>&nbsp;<tt>&gt;&gt;</tt></td>
     <td>Construct holding zero or more comma-separated CBOR objects
-    which are subsequently wrapped in a byte-string.</td>
+    that are subsequently wrapped in a byte-string.</td>
     <td align="center">6</td>
   </tr>
   <tr>
@@ -642,7 +638,7 @@ slightly more adapted for parsing, like single-line comments:
   </tr>
   <tr>
     <td align="center"><tt>bool</tt></td>
-    <td align="center"><tt>true</tt>|<tt>false</tt></td>
+    <td align="center"><tt>true</tt>&#x200a;|&#x200a;<tt>false</tt></td>
     <td>Boolean value.</td>
     <td align="center"></td>
   </tr>
@@ -669,7 +665,7 @@ slightly more adapted for parsing, like single-line comments:
   </tr>
   <tr>
     <td align="center"><tt>#6.nnn</tt></td>
-    <td align="center"><em>n</em><tt>(</tt>&nbsp;<em>object</em>&nbsp;<tt>)</tt></td>
+    <td align="center"><em>n</em>&#x2009;<tt>(</tt>&nbsp;<em>object</em>&nbsp;<tt>)</tt></td>
     <td>Tag holding a CBOR object.</td>
     <td align="center">1</td>
   </tr>
