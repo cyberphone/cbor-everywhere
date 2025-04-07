@@ -179,7 +179,7 @@ Although extensions are imaginable, extensions will most likely cause
   </t>
   <t>
 However, nothing prevents developers from at the application (API) level, 
-through CBOR tags, and similar mapping concepts, support additional, "virtual" data types,
+through CBOR tags and similar mapping concepts, support additional, "virtual" data types,
 analogous to how you map an application's data model to the
 set of data types available, be it a data interchange format,
 a database, or a programming language.
