@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-02"
+  docName="draft-rundgren-cbor-core-03"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title abbrev="CBOR/c">CBOR&nbsp;Core (CBOR/c)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-02"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-03"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -179,13 +179,13 @@ Although extensions are imaginable, extensions will most likely cause
   </t>
   <t>
 However, nothing prevents developers from at the application (API) level, 
-through mapping concepts, support additional, "virtual" data types,
+through CBOR tags, and similar mapping concepts, support additional, "virtual" data types,
 analogous to how you map an application's data model to the
 set of data types available, be it a data interchange format,
 a database, or a programming language.
 </t>
 <t>
-OpenAPI <xref target="OPENAPI"/> is an example of an API which defines
+OpenAPI <xref target="OPENAPI"/> is an example of an API that defines
 data types through mapping.
 </t>
 
@@ -290,7 +290,7 @@ provided by CBOR tools compliant with this specification:
   be it updated or not.
   </li>
   <li>
-  Irrespective of if CBOR data was decoded, updated, or created 
+  Irrespective of if CBOR data is decoded, updated, or created 
   programmatically, deterministic encoding MUST be maintained.
   </li>
     <li>
@@ -305,16 +305,29 @@ MUST be <em>separated</em> for cases where <em>reserialization</em>
 could present a problem, like in this Chrome browser console example:
 </t>
 <sourcecode name="Platform issues" type="cbor">
-<![CDATA[> let date = new Date('2025-03-02T13:08:55.0001+03:00');
-> date.toISOString()
-'2025-03-02T10:08:55.000Z']]>
+<![CDATA[let date = new Date('2025-03-02T13:08:55.0001+03:00');
+console.log(date.toISOString());
+> 2025-03-02T10:08:55.000Z]]>
 </sourcecode>
 <t>
 How this separation actually is accomplished is out of scope for this specification.
 However, <em>encapsulation</em> of CBOR data in <em>high-level</em>, and
 <em>self-rendering objects</em>, represents an established method,
 featured in similar tools for ASN.1.
-The code in <xref target="example.code"/> shows an example
+If applied to the date example above, you would get something like following,
+here using <xref target="CBOR.JS"/>:</t>
+<sourcecode name="Date example" type="cbor">
+<![CDATA[// "2025-03-02T13:08:55.0001+03:00"
+let cbor = CBOR.fromHex("781e323032352d30332d30325431333a30383a35352e303030312b30333a3030");
+let cborObject = CBOR.decode(cbor)
+console.log(cborObject.getDateTime());  // JavaScript Date only supports milliseconds
+                                        // and converts time to local time or UTC
+> Sun Mar 02 2025 11:08:55 GMT+0100 (Central European Standard Time)
+console.log(CBOR.toHex(cborObject.encode()));  // Reencode returns identical CBOR data 
+> 781e323032352d30332d30325431333a30383a35352e303030312b30333a3030]]>
+</sourcecode>
+<t>
+<xref target="example.code"/> shows an example
 that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
 </t>
 
@@ -483,7 +496,7 @@ Note that <tt>bool</tt> and <tt>null</tt> actually are simple values.
 </li>
 <li>
 <t>
-Since CBOR does not feature a native-level time-object,
+Since CBOR lacks a native-level time-object,
 <xref section="3.4" sectionFormat="of"  target="RFC8949"/>
 introduces two variants of time-objects using the 
 CBOR tags <tt>0</tt> and <tt>1</tt>.
@@ -1029,46 +1042,46 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>Infinity</td></tr>
 <tr><td align="right"><tt>-Infinity</tt></td>
 <td align="right"><tt>f9fc00</tt></td>
-<td>-Infinity</td></tr>
+<td>Negative infinity</td></tr>
 <tr><td align="right"><tt>NaN</tt></td>
 <td align="right"><tt>f97e00</tt></td>
 <td>Not a number</td></tr>
 <tr><td align="right"><tt>5.960464477539063e-8</tt></td>
 <td align="right"><tt>f90001</tt></td>
-<td>Smallest positive <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
+<td>Smallest positive subnormal <tt>float16</tt></td></tr>
 <tr><td align="right"><tt>0.00006097555160522461</tt></td>
 <td align="right"><tt>f903ff</tt></td>
-<td>Largest positive <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
+<td>Largest positive subnormal <tt>float16</tt></td></tr>
 <tr><td align="right"><tt>0.00006103515625</tt></td>
 <td align="right"><tt>f90400</tt></td>
-<td>Smallest positive 16-bit <tt>float</tt></td></tr>
+<td>Smallest positive <tt>float16</tt></td></tr>
 <tr><td align="right"><tt>65504.0</tt></td>
 <td align="right"><tt>f97bff</tt></td>
-<td>Largest positive 16-bit <tt>float</tt></td></tr>
+<td>Largest positive <tt>float16</tt></td></tr>
 <tr><td align="right"><tt>1.401298464324817e-45</tt></td>
 <td align="right"><tt>fa00000001</tt></td>
-<td>Smallest positive <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
+<td>Smallest positive subnormal <tt>float32</tt></td></tr>
 <tr><td align="right"><tt>1.1754942106924411e-38</tt></td>
 <td align="right"><tt>fa007fffff</tt></td>
-<td>Largest positive <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
+<td>Largest positive subnormal <tt>float32</tt></td></tr>
 <tr><td align="right"><tt>1.1754943508222875e-38</tt></td>
 <td align="right"><tt>fa00800000</tt></td>
-<td>Smallest positive 32-bit <tt>float</tt></td></tr>
+<td>Smallest positive <tt>float32</tt></td></tr>
 <tr><td align="right"><tt>3.4028234663852886e+38</tt></td>
 <td align="right"><tt>fa7f7fffff</tt></td>
-<td>Largest positive 32-bit <tt>float</tt></td></tr>
+<td>Largest positive <tt>float32</tt></td></tr>
 <tr><td align="right"><tt>5.0e-324</tt></td>
 <td align="right"><tt>fb0000000000000001</tt></td>
-<td>Smallest positive <em>subnormal</em> 64-bit <tt>float</tt></td></tr>
+<td>Smallest positive subnormal <tt>float64</tt></td></tr>
 <tr><td align="right"><tt>2.225073858507201e-308</tt></td>
 <td align="right"><tt>fb000fffffffffffff</tt></td>
-<td>Largest positive <em>subnormal</em> 64-bit <tt>float</tt></td></tr>
+<td>Largest positive subnormal <tt>float64</tt></td></tr>
 <tr><td align="right"><tt>2.2250738585072014e-308</tt></td>
 <td align="right"><tt>fb0010000000000000</tt></td>
-<td>Smallest positive 64-bit <tt>float</tt></td></tr>
+<td>Smallest positive <tt>float64</tt></td></tr>
 <tr><td align="right"><tt>1.7976931348623157e+308</tt></td>
 <td align="right"><tt>fb7fefffffffffffff</tt></td>
-<td>Largest positive 64-bit <tt>float</tt></td></tr>
+<td>Largest positive <tt>float64</tt></td></tr>
 <tr><td align="right"><tt>-0.0000033333333333333333</tt></td>
 <td align="right"><tt>fbbecbf647612f3696</tt></td>
 <td>Randomly selected number</td></tr>
@@ -1086,10 +1099,10 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>Number without a fractional part</td></tr>
 <tr><td align="right"><tt>-5.960464477539063e-8</tt></td>
 <td align="right"><tt>f98001</tt></td>
-<td>Smallest negative <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
+<td>Smallest negative subnormal <tt>float16</tt></td></tr>
 <tr><td align="right"><tt>-5.960464477539062e-8</tt></td>
 <td align="right"><tt>fbbe6fffffffffffff</tt></td>
-<td>Adjacent smallest negative <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
+<td>Adjacent smallest negative subnormal <tt>float16</tt></td></tr>
 <tr><td align="right"><tt>-5.960464477539064e-8</tt></td>
 <td align="right"><tt>fbbe70000000000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
@@ -1098,7 +1111,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>0.0000609755516052246</tt></td>
 <td align="right"><tt>fb3f0ff7ffffffffff</tt></td>
-<td>Adjacent largest <em>subnormal</em> 16-bit <tt>float</tt></td></tr>
+<td>Adjacent largest subnormal <tt>float16</tt></td></tr>
 <tr><td align="right"><tt>0.000060975551605224616</tt></td>
 <td align="right"><tt>fb3f0ff80000000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
@@ -1107,7 +1120,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>0.00006103515624999999</tt></td>
 <td align="right"><tt>fb3f0fffffffffffff</tt></td>
-<td>Adjacent smallest 16-bit <tt>float</tt></td></tr>
+<td>Adjacent smallest <tt>float16</tt></td></tr>
 <tr><td align="right"><tt>0.00006103515625000001</tt></td>
 <td align="right"><tt>fb3f10000000000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
@@ -1116,7 +1129,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>65503.99999999999</tt></td>
 <td align="right"><tt>fb40effbffffffffff</tt></td>
-<td>Adjacent largest 16-bit <tt>float</tt></td></tr>
+<td>Adjacent largest <tt>float16</tt></td></tr>
 <tr><td align="right"><tt>65504.00000000001</tt></td>
 <td align="right"><tt>fb40effc0000000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
@@ -1125,25 +1138,25 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>1.4012984643248169e-45</tt></td>
 <td align="right"><tt>fb369fffffffffffff</tt></td>
-<td>Adjacent smallest <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
+<td>Adjacent smallest subnormal <tt>float32</tt></td></tr>
 <tr><td align="right"><tt>1.4012984643248174e-45</tt></td>
 <td align="right"><tt>fb36a0000000000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>1.175494210692441e-38</tt></td>
 <td align="right"><tt>fb380fffffbfffffff</tt></td>
-<td>Adjacent largest <em>subnormal</em> 32-bit <tt>float</tt></td></tr>
+<td>Adjacent largest subnormal <tt>float32</tt></td></tr>
 <tr><td align="right"><tt>1.1754942106924412e-38</tt></td>
 <td align="right"><tt>fb380fffffc0000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>1.1754943508222874e-38</tt></td>
 <td align="right"><tt>fb380fffffffffffff</tt></td>
-<td>Adjacent smallest 32-bit <tt>float</tt></td></tr>
+<td>Adjacent smallest <tt>float32</tt></td></tr>
 <tr><td align="right"><tt>1.1754943508222878e-38</tt></td>
 <td align="right"><tt>fb3810000000000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
 <tr><td align="right"><tt>3.4028234663852882e+38</tt></td>
 <td align="right"><tt>fb47efffffdfffffff</tt></td>
-<td>Adjacent largest 32-bit <tt>float</tt></td></tr>
+<td>Adjacent largest <tt>float32</tt></td></tr>
 <tr><td align="right"><tt>3.402823466385289e+38</tt></td>
 <td align="right"><tt>fb47efffffe0000001</tt></td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-"-</td></tr>
@@ -1646,6 +1659,10 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>02:</t>
         <t>Editorial</t>
+        </li>
+        <li>
+        <t>03:</t>
+        <t>Added Date decode/reencode example</t>
         </li>
       </ul>
     </section>
