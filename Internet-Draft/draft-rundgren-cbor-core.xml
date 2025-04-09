@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-03"
+  docName="draft-rundgren-cbor-core-04"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title abbrev="CBOR/c">CBOR&nbsp;Core (CBOR/c)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-03"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-04"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -440,15 +440,27 @@ API support for the following primitives:
 <td align="center">5</td>
 </tr>
 <tr>
+<td align="center"><tt>tstr</tt></td>
+<td align="center"><tt>String</tt></td>
+<td>Text string</td>
+<td></td>
+</tr>
+<tr>
+<td align="center"><tt>bstr</tt></td>
+<td align="center"><tt>Bytes</tt></td>
+<td>Byte string</td>
+<td></td>
+</tr>
+<tr>
 <td align="center">See note</td>
 <td align="center"><tt>EpochTime</tt></td>
-<td>Time-object expressed as a number</td>
+<td>Time object expressed as a number</td>
 <td align="center">6</td>
 </tr>
 <tr>
 <td align="center">See note</td>
 <td align="center"><tt>DateTime</tt></td>
-<td>Time-object expressed as a text string</td>
+<td>Time object expressed as a text string</td>
 <td align="center">6</td>
 </tr>
 </tbody>
@@ -496,11 +508,11 @@ Note that <tt>bool</tt> and <tt>null</tt> actually are simple values.
 </li>
 <li>
 <t>
-Since CBOR lacks a native-level time-object,
+Since CBOR lacks a native-level time object,
 <xref section="3.4" sectionFormat="of"  target="RFC8949"/>
-introduces two variants of time-objects using the 
+introduces two variants of time objects using the 
 CBOR tags <tt>0</tt> and <tt>1</tt>.
-The time-objects SHOULD also be supported without the
+The time objects SHOULD also be supported without the
 tag construct.
 </t>
 </li>
@@ -640,13 +652,13 @@ slightly more adapted for parsing, like single-line comments:
    <td align="center"><tt>bstr</tt></td>
     <td align="center"><tt>&lt;&lt;</tt>&nbsp;<em>object...</em>&nbsp;<tt>&gt;&gt;</tt></td>
     <td>Construct holding zero or more comma-separated CBOR objects
-    that are subsequently wrapped in a byte-string.</td>
+    that are subsequently wrapped in a byte string.</td>
     <td align="center">6</td>
   </tr>
   <tr>
     <td align="center"><tt>tstr</tt></td>
     <td align="center"><tt>&quot;</tt><em>text</em><tt>&quot;</tt></td>
-    <td>UTF-8 encoded text-string.</td>
+    <td>UTF-8 encoded text string.</td>
     <td align="center">4, 5</td>
   </tr>
   <tr>
@@ -1663,6 +1675,11 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>03:</t>
         <t>Added Date decode/reencode example</t>
+        </li>
+        <li>
+        <t>04:</t>
+        <t>Editorial</t>
+        <t>Added bstr and tstr to Protocol Primitives</t>
         </li>
       </ul>
     </section>
