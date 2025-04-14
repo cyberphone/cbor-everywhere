@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-04"
+  docName="draft-rundgren-cbor-core-05"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title abbrev="CBOR/c">CBOR&nbsp;Core (CBOR/c)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-04"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-05"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -100,7 +100,7 @@ general-purpose computing platforms like mobile phones and Web servers.
 However, for unleashing the full power of deterministic encoding,
 the ability to perform cryptographic operations on "raw" (non-wrapped)
 CBOR data, compliant CBOR/c tools need additional functionality.
-See also <xref target="enveloped.signatures"/>.
+See also <xref target="embedded.signatures"/>.
         </t>
         <section anchor="design.goals">
         <name>Design Goals</name>
@@ -264,7 +264,7 @@ specified by COSE in <xref section="2" sectionFormat="of" target="RFC9052"/>,
 no longer is a prerequisite.
 That is, cryptographic operations can <em>optionally</em> be performed
 on "raw" CBOR data.
-Turn to <xref target="enveloped.signatures"/> for
+Turn to <xref target="embedded.signatures"/> for
 an example of an application depending on such features.
 </t>
 <t>
@@ -1321,11 +1321,11 @@ of miscellaneous CBOR objects and their encoding.</t>
 
     </section>
     
-    <section anchor="enveloped.signatures">
-      <name>Enveloped Signatures</name>
+    <section anchor="embedded.signatures">
+      <name>Embedded Signatures</name>
       <t>This is a <em>non-normative</em> appendix showing how CBOR/c
-      can be used for supporting enveloped signatures.</t>
-      <t>The primary advantages with <em>enveloped</em> signatures compared to
+      can be used for supporting embedded signatures.</t>
+      <t>The primary advantages with <em>embedded</em> signatures compared to
       <em>enveloping</em> signatures (like used by COSE <xref target="RFC9052"/>), 
       include:</t>
       <ul>
@@ -1381,7 +1381,7 @@ See also <xref target="COTX"/>.
       <section anchor="example.signing">
         <name>Signature Process</name>
         <t>This section describes the steps required for adding an
-        enveloped signature to the CBOR map object in
+        embedded signature to the CBOR map object in
         <xref target="example.unsigned"/>.
         To avoid confusing CBOR <tt>map</tt> keys with cryptographic keys,
         the former are referred to as "labels".
@@ -1426,7 +1426,7 @@ See also <xref target="COTX"/>.
 
       <section anchor="example.validation">
         <name>Validation Process</name>
-        <t>In order to validate the enveloped signature created in the
+        <t>In order to validate the embedded signature created in the
         <xref target="example.signing"/>,
         the following steps are performed:</t>
         <ol>
@@ -1680,6 +1680,10 @@ See also <xref target="core.invalid"/>.</t>
         <t>04:</t>
         <t>Editorial</t>
         <t>Added bstr and tstr to Protocol Primitives</t>
+        </li>
+        <li>
+        <t>04:</t>
+        <t>Enveloped =&gt; Embedded (signature)</t>
         </li>
       </ul>
     </section>
