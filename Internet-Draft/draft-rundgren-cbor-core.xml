@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-05"
+  docName="draft-rundgren-cbor-core-06"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title abbrev="CBOR/c">CBOR&nbsp;Core (CBOR/c)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-05"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-06"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -47,7 +47,7 @@
     <keyword>Deterministic</keyword>
     <keyword>Encoding</keyword>
     <keyword>Cryptography</keyword>
-    <keyword>Enveloped</keyword>
+    <keyword>Embedded</keyword>
     <keyword>Signature</keyword>
 
     <abstract>
@@ -1350,7 +1350,7 @@ See also <xref target="COTX"/>.
         having to wrap data in CBOR "bstr" objects.
         Non-wrapped data also makes debugging and documentation easier.</li>
       </ul>
-      <t>Enveloped signatures are for example featured in Verified Credentials 
+      <t>Embedded signatures are for example featured in Verified Credentials 
       <xref target="CREDENTIALS"/>.
       A drawback with designs based on JSON <xref target="RFC8259"/> is that they
       rely on <em>canonicalization schemes</em> like JCS <xref target="RFC8785"/>,
@@ -1564,7 +1564,8 @@ It is assumed that <em>most</em>
 systems using CBOR are able to process an (<em>application specific</em>), 
 selection of CBOR data items that are encoded in compliance with
 <xref target="RFC8949"/>.  Since the deterministic encoding scheme
-mandated by CBOR/c, also is compliant with <xref target="RFC8949"/>,
+mandated by CBOR/c, also is compliant with <xref target="RFC8949"/>
+(as well as with <xref target="CBOR.ME"/>),
 there should be no major interoperability issues. 
 That is, if the previous assumption actually is correct &#x1f60f;
 </t>
@@ -1682,8 +1683,12 @@ See also <xref target="core.invalid"/>.</t>
         <t>Added bstr and tstr to Protocol Primitives</t>
         </li>
         <li>
-        <t>04:</t>
+        <t>05:</t>
         <t>Enveloped =&gt; Embedded (signature)</t>
+        </li>
+        <li>
+        <t>06:</t>
+        <t>Updated Acknowledgements</t>
         </li>
       </ul>
     </section>
@@ -1699,7 +1704,7 @@ Carsten Bormann, proved to be invaluable.
 Non-exhaustive list of people who directly (and sometimes indirectly) contributed
 to this specification include: Carsten Bormann,
 Alan DeKok, Vadim Goncharov, Joe Hildebrand,
-Laurence Lundblade, Rohan Mahy, Wolf McNally,
+Laurence Lundblade, Rohan Mahy,
 Michael Richardson, Göran Selander, and Orie Steele.
 </t>
     </section>
