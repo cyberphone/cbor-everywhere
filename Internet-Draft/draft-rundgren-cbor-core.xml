@@ -132,8 +132,8 @@ actual specification.
 <ul>
 <li>This document uses the conventions defined in CDDL <xref target="RFC8610"/> 
 for expressing the type of CBOR <xref target="RFC8949"/> data items.</li>
-<li>Examples showing CBOR data, are expressed in "diagnostic notation" as defined
-in <xref section="8" sectionFormat="of"  target="RFC8949"/>.</li>
+<li>Examples showing CBOR data, are expressed in "diagnostic notation"
+(<xref target="diagnostic.notation"/>).</li>
 <li>The term "CBOR&nbsp;object" is equivalent to "CBOR&nbsp;data&nbsp;item"
 used in <xref target="RFC8949"/>.</li>
 </ul>
@@ -254,8 +254,11 @@ RFC: Indefinite length objects MUST be <em>rejected</em>.
       </ul>
       </section>
       
-      <section anchor="core.tools">
-        <name>CBOR Tool Requirements</name>
+      <section anchor="implementation">
+        <name>Implementation Considerations</name>
+        <section anchor="api.level.det">
+          <name>API Level Requirements</name>
+
 <t>
 An important feature that deterministic encoding brings to the table is
 that wrapping CBOR data to be signed in <tt>bstr</tt> objects, like
@@ -277,7 +280,7 @@ provided by CBOR tools compliant with this specification:
   <tt>bigfloat</tt> (see <xref section="3.4.4" sectionFormat="of"  target="RFC8949"/>).
   </li>
    <li>
-  It MUST be possible to find out the type of a CBOR object, <em>before</em> it is accessed.
+  It MUST be possible to find out the type of a decoded CBOR object, <em>before</em> it is accessed.
   </li>
   <li>
   It MUST be possible to <em>add</em>, <em>delete</em>, and
@@ -311,7 +314,7 @@ console.log(date.toISOString());
 <t>
 How this separation actually is accomplished is out of scope for this specification.
 However, <em>encapsulation</em> of CBOR data in <em>high-level</em>, and
-<em>self-rendering objects</em>, represents an established method,
+<em>self-rendering wrapper objects</em>, represents an established method,
 featured in similar tools for ASN.1.
 If applied to the date example above, you would get something like following,
 here using <xref target="CBOR.JS"/>:</t>
@@ -328,9 +331,22 @@ console.log(CBOR.toHex(cborObject.encode()));  // Reencode returns identical CBO
 > 781e323032352d30332d30325431333a30383a35352e303230312b30333a3030]]>
 </sourcecode>
 <t>
+Fully compliant CBOR/Core implementations SHOULD provide
+<em>bi-directional</em> (symmetric) representations of all
+core objects (<xref target="core.objects"/>),
+without requiring a schema or similar.
+</t>
+<t>
+However, possible constraints on data imposed by <em>applications</em>,
+like limiting ISO DateTime objects to UTC notation, or requiring integers
+representing enumerations to be in a specific range, is out-of-scope
+for CBOR/Core. 
+</t>
+<t>
 <xref target="example.code"/> shows an example
 that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
 </t>
+</section>
 
         <section anchor="protocol.primitives">
         <name>Protocol Primitives</name>
@@ -1030,7 +1046,7 @@ with an emphasize on edge cases.</t>
 the serialization method for the <tt>Number</tt> data type,
 defined by <xref target="ECMASCRIPT"/> with one change:
 to comply with diagnostic notation
-(section 8 of <xref target="RFC8949"/>), all values are
+(<xref target="diagnostic.notation"/>), all values are
 expressed as floating-point numbers.
 The rationale for using <xref target="ECMASCRIPT"/> serialization is
 because it is supposed to generate the shortest and most
@@ -1551,8 +1567,8 @@ if (CBOR.compareArrays(readSig, actualSig)) {      // HMAC validation
 // Validated object, access the "payload":
 let p1 = object.get(APP_P1_LBL).getString();       // p1 should now contain "data"]]></sourcecode>
 <t>
-Note that this code depends heavily on the CBOR tool features
-outlined in <xref target="core.tools"/>.
+Note that this code depends heavily on the API features
+outlined in <xref target="api.level.det"/>.
 </t>
       </section>
 
@@ -1697,6 +1713,7 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>07:</t>
         <t>Dropped CBOR/c. Now it is just CBOR/Core</t>
+        <t>Introduced API Level Considerations</t>
         <t>Updated Date example, and added Rule 2 to Supporting Existing Systems</t>
         </li>
       </ul>
