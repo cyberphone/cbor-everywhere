@@ -22,7 +22,7 @@
   version="3">
 
   <front>
-    <title abbrev="CBOR/c">CBOR&nbsp;Core (CBOR/c)</title>
+    <title>CBOR/Core</title>
 
     <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-07"/>
    
@@ -52,7 +52,7 @@
 
     <abstract>
       <t>
-This document defines CBOR&nbsp;Core (CBOR/c),
+This document defines CBOR/Core,
 a profile of CBOR (RFC 8949)
 intended to serve as a viable replacement for JSON in
 computationally advanced systems like Internet browsers,
@@ -73,24 +73,24 @@ This document mainly targets CBOR tool developers.
     <section>
       <name>Introduction</name>
           <t>
-The CBOR&nbsp;Core (CBOR/c) specification is based on CBOR <xref target="RFC8949"/>.
+The CBOR/Core specification is based on CBOR <xref target="RFC8949"/>.
 While there are different ways you can encode certain CBOR objects,
 this is non-trivial to support in general purpose platform-based tools,
 not to mention the limited utility of such measures.
-To cope with this, CBOR/c defines a specific (non-variant) encoding scheme,
+To cope with this, CBOR/Core defines a specific (non-variant) encoding scheme,
 aka &quot;Deterministic Encoding&quot;.  The selected encoding
 scheme is believed to be <em>compatible</em> with most existing
 systems using CBOR.
 See also <xref target="legacy.systems"/>.
         </t>
     <t>
-CBOR/c is intended to be agnostic with respect to programming
+CBOR/Core is intended to be agnostic with respect to programming
 languages and platforms.
         </t>
         <t>
 By combining the compact binary representation and the rich set of
 data types offered by CBOR, with a deterministic encoding scheme,
-CBOR/c could for <em>new designs</em>, serve as a viable alternative
+CBOR/Core could for <em>new designs</em>, serve as a viable alternative
 to JSON <xref target="RFC8259"/>.
 Although the mandated encoding scheme is deployable in
 <xref target="CONSTRAINED"/> environments, the primary target is rather
@@ -99,7 +99,7 @@ general-purpose computing platforms like mobile phones and Web servers.
         <t>
 However, for unleashing the full power of deterministic encoding,
 the ability to perform cryptographic operations on "raw" (non-wrapped)
-CBOR data, compliant CBOR/c tools need additional functionality.
+CBOR data, compliant CBOR/Core tools need additional functionality.
 See also <xref target="embedded.signatures"/>.
         </t>
         <section anchor="design.goals">
@@ -136,7 +136,6 @@ for expressing the type of CBOR <xref target="RFC8949"/> data items.</li>
 in <xref section="8" sectionFormat="of"  target="RFC8949"/>.</li>
 <li>The term "CBOR&nbsp;object" is equivalent to "CBOR&nbsp;data&nbsp;item"
 used in <xref target="RFC8949"/>.</li>
-<li>The term "CBOR&nbsp;Core" is in this document abbreviated to "CBOR/c".</li>
 </ul>
       </section>
 
@@ -144,11 +143,11 @@ used in <xref target="RFC8949"/>.</li>
     
     <section anchor="detailed.description">
       <name>Detailed Description</name>
-      <t>This section describes the three pillars that CBOR/c relies on.</t>
+      <t>This section describes the three pillars that CBOR/Core relies on.</t>
 
       <section anchor="core.objects">
         <name>Supported CBOR Objects</name>
-        <t>The following table shows the set of CBOR objects supported by CBOR/c:</t>
+        <t>The following table shows the set of CBOR objects supported by CBOR/Core:</t>
 <table align="left">
 <name>Supported CBOR Objects</name>
 <thead>
@@ -170,7 +169,7 @@ used in <xref target="RFC8949"/>.</li>
 </tbody>
 </table>
         <t>
-Conforming implementations (of course) only have to implement the CBOR/c types
+Conforming implementations (of course) only have to implement the CBOR/Core types
 required by the targeted application(s).
         </t>
         <t>
@@ -194,10 +193,10 @@ data types through mapping.
       <section anchor="core.encoding">
         <name>Deterministic Encoding Scheme</name>
         <t>
-In CBOR/c deterministic encoding is <em>mandatory</em>.
+In CBOR/Core deterministic encoding is <em>mandatory</em>.
 The encoding scheme adheres to <xref section="4.2" sectionFormat="of" target="RFC8949"/>,
 but adds a few constraints (denoted by RFC+), where the RFC offers choices.
-The following list contains a summary of the CBOR/c deterministic encoding rules:
+The following list contains a summary of the CBOR/Core deterministic encoding rules:
         </t>
       <ul>
         <li>
@@ -337,7 +336,7 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
         <name>Protocol Primitives</name>
         <t>
 To facilitate cross-platform <em>protocol interoperability</em>,
-implementers of CBOR/c compatible tools SHOULD include <em>decoder</em>
+implementers of CBOR/Core compatible tools SHOULD include <em>decoder</em>
 API support for the following primitives:
         </t>
 <table align="left">
@@ -533,12 +532,12 @@ for dealing with 64-bit integers.
 
 <section anchor="media.tyoe">
 <name>Media Type</name>
-<t>Protocols building on CBOR/c, are RECOMMENDED using the media type: <tt>application/cbor</tt>.</t> 
+<t>Protocols building on CBOR/Core, are RECOMMENDED using the media type: <tt>application/cbor</tt>.</t> 
 </section>
 
 <section anchor="diagnostic.notation">
 <name>Diagnostic Notation</name>
-<t>Compliant CBOR/c implementations SHOULD include support for
+<t>Compliant CBOR/Core implementations SHOULD include support for
 <em>bi-directional</em> diagnostic notation, to facilitate:</t>
 <ul>
 <li>Generation of developer-friendly debugging and logging data</li>
@@ -769,7 +768,7 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
     <section anchor="Security">
        <name>Security Considerations</name>
 <t>
-CBOR/c does not introduce security issues beyond
+CBOR/Core does not introduce security issues beyond
 what is already applicable to  <xref target="RFC8949"/>.
 </t>
 <t>
@@ -1227,7 +1226,7 @@ of miscellaneous CBOR objects and their encoding.</t>
     </section>
     <section anchor="core.invalid">
       <name>Invalid Encodings</name>
-      <t>The following table holds a selection of CBOR-encoded objects, not permitted by CBOR/c.</t>
+      <t>The following table holds a selection of CBOR-encoded objects, not permitted by CBOR/Core.</t>
 <table align="left">
 <name>Invalid Encodings</name>
 <thead>
@@ -1325,7 +1324,7 @@ of miscellaneous CBOR objects and their encoding.</t>
     
     <section anchor="embedded.signatures">
       <name>Embedded Signatures</name>
-      <t>This is a <em>non-normative</em> appendix showing how CBOR/c
+      <t>This is a <em>non-normative</em> appendix showing how CBOR/Core
       can be used for supporting embedded signatures.</t>
       <t>The primary advantages with <em>embedded</em> signatures compared to
       <em>enveloping</em> signatures (like used by COSE <xref target="RFC9052"/>), 
@@ -1356,7 +1355,7 @@ See also <xref target="COTX"/>.
       <xref target="CREDENTIALS"/>.
       A drawback with designs based on JSON <xref target="RFC8259"/> is that they
       rely on <em>canonicalization schemes</em> like JCS <xref target="RFC8785"/>,
-      that require specialized encoders and decoders, whereas CBOR/c works
+      that require specialized encoders and decoders, whereas CBOR/Core works
       "straight out of the box".</t>
 
       <section anchor="example.signature">
@@ -1367,7 +1366,7 @@ See also <xref target="COTX"/>.
       For the sake of simplicity, the example uses an HMAC
       (see <xref target="example.parameters"/>)
       as signature algorithm.</t>
-      <t>For a more sophisticated use of CBOR/c, combining
+      <t>For a more sophisticated use of CBOR/Core, combining
       signatures and encryption, see <xref target="WALLET"/>.</t>
 
       <section anchor="example.unsigned">
@@ -1482,7 +1481,7 @@ See also <xref target="COTX"/>.
       <section anchor="example.code">
         <name>Code Example</name>
         <t>Using a JavaScript implementation <xref target="CBOR.JS"/>
-        of CBOR/c, together with Node.js
+        of CBOR/Core, together with Node.js
         <xref target="NODE.JS"/>,
         basic signature creation and validation supporting
         the example in  <xref target="example.signature"/>,
@@ -1566,17 +1565,17 @@ It is assumed that <em>most</em>
 systems using CBOR are able to process an (<em>application specific</em>), 
 selection of CBOR data items that are encoded in compliance with
 <xref target="RFC8949"/>.  Since the deterministic encoding scheme
-mandated by CBOR/c, also is compliant with <xref target="RFC8949"/>
+mandated by CBOR/Core, also is compliant with <xref target="RFC8949"/>
 (as well as with <xref target="CBOR.ME"/>),
 there should be no major interoperability issues. 
 That is, if the previous assumption actually is correct &#x1f60f;
 </t>
 <t>
-However, in the <em>other</em> direction (CBOR/c tools processing
+However, in the <em>other</em> direction (CBOR/Core tools processing
 data from systems using "legacy" CBOR encoding schemes),
 the situation is likely to be considerably more challenging
 since deterministic encoding "by design" is <em>strict</em>.
-Due to this potential obstacle, implementers of CBOR/c tools,
+Due to this potential obstacle, implementers of CBOR/Core tools,
 are RECOMMENDED to offer <em>decoder</em> options that permit "relaxing"
 the rigidness of deterministic encoding with respect to:</t>
 <dl newline="true">
@@ -1589,13 +1588,13 @@ derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="R
 <dd>Duplicate keys MUST still be rejected.</dd>
 </dl>
 <t>Note that regardless of the format of decoded CBOR data, a compliant
-CBOR/c implementation MUST maintain deterministic encoding.
+CBOR/Core implementation MUST maintain deterministic encoding.
 See also <xref target="core.invalid"/>.</t>
     </section>
 
     <section anchor="tools.online">
       <name>Compatible Online Tools</name>
-      <t>For testing and learning about CBOR/c,
+      <t>For testing and learning about CBOR/Core,
       there are currently a number of compatible
       online tools (subject to availability...).</t>
       <dl newline="true">
@@ -1608,7 +1607,7 @@ See also <xref target="core.invalid"/>.</t>
 
     <section anchor="tools.implementations">
       <name>Compatible Implementations</name>
-      <t>For using CBOR/c in applications, there are
+      <t>For using CBOR/Core in applications, there are
       currently a number of compatible libraries.</t>
       <dl newline="true">
         <dt><xref target="CBOR.JS"/>:</dt>
@@ -1697,6 +1696,7 @@ See also <xref target="core.invalid"/>.</t>
         </li>
         <li>
         <t>07:</t>
+        <t>Dropped CBOR/c. Now it is just CBOR/Core</t>
         <t>Updated Date example, and added Rule 2 to Supporting Existing Systems</t>
         </li>
       </ul>
