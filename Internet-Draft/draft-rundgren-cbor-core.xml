@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-06"
+  docName="draft-rundgren-cbor-core-07"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title abbrev="CBOR/c">CBOR&nbsp;Core (CBOR/c)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-06"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-07"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -203,7 +203,7 @@ The following list contains a summary of the CBOR/c deterministic encoding rules
         <li>
 RFC+: Floating-point and integer objects MUST be treated as <em>distinct types</em>
 regardless of their numeric value. This is compliant with
-Rule&nbsp;2 in <xref section="4.2.2" sectionFormat="of" target="RFC8949"/>.
+"Rule&nbsp;2" in <xref section="4.2.2" sectionFormat="of" target="RFC8949"/>.
         </li>
         <li>
         <t>
@@ -305,9 +305,9 @@ MUST be <em>separated</em> for cases where <em>reserialization</em>
 could present a problem, like in this Chrome browser console example:
 </t>
 <sourcecode name="Platform issues" type="cbor">
-<![CDATA[let date = new Date('2025-03-02T13:08:55.0001+03:00');
+<![CDATA[let date = new Date('2025-03-02T13:08:55.0201+03:00');
 console.log(date.toISOString());
-> 2025-03-02T10:08:55.000Z]]>
+> 2025-03-02T10:08:55.020Z]]>
 </sourcecode>
 <t>
 How this separation actually is accomplished is out of scope for this specification.
@@ -317,14 +317,16 @@ featured in similar tools for ASN.1.
 If applied to the date example above, you would get something like following,
 here using <xref target="CBOR.JS"/>:</t>
 <sourcecode name="Date example" type="cbor">
-<![CDATA[// "2025-03-02T13:08:55.0001+03:00"
-let cbor = CBOR.fromHex("781e323032352d30332d30325431333a30383a35352e303030312b30333a3030");
+<![CDATA[// "2025-03-02T13:08:55.0201+03:00"
+let cbor = CBOR.fromHex("781e323032352d30332d30325431333a30383a35352e303230312b30333a3030");
 let cborObject = CBOR.decode(cbor)
-console.log(cborObject.getDateTime());  // JavaScript Date only supports milliseconds
-                                        // and converts time to local time or UTC
-> Sun Mar 02 2025 11:08:55 GMT+0100 (Central European Standard Time)
+
+// JavaScript Date only supports milliseconds and converts time to UTC
+console.log(cborObject.getDateTime().toISOString());  
+> 2025-03-02T10:08:55.020Z
+
 console.log(CBOR.toHex(cborObject.encode()));  // Reencode returns identical CBOR data 
-> 781e323032352d30332d30325431333a30383a35352e303030312b30333a3030]]>
+> 781e323032352d30332d30325431333a30383a35352e303230312b30333a3030]]>
 </sourcecode>
 <t>
 <xref target="example.code"/> shows an example
@@ -1579,7 +1581,10 @@ are RECOMMENDED to offer <em>decoder</em> options that permit "relaxing"
 the rigidness of deterministic encoding with respect to:</t>
 <dl newline="true">
 <dt>Numbers:</dt>
-<dd>Numbers MUST still be compliant with <xref target="RFC8949"/>.</dd>
+<dd>Numbers MUST still be compliant with <xref target="RFC8949"/>,
+including "Rule&nbsp;2" in section
+<xref target="RFC8949" section="4.2.2" sectionFormat="bare" format="default" 
+derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="RFC8949"/>.</dd>
 <dt>Sorted maps:</dt>
 <dd>Duplicate keys MUST still be rejected.</dd>
 </dl>
@@ -1689,6 +1694,10 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>06:</t>
         <t>Updated Acknowledgements</t>
+        </li>
+        <li>
+        <t>07:</t>
+        <t>Updated Date example, and added Rule 2 to Supporting Existing Systems</t>
         </li>
       </ul>
     </section>
