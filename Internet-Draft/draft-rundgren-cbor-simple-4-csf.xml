@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<?xml-model href="rfc7991bis.rnc"?> 
+
+<!DOCTYPE rfc [
+  <!ENTITY nbsp    "&#160;">
+  <!ENTITY zwsp   "&#8203;">
+  <!ENTITY nbhy   "&#8209;">
+  <!ENTITY wj     "&#8288;">
+  <!ENTITY pm     "&#xb1;">
+]>
+
+<rfc
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  category="info"
+  docName="draft-rundgren-cbor-simple-4-csf-00"
+  ipr="trust200902"
+  obsoletes=""
+  updates=""
+  submissionType="IETF"
+  xml:lang="en"
+  version="3">
+
+  <front>
+    <title>CBOR Simple Value for CSF</title>
+
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-simple-4-csf-00"/>
+   
+    <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
+        <organization>Independent</organization>
+        <address>
+            <postal>
+                <city>Montpellier</city>
+                <country>France</country>
+            </postal>
+            <email>anders.rundgren.net@gmail.com</email>
+            <uri>https://www.linkedin.com/in/andersrundgren/</uri>
+        </address>
+    </author>
+   
+    <date year="2025"/>
+
+    <area>Application</area>
+    <workgroup>Internet Engineering Task Force</workgroup>
+
+    <keyword>CBOR</keyword>
+    <keyword>Deterministic</keyword>
+    <keyword>Encoding</keyword>
+    <keyword>Cryptography</keyword>
+    <keyword>Embedded</keyword>
+    <keyword>Signature</keyword>
+
+    <abstract>
+      <t>
+This document defines a CBOR "simple" value to be used
+as a unique label for a container map holding an embedded
+signature.
+      </t>
+    </abstract>
+ 
+  </front>
+
+  <middle>
+    
+    <section>
+      <name>Introduction</name>
+          <t>
+This document defines a CBOR <xref target="RFC8949"/> "simple" value to be used
+as unique labels (map keys) to containers holding embedded
+signature constructs <xref target="CSF"/>.
+The primary purpose of the unique label
+is to securely decouple application-specific labels from
+the signature container.  
+In addition to eliminating the need for application-specific
+labels for embedded signature containers,
+the net result includes simplified signature APIs as well.
+        </t>
+    </section>
+      
+    <section>
+    <name>Requirements Language</name>
+    <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL",
+        "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT
+        RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
+        interpreted as described in BCP 14 <xref target="RFC2119"/>
+        <xref target="RFC8174"/> when, and only when, they appear in
+        all capitals, as shown here.</t>
+    </section>
+    
+    <section anchor="detailed.description">
+      <name>Description and Rationale</name>
+      <t>This section describes the problem and its possible solution.</t>
+      <t>The CBOR examples are provided in "Extended Diagnostic Notation (EDN)"
+      <xref target="I-D.ietf-cbor-edn-literals"/>.</t>
+
+      <section anchor="current">
+        <name>Current Solution</name>
+        <t>The <xref target="CSF"/> embedded signature scheme currently depends
+        on an application-specific label holding the embedded signature container.</t>
+        <t>The following CBOR code shows a very simple example using an HMAC signature:</t>
+<sourcecode name="current.solution" type="cbor">
+<![CDATA[{
+  1: "data",         # Application data
+  2: "more data",    # Application data
+  -1: {              # Embedded signature (CSF container)
+    1: 5,
+    6: h'4853d7730cc1340682b1748dc346cf627a5e91ce62c67fff15c40257ed2a37a1'
+  }
+}]]></sourcecode>
+        <t>Having to define an application-specific ("custom")
+        label for the embedded signature container
+        is certainly not a showstopper, but it lacks "finesse".
+        In addition, signature APIs need to deal with such labels like the following:</t>
+        <t><tt>&nbsp;&nbsp;sign(</tt><em>signatureLabel</em>, <em>applicationMap</em><tt>)</tt>.</t>
+      </section>
+
+     <section anchor="using.simple">
+        <name>Enhanced Solution</name>
+        <t>Replacing the application-specific
+        label with a CBOR <tt>simple</tt> value,
+        would yield the following:</t>
+<sourcecode name="improved.solution" type="cbor">
+<![CDATA[{
+  1: "data",         # Application data
+  2: "more data",    # Application data
+  simple(99): {      # Embedded signature (CSF container)
+    1: 5,
+    6: h'237e674c7be1818ddd7eaacf40ca80415b9ad816880751d2136c45385207420c'
+  }
+}]]></sourcecode>
+        <t>The advantages with using <tt>simple(99)</tt> include:</t>
+        <ul>
+        <li>Eliminates the need for application-specific labels for signature containers.</li>
+        <li>Simplifies signature APIs:<tt>&nbsp;sign(</tt><em>applicationMap</em><tt>)</tt>.</li>
+        <li>Using deterministic encoding (a <xref target="CSF"/> prerequisite),
+        CBOR simple types lexicographically follow after other CBOR elements.
+        This makes perfect sense for embedded signatures,
+        since they usually "attest" the application data that is
+        (list-wise), situated above the signature container, like in the example.</li>
+        </ul>
+      </section>
+      
+   </section>
+    
+    <section anchor="IANA">
+       <name>IANA Considerations</name>
+        <t>
+          In the registry <xref target="IANA.cbor-simple-values"/>,
+          IANA is requested to allocate the simple value defined in <xref target="tab-simple-value"/>.
+        </t>
+        <table anchor="tab-simple-value">
+          <name>Simple Values</name>
+          <thead>
+            <tr>
+              <th align="center">Value</th>
+              <th align="center">Semantics</th>
+              <th align="center">Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="center">99<sup> *</sup></td>
+              <td>Unique label</td>
+              <td>draft-rundgren-cbor-simple-4-csf-XX</td>
+            </tr>
+          </tbody>
+        </table>
+        <t>* TBD. The actual number is of no importance. The following are some musical inspirations:</t>
+        <ul>
+        <li>NENA - 99 Luftballons</li>
+        <li>Chuck Berry - (Get Your Kicks on) Route 66</li>
+        <li>Niska - 44</li>
+        </ul>
+    </section>
+    
+    <section anchor="Security">
+       <name>Security Considerations</name>
+<t>
+The proposed enhanced solution does not reduce security compared
+to the current solution because
+duplicate labels SHOULD in both cases be rejected by conforming
+CBOR encoders and decoders.
+</t>
+    </section>
+    
+   </middle>
+
+  <back>
+    <references>
+      <name>References</name>
+      <references>
+        <name>Normative References</name>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8949.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8610.xml"/>
+        <reference anchor="IANA.cbor-simple-values" target="https://www.iana.org/assignments/cbor-simple-values">
+            <front>
+              <title>Concise Binary Object Representation (CBOR) Simple Values</title>
+              <author>
+                <organization abbrev="IANA">Internet Assigned Numbers Authority</organization>
+              </author>
+            </front>
+          </reference>
+       </references>
+ 
+      <references>
+        <name>Informative References</name>
+          <reference anchor="I-D.ietf-cbor-edn-literals" target="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-16">
+            <front>
+            <title>CBOR Extended Diagnostic Notation (EDN)</title>
+            <author initials="C." surname="Bormann" fullname="Carsten Bormann">
+            <organization>Universität Bremen TZI</organization>
+            </author>
+            <date month="January" day="8" year="2025"/>
+            <abstract>
+            <t> This document formalizes and consolidates the definition of the Extended Diagnostic Notation (EDN) of the Concise Binary Object Representation (CBOR), addressing implementer experience. Replacing EDN's previous informal descriptions, it updates RFC 8949, obsoleting its Section 8, and RFC 8610, obsoleting its Appendix G. It also specifies and uses registry-based extension points, using one to support text representations of epoch-based dates/times and of IP addresses and prefixes. // (This cref will be removed by the RFC editor:) The present // revision (–16) addresses the first half of the WGLC comments, // except for the issues around the specific way how to best achieve // pluggable ABNF grammars for application-extensions. It is // intended for use as a reference document for the mid-WGLC CBOR WG // interim meeting on 2025-01-08. </t>
+            </abstract>
+            </front>
+            <seriesInfo name="Internet-Draft" value="draft-ietf-cbor-edn-literals-16"/>
+        </reference>
+        <reference anchor="CSF" target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/signatures.html">
+          <front>
+            <title>CBOR Signature Format (CSF)</title>
+            <author initials="A" surname="Rundgren">
+              <organization/>
+            </author>
+          </front>
+        </reference>        
+      </references>
+    </references>
+
+    <section anchor="DocHistory" numbered="false">
+      <name>Document History</name>
+      <ul>
+        <li>00. First cut.</li>
+      </ul>
+    </section>
+
+    <section anchor="Acknowledgements" numbered="false">
+      <name>Acknowledgements</name>
+<t>TBD</t>
+    </section>
+    
+ </back>
+</rfc>
