@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-08"
+  docName="draft-rundgren-cbor-core-09"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-08"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-09"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -1363,7 +1363,7 @@ of miscellaneous CBOR objects and their encoding.</t>
 <![CDATA[123456789({                            # CBOR tag (objectId)
   1: "This is not rocket science!",    # Object instance data
   2: [38.8882, -77.01988],             #         ""
-  3: «signature covering the entire object»
+  simple(99): «signature covering the entire object»
 })]]></sourcecode>
 <t>
 See also <xref target="COTX"/>.
@@ -1412,7 +1412,7 @@ See also <xref target="COTX"/>.
         </t>
         <ol>
         <li>Add an empty CSF container (a CBOR map) to the unsigned CBOR map
-        using an <em>application-defined</em> label (-1).</li>
+        using the CSF container label <tt>simple(99)</tt>.</li>
         <li>Add the designated signature algorithm to the
         CSF container using the CSF algorithm label (1).</li>
         <li><em>Optional</em>. Add other signature meta data to the
@@ -1439,9 +1439,9 @@ See also <xref target="COTX"/>.
 <![CDATA[{
   1: "data",
   2: "more data",
-  -1: {
+  simple(99): {
     1: 5,
-    6: h'4853d7730cc1340682b1748dc346cf627a5e91ce62c67fff15c40257ed2a37a1'
+    6: h'237e674c7be1818ddd7eaacf40ca80415b9ad816880751d2136c45385207420c'
   }
 }]]></sourcecode>
       <t>Note that the signature covers the <em>entire</em> CBOR object except for
@@ -1455,7 +1455,7 @@ See also <xref target="COTX"/>.
         the following steps are performed:</t>
         <ol>
         <li><t>Fetch a <em>reference</em> to the CSF container using the
-        <em>application-defined</em> label (-1).
+        CSF container label <tt>simple(99)</tt>.
         Next perform the following operations using the reference:</t>
         <ol>
           <li>Retrieve the signature algorithm using the CSF algorithm label (1).</li>
@@ -1514,7 +1514,8 @@ See also <xref target="COTX"/>.
 import CBOR from 'cbor-object';
 const crypto = await import('node:crypto');
 
-// CSF constants
+// Application independent CSF constants
+const CSF_CONTAINER_LBL = CBOR.Simple(99);
 const CSF_ALG_LBL = CBOR.Int(1);
 const CSF_SIG_LBL = CBOR.Int(6);
 
@@ -1533,8 +1534,7 @@ const SHARED_KEY = crypto.createSecretKey(
 
 const APP_P1_LBL  = CBOR.Int(1);                   // Application label
 const APP_P2_LBL  = CBOR.Int(2);                   //        ""
-const APP_CSF_LBL = CBOR.Int(-1);                  // Where to put the
-                                                   // CSF container
+
 ////////////////////////////////////
 // Create an unsigned CBOR object //
 ////////////////////////////////////
@@ -1549,7 +1549,7 @@ const COSE_ALG = 5;                                // Selected HMAC algorithm
 
 let csf = CBOR.Map()                               // Create CSF container and
     .set(CSF_ALG_LBL, CBOR.Int(COSE_ALG));         // add COSE algorithm to it
-object.set(APP_CSF_LBL, csf);                      // Add CSF container to object
+object.set(CSF_CONTAINER_LBL, csf);                // Add CSF container to object
 let sig = hmac(COSE_ALG,                           // Generate signature over
                SHARED_KEY,                         // the current object
                object.encode());                   // encode(): all we got so far
@@ -1562,7 +1562,7 @@ console.log(object.toString());                    // Show in Diagnostic Notatio
 // Validate the signed CBOR object //
 /////////////////////////////////////
 object = CBOR.decode(cborBinary);                  // Decode CBOR object
-csf = object.get(APP_CSF_LBL);                     // Get CSF container
+csf = object.get(CSF_CONTAINER_LBL);               // Get CSF container
 let alg = csf.get(CSF_ALG_LBL).getInt();           // Get COSE algorithm
 let readSig = csf.remove(CSF_SIG_LBL).getBytes();  // Get and REMOVE signature value
 let actualSig = hmac(alg,                          // Calculate signature over
@@ -1727,6 +1727,10 @@ See also <xref target="core.invalid"/>.</t>
         <t>08:</t>
         <t>Elaborated on "levels"</t>
         <t>CBOR/Core =&gt; <tt>CBOR::Core</tt> (showing its close ties to software)</t>
+        </li>
+        <li>
+        <t>09:</t>
+        <t>Embedded signature sample =&gt; <tt>simple(99)</tt></t>
         </li>
       </ul>
     </section>

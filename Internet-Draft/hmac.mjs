@@ -2,7 +2,8 @@
 import CBOR from 'cbor-object';
 const crypto = await import('node:crypto');
 
-// CSF constants
+// Application independent CSF constants
+const CSF_CONTAINER_LBL = CBOR.Simple(99);
 const CSF_ALG_LBL = CBOR.Int(1);
 const CSF_SIG_LBL = CBOR.Int(6);
 
@@ -21,8 +22,7 @@ const SHARED_KEY = crypto.createSecretKey(
 
 const APP_P1_LBL  = CBOR.Int(1);                   // Application label
 const APP_P2_LBL  = CBOR.Int(2);                   //        ""
-const APP_CSF_LBL = CBOR.Int(-1);                  // Where to put the
-                                                   // CSF container
+
 ////////////////////////////////////
 // Create an unsigned CBOR object //
 ////////////////////////////////////
@@ -37,7 +37,7 @@ const COSE_ALG = 5;                                // Selected HMAC algorithm
 
 let csf = CBOR.Map()                               // Create CSF container and
     .set(CSF_ALG_LBL, CBOR.Int(COSE_ALG));         // add COSE algorithm to it
-object.set(APP_CSF_LBL, csf);                      // Add CSF container to object
+object.set(CSF_CONTAINER_LBL, csf);                // Add CSF container to object
 let sig = hmac(COSE_ALG,                           // Generate signature over
                SHARED_KEY,                         // the current object
                object.encode());                   // encode(): all we got so far
@@ -50,7 +50,7 @@ console.log(object.toString());                    // Show in Diagnostic Notatio
 // Validate the signed CBOR object //
 /////////////////////////////////////
 object = CBOR.decode(cborBinary);                  // Decode CBOR object
-csf = object.get(APP_CSF_LBL);                     // Get CSF container
+csf = object.get(CSF_CONTAINER_LBL);               // Get CSF container
 let alg = csf.get(CSF_ALG_LBL).getInt();           // Get COSE algorithm
 let readSig = csf.remove(CSF_SIG_LBL).getBytes();  // Get and REMOVE signature value
 let actualSig = hmac(alg,                          // Calculate signature over
