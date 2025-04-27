@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-09"
+  docName="draft-rundgren-cbor-core-10"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -22,9 +22,9 @@
   version="3">
 
   <front>
-    <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Profile</title>
+    <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-09"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-10"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -53,7 +53,7 @@
     <abstract>
       <t>
 This document defines <tt>CBOR::Core</tt>,
-a profile of CBOR (RFC 8949)
+a platform profile for CBOR (RFC 8949)
 intended to serve as a viable replacement for JSON in
 computationally advanced systems like Internet browsers,
 mobile phones, and Web servers.
@@ -147,7 +147,8 @@ used in <xref target="RFC8949"/>.</li>
 
       <section anchor="core.objects">
         <name>Supported CBOR Objects</name>
-        <t>The following table shows the set of CBOR objects supported by <tt>CBOR::Core</tt>:</t>
+        <t>The following table shows the set of CBOR objects that compliant
+        <tt>CBOR::Core</tt> implementations MUST support:</t>
 <table align="left">
 <name>Supported CBOR Objects</name>
 <thead>
@@ -157,21 +158,17 @@ used in <xref target="RFC8949"/>.</li>
 <tbody>
 <tr><td align="center"><tt>int</tt></td><td>Integer</td></tr>
 <tr><td align="center"><tt>bigint</tt></td><td>Big integer</td></tr>
-<tr><td align="center"><tt>float</tt></td><td>16-, 32-, and 64-bit <xref target="IEEE754"/> numbers</td></tr>
+<tr><td align="center"><tt>float</tt></td><td>16-, 32-, and 64-bit <xref target="IEEE754"/> floating-point numbers</td></tr>
 <tr><td align="center"><tt>tstr</tt></td><td>Text string encoded as UTF-8 <xref target="RFC3629"/></td></tr>
 <tr><td align="center"><tt>bstr</tt></td><td>Byte string</td></tr>
 <tr><td align="center"><tt>bool</tt></td><td>Boolean <tt>true</tt> and <tt>false</tt></td></tr>
 <tr><td align="center"><tt>null</tt></td><td>Represents a <tt>null</tt> object</td></tr>
 <tr><td align="center"><tt>[]</tt></td><td>Array</td></tr>
 <tr><td align="center"><tt>{}</tt></td><td>Map</td></tr>
-<tr><td align="center"><tt>#6.nnn(type)</tt></td><td>Tagged data</td></tr>
+<tr><td align="center"><tt>#6.nnn(type)</tt></td><td>Tagged objects</td></tr>
 <tr><td align="center"><tt>#7.nnn</tt></td><td>Simple values</td></tr>
 </tbody>
 </table>
-        <t>
-Conforming implementations (of course) only have to implement the <tt>CBOR::Core</tt> types
-required by the targeted application(s).
-        </t>
         <t>
 Although extensions are imaginable, extensions will most likely cause
 <em>interoperability issues</em> and are thus NOT&nbsp;RECOMMENDED.
@@ -187,6 +184,10 @@ a database, or a programming language.
 OpenAPI <xref target="OPENAPI"/> is an example of an API that defines
 data types through mapping.
 </t>
+        <t>
+<em>Application-specific</em> implementations may (of course) only have to support the
+<tt>CBOR::Core</tt> objects required by the targeted application(s).
+        </t>
 
       </section>
       
@@ -627,7 +628,7 @@ slightly more adapted for parsing, like single-line comments:
     <td align="center"><tt>float</tt></td>
     <td align="center"><em>{sign}&#x2009;n</em><tt>.</tt><em>n&#x2009;{&#x2008;</em><tt>e&pm;</tt><em>n&#x2009;}</em></td>
     <td>
-      Floating point values MUST include a decimal point and at least one
+      Floating-point values MUST include a decimal point and at least one
       fractional digit, whereas exponents are <em>optional</em>.
     </td>
     <td align="center">1, 2</td>
@@ -1045,7 +1046,7 @@ of CBOR integer values, with an emphasize on edge cases.</t>
       </section>
 
       <section anchor="core.floats">
-        <name>Floating Point Numbers</name>
+        <name>Floating-Point Numbers</name>
 <t>This <em>normative</em> section holds a selection
 of <xref target="IEEE754"/> 16, 32, and 64-bit values,
 with an emphasize on edge cases.</t>
@@ -1060,7 +1061,7 @@ because it is supposed to generate the shortest and most
 correct representation of <xref target="IEEE754"/> numbers.</t>
 
 <table align="left">
-<name>Floating Point Numbers</name>
+<name>Floating-Point Numbers</name>
 <thead>
   <tr><th align="center">Diagnostic&nbsp;Notation</th>
   <th align="center">CBOR Encoding</th>
@@ -1264,6 +1265,13 @@ of miscellaneous CBOR objects and their encoding.</t>
 &nbsp;&nbsp;"a": 0<br/>
 }</tt></td>
 <td>Improper map key ordering</td>
+<td align="center">1, 2</td>
+</tr>
+
+<tr>
+<td><tt>98020405</tt></td>
+<td><tt>[4, 5]</tt></td>
+<td>Improper array length indicator</td>
 <td align="center">1, 2</td>
 </tr>
 
@@ -1731,6 +1739,11 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>09:</t>
         <t>Embedded signature sample =&gt; <tt>simple(99)</tt></t>
+        </li>
+        <li>
+        <t>10:</t>
+        <t>Editorial</t>
+        <t>CBOR Profile =&gt; CBOR Platform Profile</t>
         </li>
       </ul>
     </section>
