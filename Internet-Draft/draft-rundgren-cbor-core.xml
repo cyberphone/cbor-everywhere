@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-10"
+  docName="draft-rundgren-cbor-core-11"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -22,9 +22,9 @@
   version="3">
 
   <front>
-    <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Platform Profile</title>
+    <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-10"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-11"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -81,7 +81,7 @@ To cope with this, <tt>CBOR::Core</tt> defines a specific (non-variant) encoding
 aka &quot;Deterministic Encoding&quot;.  The selected encoding
 scheme is believed to be <em>compatible</em> with most existing
 systems using CBOR.
-See also <xref target="legacy.systems"/>.
+See also <xref target="backward.compatibility"/>.
         </t>
     <t>
 <tt>CBOR::Core</tt> is intended to be agnostic with respect to programming
@@ -224,7 +224,8 @@ preserves the precision of the original value.
 features a list of floating-point sample values and their expected encoding.
         </li>
         <li>
-RFC+: <tt>NaN</tt> values with payloads (like <tt>f97e01</tt>),
+RFC+: Due to limited cross platform support,
+<tt>NaN</tt> values with payloads (like <tt>f97e01</tt>),
 or having the most significant bit set ("signaling"),
 MUST be <em>rejected</em>.  See also <xref target="core.floats"/>.
         </li>
@@ -232,13 +233,7 @@ MUST be <em>rejected</em>.  See also <xref target="core.floats"/>.
 RFC: Map keys MUST be sorted in the bytewise lexicographic
 order of their deterministic encoding.
 Duplicate keys MUST be <em>rejected</em>.
-Somewhat surprisingly the following represents a properly sorted map:</t>
-<sourcecode name="Ordered map" type="cbor">
-<![CDATA[{
-  "a": ... ,
-  "b": ... ,
-  "aa": ...
-}]]></sourcecode>
+</t>
         </li>
         <li>
 RFC+: Since CBOR encodings according to this specification
@@ -294,7 +289,9 @@ provided by CBOR tools compliant with this specification:
   <tt>bigfloat</tt> (see <xref section="3.4.4" sectionFormat="of"  target="RFC8949"/>).
   </li>
    <li>
-  It MUST be possible to find out the type of a decoded CBOR object, <em>before</em> it is accessed.
+  To support <em>variant</em> CBOR data,
+  it MUST be possible to find out the type of a CBOR object,
+  <em>before</em> it is decoded.
   </li>
   <li>
   It MUST be possible to <em>add</em>, <em>delete</em>, and
@@ -312,7 +309,7 @@ provided by CBOR tools compliant with this specification:
     <li>
   Invalid or unsupported CBOR constructs, as well as CBOR data not adhering
   to the deterministic encoding scheme MUST be <em>rejected</em>.
-  See also <xref target="legacy.systems"/> and <xref target="core.invalid"/>.
+  See also <xref target="backward.compatibility"/> and <xref target="core.invalid"/>.
   </li>
 </ul>
 <t>
@@ -361,7 +358,7 @@ that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
         <t>
 To facilitate cross-platform <em>protocol interoperability</em>,
 implementers of <tt>CBOR::Core</tt> compatible tools SHOULD include <em>decoder</em>
-API support for the following primitives:
+API support for the following primitive data types:
         </t>
 <table align="left">
 <name>Protocol Primitives</name>
@@ -505,7 +502,7 @@ MUST reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
 Note that a hypothetical <tt>getBigInt()</tt> MUST also accept CBOR <tt>int</tt>
 objects since <tt>int</tt> is used for integers that fit in
 CBOR major type 0 and 1 objects. 
-See also <xref target="core.integers"/> and <xref target="legacy.systems"/>.
+See also <xref target="core.integers"/> and <xref target="backward.compatibility"/>.
 </t>
 </li>
 <li>
@@ -516,7 +513,7 @@ need to use a bigger floating-point type for the return value.
 </t>
 <t>
 Note that a hypothetical <tt>getFloat16()</tt> MUST reject encountered
-<tt>Float32</tt> and <tt>Float64</tt> objects.  See also <xref target="legacy.systems"/>.
+<tt>Float32</tt> and <tt>Float64</tt> objects.  See also <xref target="backward.compatibility"/>.
 </t>
 </li>
 <li>
@@ -1221,8 +1218,8 @@ of miscellaneous CBOR objects and their encoding.</t>
 <tr><td><tt>null</tt></td>
 <td><tt>f6</tt></td>
 <td>Null</td></tr>
-<tr><td><tt>simple(59)</tt></td>
-<td><tt>f83b</tt></td>
+<tr><td><tt>simple(99)</tt></td>
+<td><tt>f863</tt></td>
 <td>Simple value</td></tr>
 <tr><td><tt>0("2025-03-30T12:24:16Z")</tt></td>
 <td><tt>c074323032352d30332d33<br/>
@@ -1345,7 +1342,7 @@ of miscellaneous CBOR objects and their encoding.</t>
 </tbody>
 </table>
 <ol>
-<li>See also <xref target="legacy.systems"/>.</li>
+<li>See also <xref target="backward.compatibility"/>.</li>
 <li><em>Non-deterministically</em> encoded CBOR supported by <xref target="RFC8949"/>.</li>
 </ol>
 
@@ -1589,8 +1586,8 @@ outlined in <xref target="api.level.det"/>.
 
     </section>
 
-    <section anchor="legacy.systems">
-      <name>Supporting Existing Systems</name>
+    <section anchor="backward.compatibility">
+      <name>Backward Compatibility</name>
       <t>
 It is assumed that <em>most</em>
 systems using CBOR are able to process an (<em>application specific</em>), 
@@ -1653,7 +1650,7 @@ See also <xref target="core.invalid"/>.</t>
       </dl>
     </section>
 
-    <section anchor="DocHistory" numbered="false">
+    <section anchor="DocHistory" numbered="false" removeInRFC="true">
       <name>Document History</name>
       <ul>
         <li>00. First cut.</li>
@@ -1744,6 +1741,11 @@ See also <xref target="core.invalid"/>.</t>
         <t>10:</t>
         <t>Editorial</t>
         <t>CBOR Profile =&gt; CBOR Platform Profile</t>
+        </li>
+        <li>
+        <t>11:</t>
+        <t>Editorial</t>
+        <t>Supporting Existing Systems =&gt; Backward Compatibility</t>
         </li>
       </ul>
     </section>
