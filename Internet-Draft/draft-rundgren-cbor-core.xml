@@ -1650,8 +1650,9 @@ See also <xref target="core.invalid"/>.</t>
       </dl>
     </section>
 
-    <section anchor="DocHistory" numbered="false" removeInRFC="true">
+    <section anchor="DocHistory" numbered="false">
       <name>Document History</name>
+            <t><cref anchor="rfced">RFC Editor: Please remove this section before publication</cref></t>
       <ul>
         <li>00. First cut.</li>
         <li>01. Editorial.  Changed order of columns in invalid encoding.</li>
