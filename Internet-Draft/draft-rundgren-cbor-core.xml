@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-11"
+  docName="draft-rundgren-cbor-core-12"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-11"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-12"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -1748,6 +1748,10 @@ See also <xref target="core.invalid"/>.</t>
         <t>Editorial</t>
         <t>Supporting Existing Systems =&gt; Backward Compatibility</t>
         </li>
+        <li>
+        <t>12:</t>
+        <t>Editorial</t>
+        </li>
       </ul>
     </section>
 
@@ -1761,7 +1765,7 @@ Carsten Bormann, proved to be invaluable.
 <t>
 Non-exhaustive list of people who directly (and sometimes indirectly) contributed
 to this specification include: Carsten Bormann,
-Alan DeKok, Vadim Goncharov, Joe Hildebrand,
+Alan DeKok, Vadim Goncharov, Joe Hildebrand, Eliot Lear,
 Laurence Lundblade, Rohan Mahy,
 Michael Richardson, Göran Selander, and Orie Steele.
 </t>
