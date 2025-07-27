@@ -51,7 +51,7 @@ console.log(object.toString());                    // Show in Diagnostic Notatio
 /////////////////////////////////////
 object = CBOR.decode(cborBinary);                  // Decode CBOR object
 csf = object.get(CSF_CONTAINER_LBL);               // Get CSF container
-let alg = csf.get(CSF_ALG_LBL).getInt();           // Get COSE algorithm
+let alg = csf.get(CSF_ALG_LBL).getInt32();         // Get COSE algorithm
 let readSig = csf.remove(CSF_SIG_LBL).getBytes();  // Get and REMOVE signature value
 let actualSig = hmac(alg,                          // Calculate signature over
                      SHARED_KEY,                   // the current object
