@@ -740,8 +740,7 @@ slightly more adapted for parsing, like single-line comments:
       are <em>ignored</em>.
     </li>
     <li>
-      <em>Input only</em>: the control characters
-      <tt>'\t'</tt> and <tt>'\n'</tt>
+      <em>Input only</em>: the control character <tt>'\n'</tt>
       inside of string quotes <em>become a part of the text</em>.
       For normalizing line terminators,
       a single <tt>'\r'</tt> or the combination <tt>'\r\n'</tt>
