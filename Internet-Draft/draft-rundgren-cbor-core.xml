@@ -116,7 +116,6 @@ actual specification.
         </t>
         </section>
 
-      
       <section>
         <name>Requirements Language</name>
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL",
@@ -222,12 +221,6 @@ RFC: Floating-point numbers MUST always use the shortest
 preserves the precision of the original value.
 <xref target="core.floats"/>
 features a list of floating-point sample values and their expected encoding.
-        </li>
-        <li>
-RFC+: Due to limited cross platform support,
-<tt>NaN</tt> values with payloads (like <tt>f97e01</tt>),
-or having the most significant bit set ("signaling"),
-MUST be <em>rejected</em>.  See also <xref target="core.floats"/>.
         </li>
         <li><t>
 RFC: Map keys MUST be sorted in the bytewise lexicographic
@@ -634,7 +627,16 @@ slightly more adapted for parsing, like single-line comments:
     <td align="center"><tt>float</tt></td>
     <td align="center"><tt>NaN</tt></td>
     <td>
-      Not a number.
+      Not a number (NaN) in the default CBOR encoding (<tt>f97e00</tt>).
+    </td>
+    <td align="center"></td>
+  </tr>
+    <tr>
+    <td align="center"><tt>float</tt></td>
+    <td align="center"><tt>float'</tt><em>hex-data</em><tt>'</tt></td>
+    <td>
+      Any valid 16, 32, or 64-bit float value, including NaN with payloads
+      like <tt>float'7ff0800000000001'</tt>.
     </td>
     <td align="center"></td>
   </tr>
@@ -1060,7 +1062,7 @@ correct representation of <xref target="IEEE754"/> numbers.</t>
 <name>Floating-Point Numbers</name>
 <thead>
   <tr><th align="center">Diagnostic&nbsp;Notation</th>
-  <th align="center">CBOR Encoding</th>
+  <th align="center">CBOR&nbsp;Encoding</th>
   <th align="center">Comment</th></tr>
 </thead>
 <tbody>
@@ -1240,13 +1242,17 @@ of miscellaneous CBOR objects and their encoding.</t>
 <tr><td><tt>"&#x1f680; science"</tt></td>
 <td><tt>6cf09f9a8020736369656e6365</tt></td>
 <td>Text string with emoji</td></tr>
+<tr><td><tt>float'7f800001'</tt></td>
+<td><tt>fa7f800001</tt></td>
+<td>NaN with payload</td></tr>
 </tbody>
 </table>
 
     </section>
     <section anchor="core.invalid">
       <name>Invalid Encodings</name>
-      <t>The following table holds a selection of CBOR-encoded objects, not permitted by <tt>CBOR::Core</tt>.</t>
+      <t>The following table holds a selection of CBOR-encoded objects
+      that not permitted by <tt>CBOR::Core</tt> in <em>deterministic</em> mode.</t>
 <table align="left">
 <name>Invalid Encodings</name>
 <thead>
@@ -1261,56 +1267,49 @@ of miscellaneous CBOR objects and their encoding.</t>
 &nbsp;&nbsp;"a": 0<br/>
 }</tt></td>
 <td>Improper map key ordering</td>
-<td align="center">1, 2</td>
+<td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>98020405</tt></td>
 <td><tt>[4, 5]</tt></td>
 <td>Improper array length indicator</td>
-<td align="center">1, 2</td>
+<td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>1900ff</tt></td>
 <td><tt>255</tt></td>
 <td>Number with leading zero bytes</td>
-<td align="center">1, 2</td>
+<td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>c34a00010000000000000000</tt></td>
 <td><tt>-18446744073709551617</tt></td>
 <td>Number with leading zero bytes</td>
-<td align="center">1, 2</td>
+<td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>Fa41280000</tt></td>
 <td><tt>10.5</tt></td>
 <td>Not in shortest encoding</td>
-<td align="center">1, 2</td>
+<td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>fa7fc00000</tt></td>
 <td><tt>NaN</tt></td>
 <td>Not in shortest encoding</td>
-<td align="center">1, 2</td>
+<td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>c243010000</tt></td>
 <td><tt>65536</tt></td>
 <td>Incorrect value for <tt>bigint</tt></td>
-<td align="center">1, 2</td>
-</tr>
-
-<tr>
-<td><tt>f97e01</tt></td>
-<td><tt>NaN</tt></td>
-<td>NaN with payload</td>
-<td align="center">1, 2</td>
+<td align="center">1</td>
 </tr>
 
 <tr>
@@ -1337,12 +1336,11 @@ of miscellaneous CBOR objects and their encoding.</t>
 <td>Extremely large <tt>bstr</tt> length indicator: 4503599627370496</td>
 <td></td>
 </tr>
-
 </tbody>
 </table>
 <ol>
-<li>See also <xref target="backward.compatibility"/>.</li>
-<li><em>Non-deterministically</em> encoded CBOR supported by <xref target="RFC8949"/>.</li>
+<li>Supported by the measures mentioned in <xref target="backward.compatibility"/>.</li>
+<li>Unsupported since it is in comflict with <em>deterministically</em> encoded CBOR.</li>
 </ol>
 
     </section>
@@ -1567,7 +1565,7 @@ console.log(object.toString());                    // Show in Diagnostic Notatio
 /////////////////////////////////////
 object = CBOR.decode(cborBinary);                  // Decode CBOR object
 csf = object.get(CSF_CONTAINER_LBL);               // Get CSF container
-let alg = csf.get(CSF_ALG_LBL).getInt();           // Get COSE algorithm
+let alg = csf.get(CSF_ALG_LBL).getInt32();         // Get COSE algorithm
 let readSig = csf.remove(CSF_SIG_LBL).getBytes();  // Get and REMOVE signature value
 let actualSig = hmac(alg,                          // Calculate signature over
                      SHARED_KEY,                   // the current object
@@ -1749,7 +1747,7 @@ See also <xref target="core.invalid"/>.</t>
         </li>
         <li>
         <t>12:</t>
-        <t>Editorial</t>
+        <t>NaN with payloads added</t>
         </li>
       </ul>
     </section>
