@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-12"
+  docName="draft-rundgren-cbor-core-13"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-12"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-13"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -625,18 +625,18 @@ slightly more adapted for parsing, like single-line comments:
   </tr>
   <tr>
     <td align="center"><tt>float</tt></td>
-    <td align="center"><tt>NaN</tt></td>
-    <td>
-      Not a number (NaN) in the default CBOR encoding (<tt>f97e00</tt>).
-    </td>
-    <td align="center"></td>
-  </tr>
-    <tr>
-    <td align="center"><tt>float</tt></td>
     <td align="center"><tt>float'</tt><em>hex-data</em><tt>'</tt></td>
     <td>
       Any valid 16, 32, or 64-bit float value, including NaN with payloads
       like <tt>float'7ff0800000000001'</tt>.
+    </td>
+    <td align="center"></td>
+  </tr>
+  <tr>
+    <td align="center"><tt>float</tt></td>
+    <td align="center"><tt>NaN</tt></td>
+    <td>
+      Not a number (NaN) in the default CBOR encoding (<tt>f97e00</tt>).
     </td>
     <td align="center"></td>
   </tr>
@@ -1748,6 +1748,10 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>12:</t>
         <t>NaN with payloads added</t>
+        </li>
+        <li>
+        <t>13:</t>
+        <t>Editorial</t>
         </li>
       </ul>
     </section>
