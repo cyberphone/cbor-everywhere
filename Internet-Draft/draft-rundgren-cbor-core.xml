@@ -1340,7 +1340,7 @@ of miscellaneous CBOR objects and their encoding.</t>
 </table>
 <ol>
 <li>Supported by the measures mentioned in <xref target="backward.compatibility"/>.</li>
-<li>Unsupported since it is in comflict with <em>deterministically</em> encoded CBOR.</li>
+<li>Unsupported since it is in conflict with <em>deterministically</em> encoded CBOR.</li>
 </ol>
 
     </section>
