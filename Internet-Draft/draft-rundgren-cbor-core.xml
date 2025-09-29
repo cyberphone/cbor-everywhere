@@ -17,6 +17,7 @@
   ipr="trust200902"
   obsoletes=""
   updates=""
+  tocDepth="4"
   submissionType="IETF"
   xml:lang="en"
   version="3">
@@ -422,19 +423,19 @@ API support for the following primitive data types:
 <td align="center"><tt>float16</tt></td>
 <td align="center"><tt>Float16</tt></td>
 <td>16-bit floating-point number</td>
-<td align="center">3</td>
+<td align="center">3, 4</td>
 </tr>
 <tr>
 <td align="center"><tt>float16</tt>&nbsp;/ <tt>float32</tt></td>
 <td align="center"><tt>Float32</tt></td>
 <td>32-bit floating-point number</td>
-<td align="center">3</td>
+<td align="center">3, 4</td>
 </tr>
 <tr>
 <td align="center"><tt>float</tt></td>
 <td align="center"><tt>Float64</tt></td>
-<td>64-bit floating-point number</td><td>
-</td>
+<td>64-bit floating-point number</td>
+<td align="center">4</td>
 </tr>
 <tr>
 <td align="center"><tt>bool</tt></td>
@@ -446,13 +447,13 @@ API support for the following primitive data types:
 <td align="center"><tt>null</tt></td>
 <td align="center"><tt>Null</tt></td>
 <td>Null</td>
-<td align="center">4</td>
+<td align="center">5</td>
 </tr>
 <tr>
 <td align="center"><tt>#7.nnn</tt></td>
 <td align="center"><tt>Simple</tt></td>
 <td>Simple values</td>
-<td align="center">5</td>
+<td align="center">6</td>
 </tr>
 <tr>
 <td align="center"><tt>tstr</tt></td>
@@ -468,15 +469,15 @@ API support for the following primitive data types:
 </tr>
 <tr>
 <td align="center">See note</td>
-<td align="center"><tt>EpochTime</tt></td>
-<td>Time object expressed as a number</td>
-<td align="center">6</td>
+<td align="center"><tt>DateTime</tt></td>
+<td>Time object expressed as a text string</td>
+<td align="center">7</td>
 </tr>
 <tr>
 <td align="center">See note</td>
-<td align="center"><tt>DateTime</tt></td>
-<td>Time object expressed as a text string</td>
-<td align="center">6</td>
+<td align="center"><tt>EpochTime</tt></td>
+<td>Time object expressed as a number</td>
+<td align="center">7, 8</td>
 </tr>
 </tbody>
 </table>
@@ -511,6 +512,11 @@ Note that a hypothetical <tt>getFloat16()</tt> MUST reject encountered
 </li>
 <li>
 <t>
+See <xref target="api.non-finite-numbers"/>.
+</t>
+</li>
+<li>
+<t>
 Since a CBOR <tt>null</tt> typically represents the absence of a value,
 a decoder MUST provide a test-function, like <tt>isNull()</tt>.
 </t>
@@ -527,8 +533,14 @@ Since CBOR lacks a native-level time object,
 <xref section="3.4" sectionFormat="of"  target="RFC8949"/>
 introduces two variants of time objects using the 
 CBOR tags <tt>0</tt> and <tt>1</tt>.
-The time objects SHOULD also be supported without the
+The time objects SHOULD also be supported <em>without</em> the
 tag construct.
+</t>
+</li>
+<li>
+<t>
+<tt>EpochTime</tt> objects containing non-finite numbers MUST be rejected.
+See also <xref target="api.non-finite-numbers"/>.
 </t>
 </li>
 </ol>
@@ -542,7 +554,19 @@ Java doesn't have built-in support for unsigned integers, whereas
 JavaScript requires the use of the JavaScript <tt>BigInt</tt> type
 for dealing with 64-bit integers.
 </t>
-      </section>
+  <section anchor="api.non-finite-numbers">
+    <name>Non-Finite Numbers</name>
+    <t>Since non-finite numbers like <tt>NaN</tt> typically is not a part
+    of an application protocol, <tt>CBOR::Core</tt> implementations SHOULD
+    support options making the CBOR parser reject such numbers.
+    Otherwise conforming applications would have to explicitly test every <tt>float</tt>
+    value for being a "genuine" number.</t>
+    <t>In the listed reference implementations, a more elaborate arrangement
+    has been applied, making it possible to <em>selectively</em> accept non-finite
+    numbers, including distinguishing between simple <tt>NaN</tt>s (<tt>f97e00</tt>)
+    and <tt>NaN</tt> with payloads.</t>
+  </section>
+</section>
 
 <section anchor="media.tyoe">
 <name>Media Type</name>
@@ -737,13 +761,13 @@ slightly more adapted for parsing, like single-line comments:
     <li>The letter <em>n</em> in the Syntax column denotes one or more digits.</li>
     <li>The optional <em>{sign}</em> MUST be a single hyphen (<tt>'-'</tt>) character.</li>
     <li>
-      <em>Input only</em>: between the quotes, the whitespace characters
-      (<tt>' '</tt>, <tt>'\t'</tt>, <tt>'\r'</tt>, <tt>'\n'</tt>)
+      <em>Input only</em>: between tokens, the whitespace characters
+      <tt>' '</tt>, <tt>'\t'</tt>, <tt>'\r'</tt>, and <tt>'\n'</tt>,
       are <em>ignored</em>.
     </li>
     <li>
-      <em>Input only</em>: the control character <tt>'\n'</tt>
-      inside of string quotes <em>become a part of the text</em>.
+      <em>Input only</em>: inside of string quotes, the control character <tt>'\n'</tt>
+      becomes a part of the text string.
       For normalizing line terminators,
       a single <tt>'\r'</tt> or the combination <tt>'\r\n'</tt>
       MUST (internally) be rewritten as <tt>'\n'</tt>.
@@ -753,10 +777,10 @@ slightly more adapted for parsing, like single-line comments:
       immediately preceding the newline may be used. 
     </li>
     <li>
-      Text strings may also include JavaScript compatible escape sequences
-      (<tt>'\''</tt>, <tt>'\"'</tt>, <tt>'\\'</tt>,
+      Text strings may also include the JavaScript compatible escape sequences
+      <tt>'\''</tt>, <tt>'\"'</tt>, <tt>'\\'</tt>,
       <tt>'\b'</tt>, <tt>'\f'</tt>, <tt>'\n'</tt>,
-      <tt>'\r'</tt>, <tt>'\t'</tt>, <tt>'\u</tt><em>hhhh</em><tt>'</tt>).
+      <tt>'\r'</tt>, <tt>'\t'</tt>, and <tt>'\u</tt><em>hhhh</em><tt>'</tt>.
     </li>
     <li>
       <em>Input only</em>.
@@ -1752,6 +1776,7 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>13:</t>
         <t>Editorial</t>
+        <t>Non-finite number support</t>
         </li>
       </ul>
     </section>
