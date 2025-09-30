@@ -556,8 +556,8 @@ for dealing with 64-bit integers.
 </t>
   <section anchor="api.non-finite-numbers">
     <name>Non-Finite Numbers</name>
-    <t>Since non-finite numbers like <tt>NaN</tt>, typically is not a part
-    of application protocols, <tt>CBOR::Core</tt> implementations SHOULD
+    <t>Since non-finite numbers like <tt>NaN</tt>, are rarely used in
+    application protocols, <tt>CBOR::Core</tt> implementations SHOULD
     support options making the parser reject non-finite numbers.
     This is to avoid forcing applications to explicitly test every <tt>float</tt>
     value for being a "genuine" number.</t>
