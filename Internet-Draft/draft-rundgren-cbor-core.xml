@@ -556,15 +556,19 @@ for dealing with 64-bit integers.
 </t>
   <section anchor="api.non-finite-numbers">
     <name>Non-Finite Numbers</name>
-    <t>Since non-finite numbers like <tt>NaN</tt> typically is not a part
-    of an application protocol, <tt>CBOR::Core</tt> implementations SHOULD
-    support options making the CBOR parser reject such numbers.
-    Otherwise conforming applications would have to explicitly test every <tt>float</tt>
+    <t>Since non-finite numbers like <tt>NaN</tt>, typically is not a part
+    of application protocols, <tt>CBOR::Core</tt> implementations SHOULD
+    support options making the parser reject non-finite numbers.
+    This is to avoid forcing applications to explicitly test every <tt>float</tt>
     value for being a "genuine" number.</t>
     <t>In the listed reference implementations, a more elaborate arrangement
     has been applied, making it possible to <em>selectively</em> accept non-finite
     numbers, including distinguishing between simple <tt>NaN</tt>s (<tt>f97e00</tt>)
-    and <tt>NaN</tt> with payloads.</t>
+    and <tt>NaN</tt> with payloads.
+    Due to limited platform-native support for <tt>NaN</tt> with payloads, the reference
+    implementations (internally) treat non-finite numbers as a distinct, <em>emulated
+    data type</em>, enabling the full range of floating-point numbers.
+    See <xref target="NON-FINITE"/> for more details.</t>
   </section>
 </section>
 
@@ -859,18 +863,14 @@ but this is out of scope for this specification.
         <reference anchor="CSF" target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/signatures.html">
           <front>
             <title>CBOR Signature Format (CSF)</title>
-            <author initials="A" surname="Rundgren">
-              <organization/>
-            </author>
+            <author/>
           </front>
         </reference>
 
         <reference anchor="CEF" target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/encryption.html">
           <front>
             <title>CBOR Encryption Format (CEF)</title>
-            <author initials="A" surname="Rundgren">
-              <organization/>
-            </author>
+            <author/>
           </front>
         </reference>
 
@@ -897,6 +897,13 @@ but this is out of scope for this specification.
           </front>
         </reference>
  
+        <reference anchor="NON-FINITE" target="https://cyberphone.github.io/CBOR.js/doc/non-finite-numbers.html">
+          <front>
+            <title>Non-Finite Numbers</title>
+            <author/>
+          </front>
+        </reference>
+
         <reference anchor="CBOR.JS" target="https://github.com/cyberphone/CBOR.js">
           <front>
             <title>CBOR.js - CBOR for JavaScript</title>
