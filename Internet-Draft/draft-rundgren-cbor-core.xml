@@ -217,17 +217,20 @@ features a list of integer sample values and their expected encoding.
         </t>
         </li>
         <li>
+RFC+: The optimized representation of integers (aka "Preferred Serialization"),
+MUST also be applied to string lengths, array/map counts, and tag numbers.
+        </li>
+        <li>
 RFC: Floating-point numbers MUST always use the shortest
 <xref target="IEEE754"/> variant that
 preserves the precision of the original value.
 <xref target="core.floats"/>
 features a list of floating-point sample values and their expected encoding.
         </li>
-        <li><t>
+        <li>
 RFC: Map keys MUST be sorted in the bytewise lexicographic
 order of their deterministic encoding.
 Duplicate keys MUST be <em>rejected</em>.
-</t>
         </li>
         <li>
 RFC+: Since CBOR encodings according to this specification
@@ -285,7 +288,7 @@ provided by CBOR tools compliant with this specification:
    <li>
   To support <em>variant</em> CBOR data,
   it MUST be possible to find out the type of a CBOR object,
-  <em>before</em> it is decoded.
+  <em>before</em> it is referenced.
   </li>
   <li>
   It MUST be possible to <em>add</em>, <em>delete</em>, and
@@ -557,18 +560,23 @@ for dealing with 64-bit integers.
   <section anchor="api.non-finite-numbers">
     <name>Non-Finite Numbers</name>
     <t>Since non-finite numbers like <tt>NaN</tt>, are rarely used in
-    application protocols, <tt>CBOR::Core</tt> implementations SHOULD
-    support options making the parser reject non-finite numbers.
-    This is to avoid forcing applications to explicitly test every <tt>float</tt>
-    value for being a "genuine" number.</t>
+    application protocols, conforming <tt>CBOR::Core</tt> implementations SHOULD
+    support an option making the decoder reject non-finite numbers.
+    Such an option obviates the need for applications having
+    to explicitly test decoded <tt>float</tt>
+    objects for being finite ("regular") floating-point numbers.</t>
     <t>In the listed reference implementations, a more elaborate arrangement
-    has been applied, making it possible to <em>selectively</em> accept non-finite
-    numbers, including distinguishing between simple <tt>NaN</tt>s (<tt>f97e00</tt>)
-    and <tt>NaN</tt> with payloads.
-    Due to limited platform-native support for <tt>NaN</tt> with payloads, the reference
-    implementations (internally) treat non-finite numbers as a distinct, <em>emulated
+    has been applied, permitting application protocols
+    to <em>selectively</em> accept non-finite numbers, including distinguishing
+    between simple <tt>NaN</tt>s (<tt>f97e00</tt>)
+    and <tt>NaN</tt> with payloads like <tt>fa7f801000</tt>.
+    Due to limited platform-native support for non-simple <tt>NaN</tt>s,
+    the reference implementations (internally) treat non-finite numbers as a <em>distinct, emulated
     data type</em>, enabling the full range of floating-point numbers.
-    See <xref target="NON-FINITE"/> for more details.</t>
+    Selection of the level of non-finite number support (none, simple, and full),
+    required for a specific <tt>float</tt> object in a protocol, is accomplished
+    through the use of different API access methods.
+    Also see <xref target="NON-FINITE"/> for a concrete solution.</t>
   </section>
 </section>
 
@@ -863,13 +871,6 @@ but this is out of scope for this specification.
         <reference anchor="CSF" target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/signatures.html">
           <front>
             <title>CBOR Signature Format (CSF)</title>
-            <author/>
-          </front>
-        </reference>
-
-        <reference anchor="CEF" target="https://cyberphone.github.io/javaapi/org/webpki/cbor/doc-files/encryption.html">
-          <front>
-            <title>CBOR Encryption Format (CEF)</title>
             <author/>
           </front>
         </reference>
@@ -1325,14 +1326,21 @@ of miscellaneous CBOR objects and their encoding.</t>
 <tr>
 <td><tt>Fa41280000</tt></td>
 <td><tt>10.5</tt></td>
-<td>Not in shortest encoding</td>
+<td>not using shortest encoding</td>
 <td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>fa7fc00000</tt></td>
 <td><tt>NaN</tt></td>
-<td>Not in shortest encoding</td>
+<td>not using shortest encoding</td>
+<td align="center">1</td>
+</tr>
+
+<tr>
+<td><tt>fa7fffe000</tt></td>
+<td><tt>float'7fff'</tt></td>
+<td>not using shortest encoding</td>
 <td align="center">1</td>
 </tr>
 
@@ -1671,10 +1679,10 @@ See also <xref target="core.invalid"/>.</t>
         browsers as well as <xref target="NODE.JS"/></dd>
         <dt><xref target="OPENKEYSTORE"/>:</dt>
         <dd>Java-based implementation that also 
-        supports <xref target="CSF"/> and <xref target="CEF"/></dd>
+        supports <xref target="CSF"/></dd>
         <dt><xref target="ANDROID-CBOR"/>:</dt>
         <dd>Android Java-based implementation that also 
-        supports <xref target="CSF"/> and <xref target="CEF"/></dd>
+        supports <xref target="CSF"/></dd>
       </dl>
     </section>
 
