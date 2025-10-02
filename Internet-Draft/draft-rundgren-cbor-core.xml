@@ -364,7 +364,7 @@ API support for the following primitive data types:
   <th align="center">CBOR</th>
   <th align="center">Primitive</th>
   <th align="center">Comment</th>
-  <th align="center">Note</th>
+  <th align="center">Notes</th>
   </tr>
 </thead>
 <tbody>
