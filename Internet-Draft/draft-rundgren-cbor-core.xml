@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-13"
+  docName="draft-rundgren-cbor-core-14"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -25,7 +25,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-13"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-14"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -573,7 +573,7 @@ for dealing with 64-bit integers.
     Due to limited platform-native support for non-simple <tt>NaN</tt>s,
     the reference implementations (internally) treat non-finite numbers as a <em>distinct, emulated
     data type</em>, enabling the full range of floating-point numbers.
-    Selection of the level of non-finite number support (none, simple, and full),
+    Selection of the level of floating-point number support
     required for a specific <tt>float</tt> object in a protocol, is accomplished
     through the use of different API access methods.
     Also see <xref target="NON-FINITE"/> for a concrete solution.</t>
@@ -1792,6 +1792,10 @@ See also <xref target="core.invalid"/>.</t>
         <t>13:</t>
         <t>Editorial</t>
         <t>Non-finite number support</t>
+        </li>
+        <li>
+        <t>14:</t>
+        <t>Editorial</t>
         </li>
       </ul>
     </section>
