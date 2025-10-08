@@ -221,11 +221,12 @@ RFC+: The optimized representation of integers (aka "Preferred Serialization"),
 MUST also be applied to string lengths, array/map counts, and tag numbers.
         </li>
         <li>
-RFC: Floating-point numbers MUST always use the shortest
+RFC+: Floating-point numbers MUST always use the shortest
 <xref target="IEEE754"/> variant that
-preserves the precision of the original value.
+preserves the precision of the original value, including subnormal values.
 <xref target="core.floats"/>
 features a list of floating-point sample values and their expected encoding.
+Also see <xref target="api.non-finite-numbers"/>.
         </li>
         <li>
 RFC: Map keys MUST be sorted in the bytewise lexicographic
@@ -560,23 +561,42 @@ for dealing with 64-bit integers.
   <section anchor="api.non-finite-numbers">
     <name>Non-Finite Numbers</name>
     <t>Since non-finite numbers like <tt>NaN</tt>, are rarely used in
-    application protocols, conforming <tt>CBOR::Core</tt> implementations SHOULD
-    support an option making the decoder reject non-finite numbers.
-    Such an option obviates the need for applications having
-    to explicitly test decoded <tt>float</tt>
-    objects for being finite ("regular") floating-point numbers.</t>
-    <t>In the listed reference implementations, a more elaborate arrangement
-    has been applied, permitting application protocols
+    application protocols, one could imagine a global option
+    making decoders reject non-finite numbers, which in turn would
+    relieve applications from having to <em>explicitly test</em> decoded <tt>float</tt>
+    objects for being finite ("regular") floating-point numbers.
+    Although working, such an option would not be particularly flexible.</t>
+    <t>To cope with this as well as the fact that platform-native support for <tt>NaN</tt>
+    with payloads like <tt>fa7f801000</tt> is somewhat uneven, compliant <tt>CBOR::Core</tt>
+    implementations MUST adhere to the scheme below.</t>
+    <ul empty="true">
+    <li>
+    <t>Enable application protocols
     to <em>selectively</em> accept non-finite numbers, including distinguishing
-    between simple <tt>NaN</tt>s (<tt>f97e00</tt>)
-    and <tt>NaN</tt> with payloads like <tt>fa7f801000</tt>.
-    Due to limited platform-native support for non-simple <tt>NaN</tt>s,
-    the reference implementations (internally) treat non-finite numbers as a <em>distinct, emulated
-    data type</em>, enabling the full range of floating-point numbers.
+    between "simple" <tt>NaN</tt> (<tt>f97e00</tt>)
+    and <tt>NaN</tt> with payloads.
+    This is accomplished by (internally) treating non-finite numbers as a <em>distinct, emulated
+    data type</em>, making it possible to support the full range of floating-point numbers.
+    The API exposes this capability as three distinct levels
+    of floating-point number support:</t>
+    <dl newline="true">
+    <dt>BASIC:</dt>
+    <dd>Supporting "regular" floating-point numbers only.</dd>
+    <dt>EXTENDED:</dt>
+    <dd>Supporting "regular" floating-point numbers, "simple" <tt>NaN</tt>  and <tt>Infinity</tt>.</dd>
+    <dt>COMPLETE:</dt>
+    <dd>Supporting all valid floating-point numbers.</dd>
+    </dl>
+    <t>
     Selection of the level of floating-point number support
     required for a specific <tt>float</tt> object in a protocol, is accomplished
-    through the use of different API access methods.
-    Also see <xref target="NON-FINITE"/> for a concrete solution.</t>
+    through the use of different API access methods, like the following:</t>
+    <t>A hypothetical <tt>getFloat64()</tt> would reject an encountered <tt>NaN</tt>, while a
+    hypothetical <tt>getExtendedFloat64()</tt> would return the decoded <tt>NaN</tt>.</t>
+    </li>
+    </ul>
+    <t>Also see <xref target="NON-FINITE"/> for a concrete solution,
+    that also addresses <em>encoding</em> of non-finite numbers.</t>
   </section>
 </section>
 
@@ -1651,8 +1671,8 @@ derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="R
 <dt>Sorted maps:</dt>
 <dd>Duplicate keys MUST still be rejected.</dd>
 </dl>
-<t>Note that regardless of the format of decoded CBOR data, a compliant
-<tt>CBOR::Core</tt> implementation MUST maintain deterministic encoding.
+<t>Note that regardless of the format of <em>decoded</em> CBOR data, compliant
+<tt>CBOR::Core</tt> implementations MUST internally maintain the deterministic encoding format.
 See also <xref target="core.invalid"/>.</t>
     </section>
 
