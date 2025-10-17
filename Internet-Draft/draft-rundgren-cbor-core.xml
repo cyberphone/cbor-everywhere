@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-15"
+  docName="draft-rundgren-cbor-core-16"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -25,7 +25,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-15"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-16"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -588,8 +588,9 @@ for dealing with 64-bit integers.
     Selection of the level of floating-point number support
     required for a specific <tt>float</tt> object in a protocol, is accomplished
     through the use of different API access methods, like the following:</t>
-    <t>A hypothetical <tt>getFloat64()</tt> would reject an encountered <tt>NaN</tt>, while a
-    hypothetical <tt>getExtendedFloat64()</tt> would return the decoded <tt>NaN</tt>.</t>
+    <t>A hypothetical <tt>getFloat64()</tt> would reject an encountered "simple" <tt>NaN</tt>, while a
+    hypothetical <tt>getExtendedFloat64()</tt> would treat the <tt>NaN</tt>
+    as any other <xref target="IEEE754"/> floating point number.</t>
     </li>
     </ul>
     <t>Also see <xref target="NON-FINITE"/> for a concrete solution,
@@ -1816,6 +1817,10 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>15:</t>
         <t>Revised: Application/Encoding Level Considerations</t>
+        </li>
+        <li>
+        <t>16:</t>
+        <t>Editorial</t>
         </li>
       </ul>
     </section>
