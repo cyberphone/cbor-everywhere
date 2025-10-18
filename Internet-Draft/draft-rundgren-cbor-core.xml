@@ -1301,8 +1301,8 @@ of miscellaneous CBOR objects and their encoding.</t>
     </section>
     <section anchor="core.invalid">
       <name>Invalid Encodings</name>
-      <t>The following table holds a selection of CBOR-encoded objects
-      that not permitted by <tt>CBOR::Core</tt> in <em>deterministic</em> mode.</t>
+      <t>The following table holds a selection of CBOR-encoded objects,
+      that (by default) MUST be rejected by compliant <tt>CBOR::Core</tt> implementations.</t>
 <table align="left">
 <name>Invalid Encodings</name>
 <thead>
@@ -1323,42 +1323,42 @@ of miscellaneous CBOR objects and their encoding.</t>
 <tr>
 <td><tt>98020405</tt></td>
 <td><tt>[4, 5]</tt></td>
-<td>Improper array length indicator</td>
+<td>Array length with leading zero</td>
 <td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>1900ff</tt></td>
 <td><tt>255</tt></td>
-<td>Number with leading zero bytes</td>
+<td>Number with leading zero</td>
 <td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>c34a00010000000000000000</tt></td>
 <td><tt>-18446744073709551617</tt></td>
-<td>Number with leading zero bytes</td>
+<td>Number with leading zero</td>
 <td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>Fa41280000</tt></td>
 <td><tt>10.5</tt></td>
-<td>not using shortest encoding</td>
+<td>Not using shortest encoding</td>
 <td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>fa7fc00000</tt></td>
 <td><tt>NaN</tt></td>
-<td>not using shortest encoding</td>
+<td>Not using shortest encoding</td>
 <td align="center">1</td>
 </tr>
 
 <tr>
 <td><tt>fa7fffe000</tt></td>
 <td><tt>float'7fff'</tt></td>
-<td>not using shortest encoding</td>
+<td>Not using shortest encoding</td>
 <td align="center">1</td>
 </tr>
 
@@ -1390,14 +1390,14 @@ of miscellaneous CBOR objects and their encoding.</t>
 <tr>
 <td><tt>5b0010000000000000</tt></td>
 <td></td>
-<td>Extremely large <tt>bstr</tt> length indicator: 4503599627370496</td>
+<td>Extremely large <tt>bstr</tt> length: 4503599627370496</td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <ol>
-<li>Supported by the measures mentioned in <xref target="backward.compatibility"/>.</li>
-<li>Unsupported since it is in conflict with <em>deterministically</em> encoded CBOR.</li>
+<li>Enabled by the measures mentioned in <xref target="backward.compatibility"/>.</li>
+<li>Not supported by <tt>CBOR::Core</tt>.</li>
 </ol>
 
     </section>
