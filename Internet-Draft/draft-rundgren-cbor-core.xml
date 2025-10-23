@@ -342,8 +342,10 @@ console.log(CBOR.toHex(cborObject.encode()));  // Reencode returns identical CBO
 > 781e323032352d30332d30325431333a30383a35352e303230312b30333a3030]]>
 </sourcecode>
 <t>
-As can be seen in the listing, <em>application</em> level, data may not always
-be 100% deterministic, while at the <em>encoding</em> level, data remain intact.
+As can be seen in the listing, at the <em>application</em> level, data may not always
+be 100% deterministic, while at the <em>encoding</em> level, data MUST remain intact.
+The only exception to this rule is if the data was received in a non-deterministic format.
+Also see <xref target="backward.compatibility"/>.
 </t>
 </section>
 </section>
