@@ -232,14 +232,16 @@ features a list of floating-point sample values and their expected encoding.
 RFC+: Non-finite numbers (<xref target="api.non-finite-numbers"/>)
 MUST be reduced to the shortest
 <xref target="IEEE754"/> variant (<tt>64</tt>, <tt>32</tt>,
-or <tt>16</tt> bits) that preserves the original value.
-Finding the shortest variant is accomplished by removing the
-rightmost N bits of the significand, where N is the difference in
+or <tt>16</tt> bits) that preserves the original value.<br/>
+The reduction process is as follows. Until the value has been reduced to
+a <tt>16</tt> bit variant:
+Remove the rightmost N bits of the significand, where N is the difference in
 significand width between the original and the next shorter variant.
-The reduction MUST only be performed if all removed bits are zero.
-Note that a reduction also affects the size of the exponent and thus indirectly
-the position of the sign-bit as well.
-The process MUST be repeated until the shortest representation has been found.
+The process is aborted if any of the removed bits is set.<br/>
+Note that a reduction operation also reduces the width of the (all <tt>1</tt>'s)
+exponent and thus indirectly the position of the sign-bit as well.
+<xref target="core.floats"/> and <xref target="core.misc"/>
+contain a few non-finite sample values and their expected encoding.
         </li>
         <li>
 RFC: Map keys MUST be sorted in the bytewise lexicographic
@@ -1310,6 +1312,9 @@ of miscellaneous CBOR objects and their encoding.</t>
 <tr><td><tt>float'7f800001'</tt></td>
 <td><tt>fa7f800001</tt></td>
 <td>NaN with payload</td></tr>
+<tr><td><tt>float'fff0001230000000'</tt></td>
+<td><tt>fbfff0001230000000</tt></td>
+<td>NaN with payload and sign</td></tr>
 </tbody>
 </table>
 
