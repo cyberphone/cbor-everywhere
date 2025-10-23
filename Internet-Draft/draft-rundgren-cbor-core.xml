@@ -221,12 +221,25 @@ RFC+: The optimized representation of integers (aka "Preferred Serialization"),
 MUST also be applied to string lengths, array/map counts, and tag numbers.
         </li>
         <li>
-RFC+: Floating-point numbers MUST always use the shortest
-<xref target="IEEE754"/> variant that
+RFC: Floating-point numbers MUST use the shortest
+<xref target="IEEE754"/> variant (<tt>64</tt>, <tt>32</tt>,
+or <tt>16</tt> bits) that
 preserves the precision of the original value, including subnormal values.
 <xref target="core.floats"/>
 features a list of floating-point sample values and their expected encoding.
-Also see <xref target="api.non-finite-numbers"/>.
+        </li>
+        <li>
+RFC+: Non-finite numbers (<xref target="api.non-finite-numbers"/>)
+MUST be reduced to the shortest
+<xref target="IEEE754"/> variant (<tt>64</tt>, <tt>32</tt>,
+or <tt>16</tt> bits) that preserves the original value.
+Finding the shortest variant is accomplished by removing the
+rightmost N bits of the significand, where N is the difference in
+significand width between the original and the next shorter variant.
+The reduction MUST only be performed if all removed bits are zero.
+Note that a reduction also affects the size of the exponent and thus indirectly
+the position of the sign-bit as well.
+The process MUST be repeated until the shortest representation has been found.
         </li>
         <li>
 RFC: Map keys MUST be sorted in the bytewise lexicographic
@@ -1672,6 +1685,10 @@ derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="R
 </dl>
 <t>Note that regardless of the format of <em>decoded</em> CBOR data, compliant
 <tt>CBOR::Core</tt> implementations MUST internally maintain the deterministic encoding format.
+</t>
+<t>
+That is, a <tt>BigInt</tt> encoded as <tt>c249000000000000000006</tt> would after decoding be
+converted into an <tt>int</tt> encoded as <tt>06</tt>.
 See also <xref target="core.invalid"/>.</t>
     </section>
 
@@ -1823,6 +1840,7 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>16:</t>
         <t>Editorial</t>
+        <t>Non-finite number deterministic encoding</t>
         </li>
       </ul>
     </section>
