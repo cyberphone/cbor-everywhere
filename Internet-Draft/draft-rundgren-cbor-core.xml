@@ -547,7 +547,7 @@ Note that a hypothetical <tt>getFloat16()</tt> MUST reject encountered
 </li>
 <li>
 <t>
-See <xref target="api.non-finite-numbers"/>.
+Floating-point numbers also include non-finite numbers. See also <xref target="api.non-finite-numbers"/>.
 </t>
 </li>
 <li>
