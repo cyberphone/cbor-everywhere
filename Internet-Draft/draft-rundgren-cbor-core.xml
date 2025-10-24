@@ -233,27 +233,27 @@ features a list of floating-point sample values and their expected encoding.
 MUST be reduced to the shortest
 <xref target="IEEE754"/> variant (<tt>64</tt>, <tt>32</tt>,
 or <tt>16</tt> bits) that preserves the original value,
-using the algorithm below.<br/>
-Repeat until the value has been reduced to a <tt>16</tt>-bit variant:</t>
+using the following algorithm:<br/>
+While <tt>value</tt> is not yet a <tt>16</tt>-bit variant, perform the steps below.</t>
 <ul>
 <li>
-Save a copy of the original value.
+Copy <tt>value</tt> into a variable <tt>temp</tt>.
 </li>
 <li>
-Shift value N steps to the right, where N is the difference in
-significand width between the value and the next shorter variant.
+Shift <tt>value</tt> N steps to the right, where N is the difference in
+significand width between the <tt>value</tt> and the next shorter variant.
 </li>
 <li>
-Abort the process (and restore value from copy), if any of the discarded bits were set.
+Abort the process (and restore <tt>value</tt> from <tt>temp</tt>), if any of the discarded bits were set.
 </li>
 <li>
-Update value using a bitwise AND operation
-with an argument set to <tt>0111111...1</tt> matching the length
+Update <tt>value</tt> using a bitwise AND operation
+with a mask set to <tt>0111111...1</tt> matching the length
 of the shorter variant. 
 </li>
 <li>
-Update value at the MSB position of the shorter variant,
-using the MSB bit of the original variant fetched from copy.
+Update <tt>value</tt> at the MSB position of the shorter variant,
+using the MSB bit of the original variant fetched from <tt>temp</tt>.
 </li>
 </ul>
 <t>
