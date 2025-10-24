@@ -54,7 +54,7 @@
     <abstract>
       <t>
 This document defines <tt>CBOR::Core</tt>,
-a platform profile for CBOR (RFC 8949)
+a platform-agnostic profile for CBOR (RFC 8949)
 intended to serve as a viable replacement for JSON in
 computationally advanced systems like Internet browsers,
 mobile phones, and Web servers.
@@ -360,7 +360,7 @@ console.log(CBOR.toHex(cborObject.encode()));  // Reencode returns identical CBO
 As can be seen in the listing, at the <em>application</em> level, data may not always
 be 100% deterministic, while at the <em>encoding</em> level, data MUST remain intact.
 The only exception to this rule is if the data was received in a non-deterministic format.
-Also see <xref target="backward.compatibility"/>.
+See also <xref target="backward.compatibility"/>.
 </t>
 </section>
 </section>
@@ -572,6 +572,17 @@ Java doesn't have built-in support for unsigned integers, whereas
 JavaScript requires the use of the JavaScript <tt>BigInt</tt> type
 for dealing with 64-bit integers.
 </t>
+  <section anchor="sequences">
+    <name>CBOR Sequences</name>
+    <t>
+Decoders compliant with this specification MUST support CBOR sequences <xref target="RFC8742"/>.
+  </t>
+  <t>For decoders of "true" (binary) CBOR, there are additional requirements:</t>
+  <ul>
+  <li>It MUST be possible to decode one CBOR object at a time.</li>
+  <li>Decoders MUST NOT do any assumptions about the nature of unread code (it might not even be CBOR).</li>
+  </ul>
+    </section>
   <section anchor="api.non-finite-numbers">
     <name>Non-Finite Numbers</name>
     <t>Since non-finite numbers like <tt>NaN</tt>, are rarely used in
@@ -610,8 +621,8 @@ for dealing with 64-bit integers.
     as any other <xref target="IEEE754"/> floating point number.</t>
     </li>
     </ul>
-    <t>Also see <xref target="NON-FINITE"/> for a concrete solution,
-    that also addresses <em>encoding</em> of non-finite numbers.</t>
+    <t>For a concrete solution, that also addresses <em>encoding</em> of non-finite numbers,
+    see <xref target="NON-FINITE"/>.</t>
   </section>
 </section>
 
@@ -833,20 +844,9 @@ slightly more adapted for parsing, like single-line comments:
       <em>Input only</em>.
     </li>
   </ol>
-  <t>The <xref target="PLAYGROUND"/> is an excellent way of getting acquainted
+  <t>The <xref target="PLAYGROUND"/> offers a simple way to get acquainted
   with CBOR and diagnostic notation.</t>
 
-      </section>
-      <section anchor="sequences">
-      <name>CBOR Sequences</name>
-      <t>
-Decoders compliant with this specification MUST support CBOR sequences <xref target="RFC8742"/>.
-    </t>
-    <t>For decoders of "true" (binary) CBOR, there are additional requirements:</t>
-    <ul>
-    <li>It MUST be possible to decode one CBOR object at a time.</li>
-    <li>The decoder MUST NOT do any assumptions about the nature of unread code (it might not even be CBOR).</li>
-    </ul>
       </section>
 
     </section>  
