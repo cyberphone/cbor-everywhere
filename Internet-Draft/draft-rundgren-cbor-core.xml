@@ -162,7 +162,7 @@ used in <xref target="RFC8949"/>.</li>
 <tr><td align="center"><tt>tstr</tt></td><td>Text string encoded as UTF-8 <xref target="RFC3629"/></td></tr>
 <tr><td align="center"><tt>bstr</tt></td><td>Byte string</td></tr>
 <tr><td align="center"><tt>bool</tt></td><td>Boolean <tt>true</tt> and <tt>false</tt></td></tr>
-<tr><td align="center"><tt>null</tt></td><td>Represents a <tt>null</tt> object</td></tr>
+<tr><td align="center"><tt>null</tt></td><td>Object representing <tt>null</tt></td></tr>
 <tr><td align="center"><tt>[]</tt></td><td>Array</td></tr>
 <tr><td align="center"><tt>{}</tt></td><td>Map</td></tr>
 <tr><td align="center"><tt>#6.nnn(type)</tt></td><td>Tagged objects</td></tr>
@@ -625,7 +625,7 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
     <dt>BASIC:</dt>
     <dd>Supporting "regular" floating-point numbers only.</dd>
     <dt>EXTENDED:</dt>
-    <dd>Supporting "regular" floating-point numbers, "simple" <tt>NaN</tt>  and <tt>Infinity</tt>.</dd>
+    <dd>Supporting "regular" floating-point numbers, "simple" <tt>NaN</tt>, <tt>Infinity</tt>  and <tt>-Infinity</tt>.</dd>
     <dt>COMPLETE:</dt>
     <dd>Supporting all valid floating-point numbers.</dd>
     </dl>
@@ -1427,7 +1427,7 @@ of miscellaneous CBOR objects and their encoding.</t>
 <tr>
 <td><tt>5b0010000000000000</tt></td>
 <td></td>
-<td>Extremely large <tt>bstr</tt> length: 4503599627370496</td>
+<td>Extremely large <tt>bstr</tt> length indicator: 4503599627370496</td>
 <td></td>
 </tr>
 </tbody>
