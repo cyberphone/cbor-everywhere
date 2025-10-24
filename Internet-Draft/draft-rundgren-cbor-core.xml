@@ -235,7 +235,7 @@ MUST be reduced to the shortest
 or <tt>16</tt> bits) that preserves the original value,
 using the following algorithm:<br/>
 While <tt>value</tt> is not yet a <tt>16</tt>-bit variant, perform the steps below.</t>
-<ul>
+<ol>
 <li>
 Copy <tt>value</tt> into a variable <tt>temp</tt>.
 </li>
@@ -255,7 +255,7 @@ of the shorter variant.
 Update <tt>value</tt> at the MSB position of the shorter variant,
 using the MSB bit of the original variant fetched from <tt>temp</tt>.
 </li>
-</ul>
+</ol>
 <t>
 <xref target="core.floats"/> and <xref target="core.misc"/>
 contain a few non-finite sample values and their expected encoding.</t>
