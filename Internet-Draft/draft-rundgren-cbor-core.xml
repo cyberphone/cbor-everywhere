@@ -234,7 +234,7 @@ MUST be reduced to the shortest
 <xref target="IEEE754"/> variant (<tt>64</tt>, <tt>32</tt>,
 or <tt>16</tt> bits) that preserves the original value,
 using the algorithm below.<br/>
-Repeat until the value has been reduced to a <tt>16</tt> bit variant:</t>
+Repeat until the value has been reduced to a <tt>16</tt>-bit variant:</t>
 <ul>
 <li>
 Save a copy of the original value.
