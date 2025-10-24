@@ -248,8 +248,8 @@ Abort the process (and restore <tt>value</tt> from <tt>temp</tt>), if any of the
 </li>
 <li>
 Update <tt>value</tt> using a bitwise AND operation
-with a mask set to <tt>0111111...1</tt> matching the length
-of the shorter variant. 
+with an all-ones (<tt>111111...1</tt>) bit-mask having 
+the length of the shorter variant minus one. 
 </li>
 <li>
 Update <tt>value</tt> at the MSB position of the shorter variant,
