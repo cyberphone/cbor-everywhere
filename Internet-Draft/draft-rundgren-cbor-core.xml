@@ -278,19 +278,18 @@ for <tt>CBOR::Core</tt>.</dd>
       </dl>
         <section anchor="api.level.det">
           <name>API Requirements</name>
-
 <t>
-An important feature that deterministic encoding brings to the table is
-that wrapping CBOR data to be signed in <tt>bstr</tt> objects, like
-specified by COSE in <xref section="2" sectionFormat="of" target="RFC9052"/>,
-no longer is a prerequisite.
-That is, cryptographic operations can <em>optionally</em> be performed
-on "raw" CBOR data.
-Turn to <xref target="embedded.signatures"/> for
-an example of an application depending on such features.
+Compliant <tt>CBOR::Core</tt> implementations MUST <em>reject</em>
+CBOR data not adhering to the deterministic encoding scheme.
+See also <xref target="backward.compatibility"/>.
 </t>
 <t>
-However, to make this a reality, the following functionality MUST be
+An important feature that deterministic encoding brings to the table is
+the ability to perform cryptographic operations on "raw" CBOR data.
+Turn to <xref target="embedded.signatures"/> for
+an example of an application depending on such features.
+However, to make this a reality as well as making it easy to
+manipulate CBOR objects, the following functionality MUST be
 provided by CBOR tools compliant with this specification:
 </t>
 <ul>
@@ -316,11 +315,6 @@ provided by CBOR tools compliant with this specification:
   <li>
   Irrespective of if CBOR data is decoded, updated, or created 
   programmatically, deterministic encoding MUST be maintained.
-  </li>
-    <li>
-  Invalid or unsupported CBOR constructs, as well as CBOR data not adhering
-  to the deterministic encoding scheme MUST be <em>rejected</em>.
-  See also <xref target="backward.compatibility"/> and <xref target="core.invalid"/>.
   </li>
 </ul>
 <t>
