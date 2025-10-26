@@ -201,19 +201,15 @@ The following list contains a summary of the <tt>CBOR::Core</tt> deterministic e
         </t>
       <ul>
         <li>
-RFC+: Floating-point and integer objects MUST be treated as <em>distinct types</em>
-regardless of their numeric value. This is compliant with
-"Rule&nbsp;2" in <xref section="4.2.2" sectionFormat="of" target="RFC8949"/>.
-        </li>
-        <li>
         <t>
 RFC: Integers, represented by the <tt>int</tt> and
 <tt>bigint</tt> types, MUST use the <tt>int</tt>
 type if the value is between <tt>-2<sup>64</sup></tt>
 and <tt>2<sup>64</sup>-1</tt>,
 otherwise the <tt>bigint</tt> type MUST be used.
+Leading zeros MUST be removed.
 <xref target="core.integers"/>
-features a list of integer sample values and their expected encoding.
+contains a list of integer sample values and their expected encoding.
         </t>
         </li>
         <li>
@@ -226,39 +222,21 @@ RFC: Floating-point numbers MUST use the shortest
 or <tt>16</tt> bits) that
 preserves the precision of the original value, including subnormal values.
 <xref target="core.floats"/>
-features a list of floating-point sample values and their expected encoding.
+contains a list of floating-point sample values and their expected encoding.
         </li>
         <li>
 <t>RFC+: Non-finite numbers (<xref target="api.non-finite-numbers"/>)
 MUST be reduced to the shortest
 <xref target="IEEE754"/> variant (<tt>64</tt>, <tt>32</tt>,
-or <tt>16</tt> bits) that preserves the original value,
-using the following algorithm:<br/>
-While <tt>value</tt> is not yet a <tt>16</tt>-bit variant, perform the steps below.</t>
-<ol>
-<li>
-Copy <tt>value</tt> into a variable <tt>temp</tt>.
-</li>
-<li>
-Shift <tt>value</tt> N steps to the right, where N is the difference in
-significand width between the <tt>value</tt> and the next shorter variant.
-</li>
-<li>
-Abort the process (and restore <tt>value</tt> from <tt>temp</tt>), if any of the discarded bits were set.
-</li>
-<li>
-Update <tt>value</tt> using a bitwise AND operation
-with an all-ones (<tt>111111...1</tt>) bit-mask having 
-the length of the shorter variant minus one. 
-</li>
-<li>
-Update <tt>value</tt> at the MSB position of the shorter variant,
-using the MSB bit of the original variant fetched from <tt>temp</tt>.
-</li>
-</ol>
-<t>
+or <tt>16</tt> bits) that preserves the original value.
+<xref target="non-finite.encoder"/> contains a sample encoder in JavaScript, while
 <xref target="core.floats"/> and <xref target="core.misc"/>
 contain a few non-finite sample values and their expected encoding.</t>
+        </li>
+        <li>
+RFC+: Floating-point and integer objects MUST be treated as <em>distinct types</em>
+regardless of their numeric value. This is compliant with
+"Rule&nbsp;2" in <xref section="4.2.2" sectionFormat="of" target="RFC8949"/>.
         </li>
         <li>
 RFC: Map keys MUST be sorted in the bytewise lexicographic
@@ -360,7 +338,7 @@ featured in similar tools for ASN.1.
 </t>
 <t>
 Applied to the JavaScript <tt>Date</tt> object, and using <xref target="CBOR.JS"/>,
-the following example highlights the issues:</t>
+the following example highlights a related issue:</t>
 <sourcecode name="Date example" type="cbor">
 <![CDATA[// Sample CBOR tstr object: "2025-03-02T13:08:55.0201+03:00"
 let cbor = CBOR.fromHex("781e323032352d30332d30325431333a30383a35352e303230312b30333a3030");
@@ -1440,6 +1418,66 @@ of miscellaneous CBOR objects and their encoding.</t>
     </section>
 
     </section>
+
+    <section anchor="non-finite.encoder">
+      <name>Non-finite Number Encoder</name>
+      <t>The following JavaScript sample code encodes non-finite
+      numbers as mandated by the deterministic encoding rules:</t>
+                     <sourcecode name="Non-finite encoder" type="JavaScript">
+<![CDATA[function nonFinite2Cbor(value) {
+  badValue:
+    while (true) {
+      if (value < 0n) break badValue;
+      // Convert value into byte array 
+      let array = [];
+      let i = value;
+      do {
+        array.push(Number(i & 0xffn));
+      } while (i >>= 8n);
+      let ieee754 = new Uint8Array(array.reverse());
+      // Verify that value is a valid non-finite number
+      let exponent;
+      switch (ieee754.length) {
+        case 2:
+          exponent = 0x7c00n;
+          break;
+        case 4:
+          exponent = 0x7f800000n;
+          break;
+        case 8:
+          exponent = 0x7ff0000000000000n;
+          break;
+        default:
+          break badValue;
+      }
+      if ((value & exponent) != exponent) break badValue;
+      // Get sign bit
+      let sign = ieee754[0] > 0x7f;
+      // Try reducing value to next shorter variant if not aleady at 16 bits
+      switch (ieee754.length) {
+        case 4:
+          if (value & ((1n << 13n) - 1n)) break;
+          value >>= 13n;
+          value &= 0x7fffn;
+          if (sign) value |= 0x8000n;
+          continue;
+        case 8:
+          if (value & ((1n << 29n) - 1n)) break;
+          value >>= 29n;
+          value &= 0x7fffffffn;
+          if (sign) value |= 0x80000000n;
+          continue;
+      }
+      // Reductions done, return proper CBOR encoding
+      let cbor = new Uint8Array(1 + ieee754.length);
+      cbor.set(new Uint8Array([0xf9 + (ieee754.length >> 2)]));
+      cbor.set(ieee754, 1);
+      return cbor;
+    }
+  // Invalid argument
+  throw new Error("Bad value: " + value);
+}]]></sourcecode>
+    </section>
     
     <section anchor="embedded.signatures">
       <name>Embedded Signatures</name>
@@ -1709,8 +1747,8 @@ derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="R
 <tt>CBOR::Core</tt> implementations MUST internally maintain the deterministic encoding format.
 </t>
 <t>
-That is, a <tt>BigInt</tt> encoded as <tt>c249000000000000000006</tt> would after decoding be
-converted into an <tt>int</tt> encoded as <tt>06</tt>.
+That is, a <tt>bigint</tt> encoded as <tt>c249000000000000000006</tt> would after decoding,
+be represented by an <tt>int</tt> encoded as <tt>06</tt>.
 See also <xref target="core.invalid"/>.</t>
     </section>
 
