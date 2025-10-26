@@ -1,17 +1,18 @@
 'use strict';
 
 function nonFinite2Cbor(value) {
+  // Errors force execution to the statement after the while-loop.
   badValue:
     while (true) {
       if (value < 0n) break badValue;
-      // Convert value into byte array 
+      // Convert the value into a byte array.
       let array = [];
       let i = value;
       do {
         array.push(Number(i & 0xffn));
       } while (i >>= 8n);
       let ieee754 = new Uint8Array(array.reverse());
-      // Verify that value is a valid non-finite number
+      // Verify that the value is a valid non-finite number.
       let exponent;
       switch (ieee754.length) {
         case 2:
@@ -27,9 +28,18 @@ function nonFinite2Cbor(value) {
           break badValue;
       }
       if ((value & exponent) != exponent) break badValue;
-      // Get sign bit
+      // Get sign bit.
       let sign = ieee754[0] > 0x7f;
-      // Try reducing value to next shorter variant if not aleady at 16 bits
+      // If not already a 16-bit value, try reducing 
+      // the value to the next shorter variant.
+      // This done by testing if a right-shift to the
+      // next shorter variant would lead to lost bits
+      // in the significand.  If there would be lost bits,
+      // the process terminates (break), otherwise the shift is
+      // performed. Next all but the sign bit is masked away.
+      // This also sets the exponent to the correct value for
+      // the shorter variant.
+      // Finally, the sign bit is restored and the process continues.
       switch (ieee754.length) {
         case 4:
           if (value & ((1n << 13n) - 1n)) break;
@@ -44,13 +54,13 @@ function nonFinite2Cbor(value) {
           if (sign) value |= 0x80000000n;
           continue;
       }
-      // Reductions done, return proper CBOR encoding
+      // Reductions done, return proper CBOR encoding.
       let cbor = new Uint8Array(1 + ieee754.length);
       cbor.set(new Uint8Array([0xf9 + (ieee754.length >> 2)]));
       cbor.set(ieee754, 1);
       return cbor;
     }
-  // Invalid argument
+  // Invalid argument.
   throw new Error("Bad value: " + value);
 }
 
