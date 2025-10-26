@@ -210,13 +210,13 @@ RFC: Integers, represented by the <tt>int</tt> and
 type if the value is between <tt>-2<sup>64</sup></tt>
 and <tt>2<sup>64</sup>-1</tt>,
 otherwise the <tt>bigint</tt> type MUST be used.
-Leading zeros MUST be removed.
+"Preferred Serialization" MUST be applied to both integer variants.
 <xref target="core.integers"/>
 contains a list of integer sample values and their expected encoding.
         </t>
         </li>
         <li>
-RFC+: The optimized representation of integers (aka "Preferred Serialization"),
+RFC: "Preferred Serialization"
 MUST also be applied to string lengths, array/map counts, and tag numbers.
         </li>
         <li>
