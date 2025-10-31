@@ -502,8 +502,8 @@ MUST reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
 </t>
 </li>
 <li>
-<t>Although the CBOR <tt>int</tt> type supports a wider range
-of negative numbers than offered by <tt>Int64</tt>, exploiting this
+<t>Although CBOR major type 1 supports a wider range
+of negative values than offered by <tt>Int64</tt>, exploiting this
 feature in protocols designed for cross-platform use, is NOT RECOMMENDED;
 it should be reserved for the unconstrained integer object, <tt>BigInt</tt>.
 </t>
