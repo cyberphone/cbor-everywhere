@@ -1716,11 +1716,11 @@ console.log(object.toString());                    // Show in Diagnostic Notatio
 object = CBOR.decode(cborBinary);                  // Decode CBOR object
 csf = object.get(CSF_CONTAINER_LBL);               // Get CSF container
 let alg = csf.get(CSF_ALG_LBL).getInt32();         // Get COSE algorithm
-let readSig = csf.remove(CSF_SIG_LBL).getBytes();  // Get and REMOVE signature value
+let sigVal = csf.remove(CSF_SIG_LBL).getBytes();   // Get and REMOVE signature value
 let actualSig = hmac(alg,                          // Calculate signature over
                      SHARED_KEY,                   // the current object
                      object.encode());             // encode(): all but the signature
-if (CBOR.compareArrays(readSig, actualSig)) {      // HMAC validation
+if (CBOR.compareArrays(sigVal, actualSig)) {       // HMAC validation
     throw "Signature did not validate";
 }
 // Validated object, access the "payload":
