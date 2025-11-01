@@ -153,7 +153,7 @@ used in <xref target="RFC8949"/>.</li>
 <table align="left">
 <name>Supported CBOR Objects</name>
 <thead>
-  <tr><th align="center">CBOR</th>
+  <tr><th align="center">CDDL</th>
   <th align="center">Comment</th></tr>
 </thead>
 <tbody>
@@ -210,14 +210,15 @@ RFC: Integers, represented by the <tt>int</tt> and
 type if the value is between <tt>-2<sup>64</sup></tt>
 and <tt>2<sup>64</sup>-1</tt>,
 otherwise the <tt>bigint</tt> type MUST be used.
-"Preferred Serialization" MUST be applied to both integer variants.
+Shortest representation (in <xref target="RFC8949"/> referred to as "Preferred Serialization"),
+MUST be applied to both integer variants.
 <xref target="core.integers"/>
 contains a list of integer sample values and their expected encoding.
         </t>
-        </li>
-        <li>
-RFC: "Preferred Serialization"
+<t>
+Note that the shortest representation
 MUST also be applied to string lengths, array/map counts, and tag numbers.
+</t>
         </li>
         <li>
 RFC+: Floating-point numbers MUST use the shortest
@@ -251,12 +252,12 @@ RFC+: Since CBOR encodings according to this specification
 maintain uniqueness, there are no specific restrictions or
 tests needed in order to determine map key equivalence.
 As an (extreme) example, the floating-point numbers <tt>0.0</tt> and
-<tt>-0.0</tt>, and the integer number <tt>0</tt>
+<tt>-0.0</tt>, the integer number <tt>0</tt>, a <tt>NaN</tt>, and an empty <tt>map</tt> <tt>{}</tt>,
 could represent the distinct keys
-<tt>f90000</tt>, <tt>f98000</tt>, and <tt>00</tt> respectively.
+<tt>f90000</tt>, <tt>f98000</tt>, <tt>00</tt>, <tt>f97e00</tt>, and <tt>a0</tt> respectively.
         </li>
         <li>
-RFC: Indefinite length objects MUST be <em>rejected</em>.
+RFC: Indefinite-length objects MUST be <em>rejected</em>.
         </li>
       </ul>
       </section>
@@ -368,7 +369,7 @@ API support for the following primitive data types:
 <name>Protocol Primitives</name>
 <thead>
   <tr>
-  <th align="center">CBOR</th>
+  <th align="center">CDDL</th>
   <th align="center">Primitive</th>
   <th align="center">Comment</th>
   <th align="center">Notes</th>
@@ -503,9 +504,10 @@ MUST reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
 </li>
 <li>
 <t>Although CBOR major type 1 supports a wider range
-of negative values than offered by <tt>Int64</tt>, exploiting this
+of negative values than offered by <tt>Int64</tt>, explicit use of this
 feature in protocols designed for cross-platform use, is NOT RECOMMENDED;
-it should be reserved for the unconstrained integer object, <tt>BigInt</tt>.
+it should be reserved for the unconstrained integer object, <tt>BigInt</tt>
+where it is a necessity.
 </t>
 </li>
 <li>
@@ -655,7 +657,7 @@ slightly more adapted for parsing, like single-line comments:
 <name>Diagnostic Notation</name>
 <thead>
   <tr>
-  <th align="center">CBOR</th>
+  <th align="center">CDDL</th>
   <th align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Syntax&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
   <th align="center">Comment</th>
   <th align="center">Notes</th>
@@ -1428,7 +1430,9 @@ of miscellaneous CBOR objects and their encoding.</t>
       <t>The following JavaScript sample encodes non-finite
       numbers as mandated by the deterministic encoding rules:</t>
                      <sourcecode name="Non-finite encoder" type="JavaScript">
-<![CDATA[function nonFinite2Cbor(value) {
+<![CDATA[// Input: 16, 32, or 64-bit non-finite number in a BigInt.
+// Returns: CBOR binary in a Uint8Array.
+function nonFinite2Cbor(value) {
   // Errors force execution to the statement after the while-loop.
   badValue:
     while (true) {
@@ -1489,7 +1493,7 @@ of miscellaneous CBOR objects and their encoding.</t>
       return cbor;
     }
   // Invalid argument.
-  throw new Error("Bad value: " + value);
+  throw new Error("Invalid non-finite number: " + value);
 }]]></sourcecode>
     </section>
     

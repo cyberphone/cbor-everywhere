@@ -1,5 +1,6 @@
 'use strict';
-
+// Input: 16, 32, or 64-bit non-finite number in a BigInt.
+// Returns: CBOR binary in a Uint8Array.
 function nonFinite2Cbor(value) {
   // Errors force execution to the statement after the while-loop.
   badValue:
@@ -61,7 +62,7 @@ function nonFinite2Cbor(value) {
       return cbor;
     }
   // Invalid argument.
-  throw new Error("Bad value: " + value);
+  throw new Error("Invalid non-finite number: " + value);
 }
 
 
