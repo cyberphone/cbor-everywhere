@@ -39,8 +39,8 @@ function nonFinite2Cbor(value) {
       // the process terminates (break), otherwise the shift is
       // performed. Next all but the sign bit is masked away.
       // This also sets the exponent to the correct value for
-      // the shorter variant.
-      // Finally, the sign bit is restored and the process continues.
+      // the shorter variant.  Finally, the sign bit is
+      // restored and the process is restarted.
       switch (ieee754.length) {
         case 4:
           if (value & ((1n << 13n) - 1n)) break;

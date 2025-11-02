@@ -171,21 +171,6 @@ used in <xref target="RFC8949"/>.</li>
 </tbody>
 </table>
         <t>
-Although extensions are imaginable, extensions will most likely cause
-<em>interoperability issues</em> and are thus NOT&nbsp;RECOMMENDED.
-  </t>
-  <t>
-However, nothing prevents developers from at the application (API) level, 
-through CBOR tags and similar mapping concepts, support additional, "virtual" data types,
-analogous to how you map an application's data model to the
-set of data types available, be it a data interchange format,
-a database, or a programming language.
-</t>
-<t>
-OpenAPI <xref target="OPENAPI"/> is an example of an API that defines
-data types through mapping.
-</t>
-        <t>
 <em>Application-specific</em> implementations may (of course) only have to support the
 <tt>CBOR::Core</tt> objects required by the targeted application(s).
         </t>
@@ -976,13 +961,6 @@ but this is out of scope for this specification.
           </front>
         </reference>
 
-        <reference anchor="OPENAPI" target="https://openapis.org/">
-          <front>
-            <title>The OpenAPI Initiative</title>
-            <author/>
-          </front>
-        </reference>
-
         <reference anchor="CREDENTIALS" target="https://www.w3.org/TR/vc-data-integrity/">
           <front>
             <title>Verifiable Credential Data Integrity 1.0</title>
@@ -1026,7 +1004,7 @@ but this is out of scope for this specification.
     </references>
 
     <section anchor="sample.values">
-    <name>Deterministic Encoding Samples</name>
+    <name>Sample Encodings</name>
 
       <section anchor="core.integers">
           <name>Integers</name>
@@ -1470,8 +1448,8 @@ function nonFinite2Cbor(value) {
       // the process terminates (break), otherwise the shift is
       // performed. Next all but the sign bit is masked away.
       // This also sets the exponent to the correct value for
-      // the shorter variant.
-      // Finally, the sign bit is restored and the process continues.
+      // the shorter variant.  Finally, the sign bit is
+      // restored and the process is restarted.
       switch (ieee754.length) {
         case 4:
           if (value & ((1n << 13n) - 1n)) break;
