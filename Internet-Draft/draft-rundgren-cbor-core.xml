@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-16"
+  docName="draft-rundgren-cbor-core-17"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -25,7 +25,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-16"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-17"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -308,7 +308,7 @@ provided by CBOR tools compliant with this specification:
 that <em>updates</em> and <em>reserializes</em> decoded CBOR data.
 </t>
   <section anchor="api.vs.app.level">
-  <name>Application/Encoding Level Considerations</name>
+  <name>Application vs. Encoding Level Equivalence</name>
 <t>As a consequence of these rules, CBOR data and application / platform-level data,
 MUST be <em>separated</em> for cases where <em>reserialization</em>
 could present a problem.
@@ -325,7 +325,7 @@ highlights the difference between the application level and the encoding level:<
 <sourcecode name="Date example" type="cbor">
 <![CDATA[// Sample CBOR tstr object: "2025-03-02T13:08:55.0201+03:00"
 let cbor = CBOR.fromHex("781e323032352d30332d30325431333a30383a35352e303230312b30333a3030");
-let cborObject = CBOR.decode(cbor)
+let cborObject = CBOR.decode(cbor);
 
 // JavaScript Date only supports milliseconds and converts time to UTC
 console.log(cborObject.getDateTime().toISOString());  
@@ -1898,6 +1898,10 @@ See also <xref target="core.invalid"/>.</t>
         <t>Editorial</t>
         <t>Revised Abstract</t>
         <t>Non-finite number deterministic encoding</t>
+        </li>
+        <li>
+        <t>17:</t>
+        <t>Editorial</t>
         </li>
       </ul>
     </section>
