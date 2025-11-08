@@ -331,7 +331,7 @@ let cborObject = CBOR.decode(cbor);
 console.log(cborObject.getDateTime().toISOString());  
 > 2025-03-02T10:08:55.020Z
 
-console.log(CBOR.toHex(cborObject.encode()));  // Reencode returns identical CBOR data 
+console.log(CBOR.toHex(cborObject.encode()));  // Reserialization returns identical CBOR data 
 > 781e323032352d30332d30325431333a30383a35352e303230312b30333a3030]]>
 </sourcecode>
 <t>
@@ -1836,7 +1836,7 @@ See also <xref target="core.invalid"/>.</t>
         </li>
         <li>
         <t>03:</t>
-        <t>Added Date decode/reencode example</t>
+        <t>Added Date decoding/reserialization example</t>
         </li>
         <li>
         <t>04:</t>
