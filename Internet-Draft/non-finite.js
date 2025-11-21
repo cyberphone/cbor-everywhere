@@ -65,6 +65,25 @@ function nonFinite2Cbor(value) {
   throw new Error("Invalid non-finite number: " + value);
 }
 
+// Input: up to 52 bit payload as a BigInt.
+// Input: sign (true or false)
+// Returns: CBOR binary in a Uint8Array.
+function payload2Cbor(payload, sign) {
+  let left64 = sign ? 0xfff0000000000000n : 0x7ff0000000000000n;
+  if (payload < 0n || payload > 0xfffffffffffffn) {
+    throw new Error("Invalid payload: " + payload);
+  }
+  // Reverse the payload bits.
+  let reversed = 0n;
+  for (let i = 0; i < 52; i++) {
+    reversed <<= 1n;
+    reversed |= payload & 1n;
+    payload >>= 1n;
+  }
+  // Create 64-bit IEEE-754 version.
+  // Then apply deterministic encoding.
+  return nonFinite2Cbor(reversed + left64);
+}
 
 
 // Testing"
@@ -85,7 +104,7 @@ function toHex(byteArray) {
   return result;
 }
 
-function oneTurn(value, cborHexOrNull) {
+function doNonFinite(value, cborHexOrNull) {
   if (cborHexOrNull) {
     console.log(toHex(nonFinite2Cbor(value)) == cborHexOrNull ? "Success" : "***FAILED RUN***");
   } else {
@@ -93,20 +112,46 @@ function oneTurn(value, cborHexOrNull) {
       nonFinite2Cbor(value);
       console.log("***FAILED***");
     } catch (e) {
-      console.log(e.toString().includes("Bad value") ? "Success" : "***FAILED EXCEPTION***");
+      console.log(e.toString().includes("Invalid non-finite") ? "Success" : "***FAILED EXCEPTION***");
     }
   }
 }
 
-oneTurn(0x7e00n, "f97e00");
-oneTurn(0xfe00n, "f9fe00");
-oneTurn(0x7ff0000000000000n, "f97c00");
-oneTurn(0xfff0000000000000n, "f9fc00");
-oneTurn(0x7ff8000000000000n, "f97e00");
-oneTurn(0x7ff0000020000000n, "fa7f800001");
-oneTurn(0xfff0000020000000n, "faff800001");
-oneTurn(0x7ff0040000000000n, "f97c01");
-oneTurn(0x7ff00000000000000n);
-oneTurn(0x7800n);
-oneTurn(0n);
-//oneTurn(0x7e00);
+function doPayload(value, sign, cborHexOrNull) {
+  if (cborHexOrNull) {
+    console.log(toHex(payload2Cbor(value, sign)) == cborHexOrNull ? "Success" : "***FAILED RUN***");
+  } else {
+    try {
+      payload2Cbor(value, sign);
+      console.log("***FAILED***");
+    } catch (e) {
+      console.log(e.toString().includes("Invalid payload") ? "Success" : "***FAILED EXCEPTION***");
+    }
+  }
+}
+
+doNonFinite(0x7e00n, "f97e00");
+doNonFinite(0xfe00n, "f9fe00");
+doNonFinite(0x7ff0000000000000n, "f97c00");
+doNonFinite(0xfff0000000000000n, "f9fc00");
+doNonFinite(0x7ff8000000000000n, "f97e00");
+doNonFinite(0x7ff0000020000000n, "fa7f800001");
+doNonFinite(0xfff0000020000000n, "faff800001");
+doNonFinite(0x7ff0040000000000n, "f97c01");
+doNonFinite(0x7ff00000000000000n);
+doNonFinite(0x7800n);
+doNonFinite(0n);
+//doNonFinite(0x7e00);
+
+doPayload(0n, false, "f97c00");
+doPayload(1n, false, "f97e00");
+doPayload(2n, false, "f97d00");
+doPayload(0x3ffn, false, "f97fff");
+doPayload(0x400n, false, "fa7f801000");
+doPayload(0x7fffffn, false, "fa7fffffff");
+doPayload(0x800000n, false, "fb7ff0000010000000");
+doPayload(0xfffffffffffffn, false, "fb7fffffffffffffff");
+doPayload(0n, true, "f9fc00");
+doPayload(0xfffffffffffffn, true, "fbffffffffffffffff");
+doPayload(0x1fffffffffffffn, false);
+doPayload(-1n, false);

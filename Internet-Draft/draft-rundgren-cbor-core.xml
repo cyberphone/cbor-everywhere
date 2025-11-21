@@ -234,7 +234,7 @@ Duplicate keys MUST be <em>rejected</em>.
         </li>
         <li>
 RFC+: Since CBOR encodings according to this specification
-maintain uniqueness, there are no specific restrictions or
+maintain uniqueness, there are no additional
 tests needed in order to determine map key equivalence.
 As an (extreme) example, the floating-point numbers <tt>0.0</tt> and
 <tt>-0.0</tt>, the integer number <tt>0</tt>, a <tt>NaN</tt>, and an empty <tt>map</tt> <tt>{}</tt>,
@@ -558,6 +558,7 @@ Java doesn't have built-in support for unsigned integers, whereas
 JavaScript requires the use of the JavaScript <tt>BigInt</tt> type
 for dealing with 64-bit integers.
 </t>
+  </section>
   <section anchor="sequences">
     <name>CBOR Sequences</name>
     <t>
@@ -571,7 +572,7 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
     </section>
   <section anchor="api.non-finite-numbers">
     <name>Non-Finite Numbers</name>
-    <t>Since non-finite numbers like <tt>NaN</tt>, are rarely used in
+    <t>Since non-finite numbers like <tt>NaN</tt> and <tt>Infinity</tt>, are rarely used in
     application protocols, one could imagine a global option
     making decoders reject non-finite numbers, which in turn would
     relieve applications from having to <em>explicitly test</em> decoded <tt>float</tt>
@@ -579,11 +580,11 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
     Although working, such an option would not be particularly flexible.</t>
     <t>To cope with this as well as the fact that platform-native support for <tt>NaN</tt>
     with payloads like <tt>fa7f801000</tt> is somewhat uneven, compliant <tt>CBOR::Core</tt>
-    implementations MUST adhere to the scheme below.</t>
-    <ul empty="true">
-    <li>
-    <t>Enable application protocols
-    to <em>selectively</em> accept non-finite numbers, including distinguishing
+    implementations MUST support the constructs described in the following sub-sections.</t>
+    <section anchor="non-finite.levels">
+<name>API Support Levels</name>
+    <t>Application protocols MUST be able to <em>selectively accept</em>
+    non-finite numbers, including distinguishing
     between "simple" <tt>NaN</tt> (<tt>f97e00</tt>)
     and <tt>NaN</tt> with payloads.
     This is accomplished by (internally) treating non-finite numbers as a <em>distinct, emulated
@@ -605,11 +606,72 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
     <t>A hypothetical <tt>getFloat64()</tt> would reject an encountered "simple" <tt>NaN</tt>, while a
     hypothetical <tt>getExtendedFloat64()</tt> would treat the <tt>NaN</tt>
     as any other <xref target="IEEE754"/> floating point number.</t>
-    </li>
-    </ul>
     <t>For a concrete solution, that also addresses <em>encoding</em> of non-finite numbers,
-    see <xref target="NON-FINITE"/>.</t>
-  </section>
+    and the payload option, see <xref target="NON-FINITE"/>.</t>
+    <t>See also: <xref target="non-finite.encoder"/>.</t> 
+    </section>
+    <section anchor="non-finite.payload">
+<name>Payload Option</name>
+<t>
+Traditionally, the non-finite number space is used for propagating
+math-related problems such as division by zero.
+However, in some cases there may be a desire providing more application specific data,
+like information related to a faulty sensor that needs attention.
+The following tables show a way to represent such data:
+</t>
+<table align="left">
+<name>Payload</name>
+<thead>
+  <tr><th align="center">Payload</th></tr>
+</thead>
+<tbody>
+<tr><td align="center"><tt>d51-d0</tt> in <em>big-endian</em> order</td></tr>
+</tbody>
+</table>
+<t>
+The payload bits are subsequently conceptually put into an <xref target="IEEE754"/>
+<tt>64</tt>-bit object having the following layout:
+</t>
+<table align="left">
+<name>Transformed Payload</name>
+<thead>
+<tr><th align="center">Sign</th><th align="center">Exponent</th><th align="center">Significand</th></tr>
+</thead>
+<tbody>
+<tr><td align="center"><tt>0</tt></td><td align="center"><tt>11111111111</tt></td>
+<td align="center"><tt>d0-d51</tt> in <em>little-endian</em> order</td></tr>
+</tbody>
+</table>
+<t>
+The reason for <em>reversing</em> the payload bits is to ensure that a specific bit will remain
+in a fix position (maintain the same value), independent of the size of the
+<xref target="IEEE754"/> variant used for encoding.
+</t>
+<t>
+Note that the encoder will (due to the deterministic encoding rules), select
+the shortest serialization required to properly represent the payload.
+The following table shows a few examples:
+</t>
+<table align="left">
+<name>Sample Payload Encodings</name>
+<thead>
+<tr><th align="center">Payload (hex)</th><th align="center">CBOR Encoding</th><th align="center">Diagnostic Notation</th></tr>
+</thead>
+<tbody>
+<tr><td align="right"><tt>0</tt></td><td align="right"><tt>f97c00</tt></td><td><tt>Infinity</tt></td></tr>
+<tr><td align="right"><tt>1</tt></td><td align="right"><tt>f97e00</tt></td><td><tt>NaN</tt></td></tr>
+<tr><td align="right"><tt>2</tt></td><td align="right"><tt>f97d00</tt></td><td><tt>float'7d00'</tt></td></tr>
+<tr><td align="right"><tt>3ff</tt></td><td align="right"><tt>f97fff</tt></td><td><tt>float'7fff'</tt></td></tr>
+<tr><td align="right"><tt>400</tt></td><td align="right"><tt>fa7f801000</tt></td><td><tt>float'7f801000'</tt></td></tr>
+<tr><td align="right"><tt>7fffff</tt></td><td align="right"><tt>fa7fffffff</tt></td><td><tt>float'7fffffff'</tt></td></tr>
+<tr><td align="right"><tt>800000</tt></td><td align="right"><tt>fb7ff0000010000000</tt></td><td><tt>float'7ff0000010000000'</tt></td></tr>
+<tr><td align="right"><tt>fffffffffffff</tt></td><td align="right"><tt>fb7fffffffffffffff</tt></td><td><tt>float'7fffffffffffffff'</tt></td></tr>
+</tbody>
+</table>
+<t>A payload of <tt>0</tt> and having the sign bit set, would encode as <tt>f9fc00</tt> (<tt>-Infinity</tt>).</t>
+<t>Obviously, receivers (decoders), MUST use the same convention in order to recreate payloads.</t>
+<t>See also: <xref target="payload.encoder"/>.</t> 
+    </section>
 </section>
 
 <section anchor="media.tyoe">
@@ -1406,8 +1468,8 @@ of miscellaneous CBOR objects and their encoding.</t>
     <section anchor="non-finite.encoder">
       <name>Non-finite Number Encoder</name>
       <t>The following JavaScript sample encodes non-finite
-      numbers as mandated by the deterministic encoding rules:</t>
-                     <sourcecode name="Non-finite encoder" type="JavaScript">
+      numbers (<xref target="api.non-finite-numbers"/>) as mandated by the deterministic encoding rules:</t>
+<sourcecode name="Non-finite encoder" type="JavaScript">
 <![CDATA[// Input: 16, 32, or 64-bit non-finite number in a BigInt.
 // Returns: CBOR binary in a Uint8Array.
 function nonFinite2Cbor(value) {
@@ -1473,7 +1535,32 @@ function nonFinite2Cbor(value) {
   // Invalid argument.
   throw new Error("Invalid non-finite number: " + value);
 }]]></sourcecode>
+    <section anchor="payload.encoder">
+      <name>Payload Encoder</name>
+      <t>The following JavaScript sample encodes payloads (<xref target="non-finite.payload"/>) as
+      numbers as mandated by the deterministic encoding rules:</t>
+ <sourcecode name="Non-finite encoder" type="JavaScript">
+<![CDATA[// Input: up to 52 bit payload as a BigInt.
+// Input: sign (true or false)
+// Returns: CBOR binary in a Uint8Array.
+function payload2Cbor(payload, sign) {
+  let left64 = sign ? 0xfff0000000000000n : 0x7ff0000000000000n;
+  if (payload < 0n || payload > 0xfffffffffffffn) {
+    throw new Error("Invalid payload: " + payload);
+  }
+  // Reverse the payload bits.
+  let reversed = 0n;
+  for (let i = 0; i < 52; i++) {
+    reversed <<= 1n;
+    reversed |= payload & 1n;
+    payload >>= 1n;
+  }
+  // Create 64-bit IEEE-754 version.
+  // Then apply deterministic encoding.
+  return nonFinite2Cbor(reversed + left64);
+}]]></sourcecode>
     </section>
+   </section>
     
     <section anchor="embedded.signatures">
       <name>Embedded Signatures</name>
@@ -1902,6 +1989,7 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>17:</t>
         <t>Editorial</t>
+        <t>Payload option added</t>
         </li>
       </ul>
     </section>
