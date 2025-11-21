@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-17"
+  docName="draft-rundgren-cbor-core-18"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -25,7 +25,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-17"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-18"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -1555,7 +1555,7 @@ function payload2Cbor(payload, sign) {
     reversed |= payload & 1n;
     payload >>= 1n;
   }
-  // Create 64-bit IEEE-754 version.
+  // Create 64-bit IEEE-754 object.
   // Then apply deterministic encoding.
   return nonFinite2Cbor(reversed + left64);
 }]]></sourcecode>
@@ -1990,6 +1990,10 @@ See also <xref target="core.invalid"/>.</t>
         <t>17:</t>
         <t>Editorial</t>
         <t>Payload option added</t>
+        </li>
+        <li>
+        <t>18:</t>
+        <t>Editorial</t>
         </li>
       </ul>
     </section>

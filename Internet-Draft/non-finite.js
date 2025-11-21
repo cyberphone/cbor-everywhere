@@ -80,7 +80,7 @@ function payload2Cbor(payload, sign) {
     reversed |= payload & 1n;
     payload >>= 1n;
   }
-  // Create 64-bit IEEE-754 version.
+  // Create 64-bit IEEE-754 object.
   // Then apply deterministic encoding.
   return nonFinite2Cbor(reversed + left64);
 }
