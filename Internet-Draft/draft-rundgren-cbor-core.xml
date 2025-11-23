@@ -399,9 +399,15 @@ API support for the following primitive data types:
 </tr>
 <tr>
 <td align="center"><tt>int</tt></td>
+<td align="center"><tt>Int53</tt></td>
+<td>53-bit signed integer</td>
+<td align="center">1, 2</td>
+</tr>
+<tr>
+<td align="center"><tt>int</tt></td>
 <td align="center"><tt>Int64</tt></td>
 <td>64-bit signed integer</td>
-<td align="center">1, 2</td>
+<td align="center">1, 3</td>
 </tr>
 <tr>
 <td align="center"><tt>uint</tt></td>
@@ -413,25 +419,25 @@ API support for the following primitive data types:
 <td align="center"><tt>integer</tt></td>
 <td align="center"><tt>BigInt</tt></td>
 <td>Integer of arbitrary size</td>
-<td align="center">3</td>
+<td align="center">4</td>
 </tr>
 <tr>
 <td align="center"><tt>float16</tt></td>
 <td align="center"><tt>Float16</tt></td>
 <td>16-bit floating-point number</td>
-<td align="center">4, 5</td>
+<td align="center">5, 6</td>
 </tr>
 <tr>
 <td align="center"><tt>float16</tt>&nbsp;/ <tt>float32</tt></td>
 <td align="center"><tt>Float32</tt></td>
 <td>32-bit floating-point number</td>
-<td align="center">4, 5</td>
+<td align="center">5, 6</td>
 </tr>
 <tr>
 <td align="center"><tt>float</tt></td>
 <td align="center"><tt>Float64</tt></td>
 <td>64-bit floating-point number</td>
-<td align="center">5</td>
+<td align="center">6</td>
 </tr>
 <tr>
 <td align="center"><tt>bool</tt></td>
@@ -443,13 +449,13 @@ API support for the following primitive data types:
 <td align="center"><tt>null</tt></td>
 <td align="center"><tt>Null</tt></td>
 <td>Null</td>
-<td align="center">6</td>
+<td align="center">7</td>
 </tr>
 <tr>
 <td align="center"><tt>#7.nnn</tt></td>
 <td align="center"><tt>Simple</tt></td>
 <td>Simple values</td>
-<td align="center">7</td>
+<td align="center">8</td>
 </tr>
 <tr>
 <td align="center"><tt>tstr</tt></td>
@@ -467,24 +473,34 @@ API support for the following primitive data types:
 <td align="center">See note</td>
 <td align="center"><tt>DateTime</tt></td>
 <td>Time object expressed as a text string</td>
-<td align="center">8</td>
+<td align="center">9</td>
 </tr>
 <tr>
 <td align="center">See note</td>
 <td align="center"><tt>EpochTime</tt></td>
 <td>Time object expressed as a number</td>
-<td align="center">8, 9</td>
+<td align="center">9, 10</td>
 </tr>
 </tbody>
 </table>
 <ol>
 <li>
-<t>Range testing MUST be performed using the traditional ranges for
-<em>unsigned</em> respectively <em>two-complement</em> numbers.
+<t>Range testing MUST be performed using the traditional ranges
+(like in the <tt>C</tt> language), for
+<em>unsigned</em> respectively <em>signed</em> integers.
 That is, a hypothetical <tt>getUint8()</tt> MUST reject numbers
 outside of <tt>0</tt> to <tt>255</tt>,
 whereas a hypothetical <tt>getInt8()</tt>,
 MUST reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
+</t>
+</li>
+<li>
+<t>Integer derived from the JavaScript <tt>Number</tt> object,
+having a validity range of
+<tt>Number.MIN_SAFE_INTEGER</tt> (<tt>-2<sup>53</sup>+1</tt>) to
+<tt>Number.MAX_SAFE_INTEGER</tt> (<tt>2<sup>53</sup>-1</tt>).
+</t><t>
+<tt>Int53</tt> should be used with caution in cross-platform scenarios.
 </t>
 </li>
 <li>
@@ -1994,6 +2010,7 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>18:</t>
         <t>Editorial</t>
+        <t>Int53 added</t>
         </li>
       </ul>
     </section>
