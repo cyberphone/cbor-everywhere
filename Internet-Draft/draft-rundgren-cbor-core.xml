@@ -230,7 +230,7 @@ regardless of their numeric value. This is compliant with
         <li>
 RFC: Map keys MUST be sorted in the bytewise lexicographic
 order of their deterministic encoding.
-Duplicate keys MUST be <em>rejected</em>.
+Duplicate keys MUST be rejected.
         </li>
         <li>
 RFC+: Since CBOR encodings according to this specification
@@ -242,7 +242,7 @@ could represent the distinct keys
 <tt>f90000</tt>, <tt>f98000</tt>, <tt>00</tt>, <tt>f97e00</tt>, and <tt>a0</tt> respectively.
         </li>
         <li>
-RFC: Indefinite-length objects MUST be <em>rejected</em>.
+RFC: Indefinite-length objects MUST be rejected.
         </li>
       </ul>
       </section>
@@ -265,7 +265,7 @@ for <tt>CBOR::Core</tt>.</dd>
         <section anchor="api.level.det">
           <name>API Requirements</name>
 <t>
-Compliant <tt>CBOR::Core</tt> implementations MUST <em>reject</em>
+Compliant <tt>CBOR::Core</tt> implementations MUST reject
 CBOR data not adhering to the deterministic encoding scheme.
 See also <xref target="backward.compatibility"/>.
 </t>
@@ -399,12 +399,6 @@ API support for the following primitive data types:
 </tr>
 <tr>
 <td align="center"><tt>int</tt></td>
-<td align="center"><tt>Int53</tt></td>
-<td>53-bit signed integer</td>
-<td align="center">1, 2</td>
-</tr>
-<tr>
-<td align="center"><tt>int</tt></td>
 <td align="center"><tt>Int64</tt></td>
 <td>64-bit signed integer</td>
 <td align="center">1, 3</td>
@@ -414,6 +408,12 @@ API support for the following primitive data types:
 <td align="center"><tt>Uint64</tt></td>
 <td>64-bit unsigned integer</td>
 <td align="center">1</td>
+</tr>
+<tr>
+<td align="center"><tt>int</tt></td>
+<td align="center"><tt>Int53</tt></td>
+<td>53-bit signed integer</td>
+<td align="center">2</td>
 </tr>
 <tr>
 <td align="center"><tt>integer</tt></td>
@@ -485,9 +485,10 @@ API support for the following primitive data types:
 </table>
 <ol>
 <li>
-<t>Range testing MUST be performed using the traditional ranges
-(like in the <tt>C</tt> language), for
-<em>unsigned</em> respectively <em>signed</em> integers.
+<t>
+<tt>Int8</tt> - <tt>Uint64</tt> are modeled after the "C" language
+including their permitted ranges.
+Range testing MUST be performed.
 That is, a hypothetical <tt>getUint8()</tt> MUST reject numbers
 outside of <tt>0</tt> to <tt>255</tt>,
 whereas a hypothetical <tt>getInt8()</tt>,
@@ -495,11 +496,14 @@ MUST reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
 </t>
 </li>
 <li>
-<t>Integer derived from the JavaScript <tt>Number</tt> object,
-having a validity range of
-<tt>Number.MIN_SAFE_INTEGER</tt> (<tt>-2<sup>53</sup>+1</tt>) to
-<tt>Number.MAX_SAFE_INTEGER</tt> (<tt>2<sup>53</sup>-1</tt>).
-</t><t>
+<t>
+<tt>Int53</tt> is derived
+from the JavaScript <tt>Number</tt> type.  As an integer, values outside of
+<tt>Number.MIN_SAFE_INTEGER</tt> (<tt>-9007199254740991</tt>) to
+<tt>Number.MAX_SAFE_INTEGER</tt> (<tt>9007199254740991</tt>)
+MUST be rejected.
+</t>
+<t>
 <tt>Int53</tt> should be used with caution in cross-platform scenarios.
 </t>
 </li>
