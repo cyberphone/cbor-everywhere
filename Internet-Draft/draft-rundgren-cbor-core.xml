@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-18"
+  docName="draft-rundgren-cbor-core-19"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -25,7 +25,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-18"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-19"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -563,8 +563,9 @@ tag construct.
 </li>
 <li>
 <t>
-<tt>EpochTime</tt> objects containing non-finite numbers MUST be rejected.
-See also <xref target="api.non-finite-numbers"/>.
+<tt>EpochTime</tt> objects containing non-finite numbers
+(<xref target="api.non-finite-numbers"/>) or
+negative Epoch <xref target="TIME"/> values MUST be rejected.
 </t>
 </li>
 </ol>
@@ -962,8 +963,19 @@ but this is out of scope for this specification.
           <seriesInfo name="IEEE Std" value="754-2019"/>
           <seriesInfo name="DOI" value="10.1109/IEEESTD.2019.8766229"/>
         </reference>
+        <reference anchor="TIME" target="https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19" quoteTitle="true" derivedAnchor="TIME">
+          <front>
+            <title>The Open Group Base Specifications</title>
+            <author>
+              <organization showOnFrontPage="true">The Open Group</organization>
+            </author>
+            <date year="2019"/>
+          </front>
+          <seriesInfo name="IEEE Std" value="1003.1"/>
+          <refcontent>Section 4.19, 'Seconds Since the Epoch'</refcontent>
+          <refcontent>Issue 8, 2024 Edition</refcontent>
+        </reference>
       </references>
- 
       <references>
         <name>Informative References</name>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9052.xml"/>
@@ -2015,6 +2027,11 @@ See also <xref target="core.invalid"/>.</t>
         <t>18:</t>
         <t>Editorial</t>
         <t>Int53 added</t>
+        </li>
+        <li>
+        <t>19:</t>
+        <t>Editorial</t>
+        <t>Epoch [TIME] added</t>
         </li>
       </ul>
     </section>
