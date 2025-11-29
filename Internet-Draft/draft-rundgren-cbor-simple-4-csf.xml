@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-simple-4-csf-00"
+  docName="draft-rundgren-cbor-simple-4-csf-01"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -24,7 +24,7 @@
   <front>
     <title>CBOR Simple Value for CSF</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-simple-4-csf-00"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-simple-4-csf-01"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -52,9 +52,8 @@
 
     <abstract>
       <t>
-This document defines a CBOR "simple" value to be used
-as a unique label for a container map holding an embedded
-signature.
+This document defines two CBOR "simple" values to be used
+as unique labels in a CBOR map holding an embedded signature.
       </t>
     </abstract>
  
@@ -65,14 +64,14 @@ signature.
     <section>
       <name>Introduction</name>
           <t>
-This document defines a CBOR <xref target="RFC8949"/> "simple" value to be used
-as unique labels (map keys) to containers holding embedded
-signature constructs <xref target="CSF"/>.
-The primary purpose of the unique label
+This document defines two CBOR <xref target="RFC8949"/> "simple" values to be used
+as unique labels in conjunction with an embedded signature <xref target="CSF"/> design.
+The purpose of the unique labels
 is to securely decouple application-specific labels from
-the signature container.  
+the signature container respectively data that should
+be excluded from the signature.
 In addition to eliminating the need for application-specific
-labels for embedded signature containers,
+labels for embedded signatures,
 the net result includes simplified signature APIs as well.
         </t>
     </section>
@@ -118,7 +117,7 @@ the net result includes simplified signature APIs as well.
         <name>Enhanced Solution</name>
         <t>Replacing the application-specific
         label with a CBOR <tt>simple</tt> value,
-        would yield the following:</t>
+        yields the following:</t>
 <sourcecode name="improved.solution" type="cbor">
 <![CDATA[{
   1: "data",         # Application data
@@ -126,15 +125,19 @@ the net result includes simplified signature APIs as well.
   simple(99): {      # Embedded signature (CSF container)
     1: 5,
     6: h'237e674c7be1818ddd7eaacf40ca80415b9ad816880751d2136c45385207420c'
-  }
+  },
+  simple(100): [     # Optional: data that should NOT be signed
+    "just passing through"
+  ]
 }]]></sourcecode>
         <t>The advantages with using <tt>simple(99)</tt> include:</t>
         <ul>
         <li>Eliminates the need for application-specific labels for signature containers.</li>
         <li>Simplifies signature APIs:<tt>&nbsp;sign(</tt><em>applicationMap</em><tt>)</tt>.</li>
         <li>Using deterministic encoding (a <xref target="CSF"/> prerequisite),
-        CBOR simple types lexicographically follow after other CBOR elements.
-        This makes perfect sense for embedded signatures,
+        CBOR simple types lexicographically follow after other CBOR elements
+        (of the type normally used as labels).
+        This makes sense for embedded signatures,
         since they usually "attest" the application data that is
         (list-wise), situated above the signature container, like in the example.</li>
         </ul>
@@ -159,18 +162,17 @@ the net result includes simplified signature APIs as well.
           </thead>
           <tbody>
             <tr>
-              <td align="center">99<sup> *</sup></td>
+              <td align="center">99</td>
+              <td>Unique label</td>
+              <td>draft-rundgren-cbor-simple-4-csf-XX</td>
+            </tr>
+              <tr>
+              <td align="center">100</td>
               <td>Unique label</td>
               <td>draft-rundgren-cbor-simple-4-csf-XX</td>
             </tr>
           </tbody>
         </table>
-        <t>* TBD. The actual number is of no importance. The following are some musical inspirations:</t>
-        <ul>
-        <li>NENA - 99 Luftballons</li>
-        <li>Chuck Berry - (Get Your Kicks on) Route 66</li>
-        <li>Niska - 44</li>
-        </ul>
     </section>
     
     <section anchor="Security">
@@ -234,7 +236,9 @@ CBOR encoders and decoders.
       <name>Document History</name>
       <ul>
         <li>00. First cut.</li>
+        <li>01. simple(100) added.</li>
       </ul>
+
     </section>
 
     <section anchor="Acknowledgements" numbered="false">
