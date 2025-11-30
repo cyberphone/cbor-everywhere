@@ -337,8 +337,8 @@ console.log(CBOR.toHex(cborObject.encode()));  // Reserialization returns identi
 <t>
 As can be seen in the listing, at the <em>application</em> level, data may not always
 be 100% deterministic, while at the <em>encoding</em> level, data MUST remain intact.
-The only exception to this rule is if the data was received in a non-deterministic format.
-See also <xref target="backward.compatibility"/>.
+The only exception to this rule is if the data was received in a non-deterministic format
+(<xref target="backward.compatibility"/>).
 </t>
 </section>
 </section>
@@ -520,7 +520,7 @@ where it is a necessity.
 Note that a hypothetical <tt>getBigInt()</tt> MUST also accept CBOR <tt>int</tt>
 objects since <tt>int</tt> is used for integers that fit in
 CBOR major type 0 and 1 objects. 
-See also <xref target="core.integers"/> and <xref target="backward.compatibility"/>.
+See also <xref target="core.integers"/>.
 </t>
 </li>
 <li>
@@ -531,7 +531,7 @@ need to use a bigger floating-point type for the return value.
 </t>
 <t>
 Note that a hypothetical <tt>getFloat16()</tt> MUST reject encountered
-<tt>Float32</tt> and <tt>Float64</tt> objects.  See also <xref target="backward.compatibility"/>.
+<tt>Float32</tt> and <tt>Float64</tt> objects.
 </t>
 </li>
 <li>
@@ -553,25 +553,29 @@ Note that <tt>bool</tt> and <tt>null</tt> actually are simple values.
 </li>
 <li>
 <t>
-Since CBOR lacks a native-level time object,
+Since CBOR lacks a "native" time object,
 <xref section="3.4" sectionFormat="of"  target="RFC8949"/>
 introduces two variants of time objects using the 
 CBOR tags <tt>0</tt> and <tt>1</tt>.
-The time objects SHOULD also be supported <em>without</em> the
-tag construct.
+Time objects MUST also be supported <em>without</em> the tag construct.
 </t>
 <t>
-Time objects MUST NOT exceed <tt>"9999-12-31T23:59:59Z"</tt> (Epoch: <tt>253402300799</tt>).
+Time objects greater than <tt>"9999-12-31T23:59:59Z"</tt> (Epoch: <tt>253402300799</tt>)
+MUST be rejected.
 </t>
 <t>
 <tt>EpochTime</tt> objects containing non-finite numbers
 (<xref target="api.non-finite-numbers"/>) or
 negative Epoch <xref target="TIME"/> values MUST be rejected.
 </t>
+<t>
+<tt>DateTime</tt> objects containing negative years MUST be rejected.
+</t>
 </li>
 </ol>
 <t>
-If a call does not match the underlying CBOR type, the call MUST be rejected,
+If a call does not match the underlying CBOR type, the call MUST be rejected.
+See also <xref target="backward.compatibility"/>.
 </t>
 <t>
 Due to considerable variations between platforms, corresponding <em>encoder</em>
