@@ -479,7 +479,7 @@ API support for the following primitive data types:
 <td align="center">See note</td>
 <td align="center"><tt>EpochTime</tt></td>
 <td>Time object expressed as a number</td>
-<td align="center">9, 10</td>
+<td align="center">9</td>
 </tr>
 </tbody>
 </table>
@@ -560,8 +560,9 @@ CBOR tags <tt>0</tt> and <tt>1</tt>.
 The time objects SHOULD also be supported <em>without</em> the
 tag construct.
 </t>
-</li>
-<li>
+<t>
+Time objects MUST NOT exceed <tt>"9999-12-31T23:59:59Z"</tt> (Epoch: <tt>253402300799</tt>).
+</t>
 <t>
 <tt>EpochTime</tt> objects containing non-finite numbers
 (<xref target="api.non-finite-numbers"/>) or
