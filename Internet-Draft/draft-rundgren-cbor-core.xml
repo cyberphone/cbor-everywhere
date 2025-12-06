@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-19"
+  docName="draft-rundgren-cbor-core-20"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -25,7 +25,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-19"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-20"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -223,7 +223,7 @@ or <tt>16</tt> bits) that preserves the original value.
 contain a few non-finite sample values and their expected encoding.</t>
         </li>
         <li>
-RFC+: Floating-point and integer objects MUST be treated as <em>distinct types</em>
+RFC+: Floating-point and integer objects MUST be treated as <em>distinct data types</em>
 regardless of their numeric value. This is compliant with
 "Rule&nbsp;2" in <xref section="4.2.2" sectionFormat="of" target="RFC8949"/>.
         </li>
@@ -567,6 +567,10 @@ MUST be rejected.
 <tt>EpochTime</tt> objects containing non-finite numbers
 (<xref target="api.non-finite-numbers"/>) or
 negative Epoch <xref target="TIME"/> values MUST be rejected.
+</t>
+<t>
+<tt>DateTime</tt> objects with sub-second fields having zero or more than nine digits
+MUST be rejected.
 </t>
 <t>
 <tt>DateTime</tt> objects containing negative years MUST be rejected.
@@ -2037,6 +2041,10 @@ See also <xref target="core.invalid"/>.</t>
         <t>19:</t>
         <t>Editorial</t>
         <t>Epoch [TIME] added</t>
+        </li>
+        <li>
+        <t>20:</t>
+        <t>Editorial</t>
         </li>
       </ul>
     </section>
