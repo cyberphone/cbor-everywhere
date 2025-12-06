@@ -564,16 +564,17 @@ Time objects greater than <tt>"9999-12-31T23:59:59Z"</tt> (Epoch: <tt>2534023007
 MUST be rejected.
 </t>
 <t>
-<tt>EpochTime</tt> objects containing non-finite numbers
-(<xref target="api.non-finite-numbers"/>) or
-negative Epoch <xref target="TIME"/> values MUST be rejected.
+<tt>DateTime</tt> objects that do not adhere to <xref section="5.6" sectionFormat="of" target="RFC3339"/>
+MUST be rejected.
 </t>
 <t>
 <tt>DateTime</tt> objects with sub-second fields having more than nine digits
 MUST be rejected.
 </t>
 <t>
-<tt>DateTime</tt> objects containing negative years MUST be rejected.
+<tt>EpochTime</tt> objects containing non-finite numbers
+(<xref target="api.non-finite-numbers"/>) or
+negative Epoch <xref target="TIME"/> values MUST be rejected.
 </t>
 </li>
 </ol>
@@ -961,6 +962,7 @@ but this is out of scope for this specification.
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8610.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3629.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8742.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"/>
         <reference anchor="IEEE754" target="https://ieeexplore.ieee.org/document/8766229" quoteTitle="true" derivedAnchor="IEEE754">
           <front>
             <title>IEEE Standard for Floating-Point Arithmetic</title>
