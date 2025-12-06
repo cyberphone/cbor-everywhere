@@ -569,7 +569,7 @@ MUST be rejected.
 negative Epoch <xref target="TIME"/> values MUST be rejected.
 </t>
 <t>
-<tt>DateTime</tt> objects with sub-second fields having zero or more than nine digits
+<tt>DateTime</tt> objects with sub-second fields having more than nine digits
 MUST be rejected.
 </t>
 <t>
