@@ -557,23 +557,24 @@ CBOR tags <tt>0</tt> and <tt>1</tt>.
 Time objects MUST also be supported <em>without</em> the tag construct.
 </t>
 <t>
-<tt>DateTime</tt> objects MUST comply with the following conditions:
+<tt>DateTime</tt> objects MUST comply with <em>all</em> of the following conditions:
 </t>
 <ul>
 <li>The underlying object is a CBOR <tt>tstr</tt>.</li>
 <li>The string matches the ISO date/time format described
 in <xref section="5.6" sectionFormat="of" target="RFC3339"/>.</li>
 <li>The <em>optional</em> sub-second field (<tt>.nnn</tt>) features <em>less</em> than ten digits.</li>
-<li>The date/time object is within:
+<li>The date/time object is within the range:
 <tt>"0000-01-01T00:00:00Z"</tt> to <tt>"9999-12-31T23:59:59Z"</tt>.</li>
 </ul>
 <t>
-<tt>EpochTime</tt> objects MUST comply with the following conditions:
+<tt>EpochTime</tt> objects MUST comply with <em>all</em> of the following conditions:
 </t>
 <ul>
 <li>The underlying object is a CBOR <tt>int</tt> or a <em>finite</em> <tt>float</tt> number.</li>
-<li>The <tt>Epoch</tt> <xref target="TIME"/>  object is within:
-<tt>0 ("1970-01-01T00:00:00Z")</tt> to <tt>253402300799 ("9999-12-31T23:59:59Z")</tt>.</li>
+<li>The <tt>Epoch</tt> <xref target="TIME"/>  object is within the
+range:&nbsp;<tt>0</tt>&nbsp;<tt>("1970-01-01T00:00:00Z")</tt> to
+<tt>253402300799</tt>&nbsp;<tt>("9999-12-31T23:59:59Z")</tt>.</li>
 </ul>
 </li>
 </ol>
