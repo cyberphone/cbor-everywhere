@@ -489,19 +489,16 @@ API support for the following primitive data types:
 <tt>Int8</tt> - <tt>Uint64</tt> are modeled after the "C" language
 including their permitted ranges.
 Range testing MUST be performed.
-That is, a hypothetical <tt>getUint8()</tt> MUST reject numbers
-outside of <tt>0</tt> to <tt>255</tt>,
-whereas a hypothetical <tt>getInt8()</tt>,
-MUST reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
+That is, the valid range for a hypothetical <tt>getUint8()</tt> is <tt>0</tt> to <tt>255</tt>,
+whereas it is <tt>-2147483648</tt> to <tt>2147483647</tt> for a hypothetical <tt>getInt32()</tt>.
 </t>
 </li>
 <li>
 <t>
 <tt>Int53</tt> is derived
-from the JavaScript <tt>Number</tt> type.  As an integer, values outside of
+from the JavaScript <tt>Number</tt> type.  As an integer, values MUST be in the range of
 <tt>Number.MIN_SAFE_INTEGER</tt> (<tt>-9007199254740991</tt>) to
-<tt>Number.MAX_SAFE_INTEGER</tt> (<tt>9007199254740991</tt>)
-MUST be rejected.
+<tt>Number.MAX_SAFE_INTEGER</tt> (<tt>9007199254740991</tt>).
 </t>
 <t>
 <tt>Int53</tt> should be used with caution in cross-platform scenarios.
@@ -560,22 +557,24 @@ CBOR tags <tt>0</tt> and <tt>1</tt>.
 Time objects MUST also be supported <em>without</em> the tag construct.
 </t>
 <t>
-Time objects greater than <tt>"9999-12-31T23:59:59Z"</tt> (Epoch: <tt>253402300799</tt>)
-MUST be rejected.
+<tt>DateTime</tt> objects MUST comply with the following conditions:
 </t>
+<ul>
+<li>The underlying object is a CBOR <tt>tstr</tt>.</li>
+<li>The string matches the ISO date/time format described
+in <xref section="5.6" sectionFormat="of" target="RFC3339"/>.</li>
+<li>The <em>optional</em> sub-second field (<tt>.nnn</tt>) features <em>less</em> than ten digits.</li>
+<li>The date/time object is within:
+<tt>"0000-01-01T00:00:00Z"</tt> to <tt>"9999-12-31T23:59:59Z"</tt>.</li>
+</ul>
 <t>
-<tt>DateTime</tt> objects that do not adhere to <xref section="5.6" sectionFormat="of" target="RFC3339"/>
-MUST be rejected.
+<tt>EpochTime</tt> objects MUST comply with the following conditions:
 </t>
-<t>
-<tt>DateTime</tt> objects with sub-second fields having more than nine digits
-MUST be rejected.
-</t>
-<t>
-<tt>EpochTime</tt> objects containing non-finite numbers
-(<xref target="api.non-finite-numbers"/>) or
-negative Epoch <xref target="TIME"/> values MUST be rejected.
-</t>
+<ul>
+<li>The underlying object is a CBOR <tt>int</tt> or a <em>finite</em> <tt>float</tt> number.</li>
+<li>The <tt>Epoch</tt> <xref target="TIME"/>  object is within:
+<tt>0 ("1970-01-01T00:00:00Z")</tt> to <tt>253402300799 ("9999-12-31T23:59:59Z")</tt>.</li>
+</ul>
 </li>
 </ol>
 <t>
@@ -609,7 +608,7 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
     relieve applications from having to <em>explicitly test</em> decoded <tt>float</tt>
     objects for being finite ("regular") floating-point numbers.
     Although working, such an option would not be particularly flexible.</t>
-    <t>To cope with this as well as the fact that platform-native support for <tt>NaN</tt>
+    <t>To cope with this as well as the fact that platform support for encoding and decoding <tt>NaN</tt>
     with payloads like <tt>fa7f801000</tt> is somewhat uneven, compliant <tt>CBOR::Core</tt>
     implementations MUST support the constructs described in the following sub-sections.</t>
     <section anchor="non-finite.levels">
