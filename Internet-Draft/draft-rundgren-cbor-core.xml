@@ -1204,10 +1204,10 @@ with an emphasize on edge cases.</t>
 the serialization method for the <tt>Number</tt> data type,
 defined by <xref target="ECMASCRIPT"/> with one change:
 to comply with diagnostic notation
-(<xref target="diagnostic.notation"/>), all values are
-expressed as floating-point numbers.
+(<xref target="diagnostic.notation"/>), <em>finite</em> floating-point numbers
+always include a decimal point and at least one fractional digit.
 The rationale for using <xref target="ECMASCRIPT"/> serialization is
-because it is supposed to generate the shortest and most
+because it is supposed to provide the shortest and most
 correct representation of <xref target="IEEE754"/> numbers.</t>
 
 <table align="left">
