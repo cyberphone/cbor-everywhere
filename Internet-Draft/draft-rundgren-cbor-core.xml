@@ -257,10 +257,8 @@ RFC: Indefinite-length objects MUST be rejected.
         <dd>This section.</dd>
         <dt>Application level:</dt>
         <dd>
-Constraints on data imposed by <em>applications</em>,
-like limiting ISO DateTime objects to UTC notation, or requiring integers
-representing enumerations to be in a specific range, is <em>out-of-scope</em>
-for <tt>CBOR::Core</tt>.</dd>
+With the exception of Protocol Primitives (<xref target="protocol.primitives"/>),
+<tt>CBOR::Core</tt> imposes no specific restrictions or rules regarding applications.</dd>
       </dl>
         <section anchor="api.level.det">
           <name>API Requirements</name>
@@ -295,11 +293,7 @@ provided by CBOR tools compliant with this specification:
   of decoded CBOR data.
   </li>
   <li>
-  It MUST be possible to <em>reserialize</em> decoded CBOR data,
-  be it updated or not.
-  </li>
-  <li>
-  Irrespective of if CBOR data is decoded, updated, or created 
+  Irrespective of if CBOR data is decoded or created 
   programmatically, deterministic encoding MUST be maintained.
   </li>
 </ul>
