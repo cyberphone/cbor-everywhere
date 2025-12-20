@@ -557,7 +557,7 @@ Time objects MUST also be supported <em>without</em> the tag construct.
 <li>The underlying object is a CBOR <tt>tstr</tt>.</li>
 <li>The string matches the ISO date/time format described
 in <xref section="5.6" sectionFormat="of" target="RFC3339"/>.</li>
-<li>The <em>optional</em> sub-second field (<tt>.nnn</tt>) features <em>less</em> than ten digits.</li>
+<li>The <em>optional</em> sub-second field (<tt>.nnn</tt>) features <tt>1-9</tt> digits.</li>
 <li>The date/time object is within the
 range&nbsp;<tt>"0000-01-01T00:00:00Z"</tt> to <tt>"9999-12-31T23:59:59Z"</tt>.</li>
 </ul>
