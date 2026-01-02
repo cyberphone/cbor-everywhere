@@ -616,17 +616,17 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
     This is accomplished by (internally) treating non-finite numbers as a <em>distinct, emulated
     data type</em>, making it possible to support the full range of floating-point numbers.
     The API exposes this capability as three distinct levels
-    of floating-point number support:</t>
+    of non-finite number support:</t>
     <dl newline="true">
-    <dt>BASIC:</dt>
+    <dt>NONE:</dt>
     <dd>Supporting "regular" floating-point numbers only.</dd>
-    <dt>EXTENDED:</dt>
+    <dt>BASIC:</dt>
     <dd>Supporting "regular" floating-point numbers, "simple" <tt>NaN</tt>, <tt>Infinity</tt>  and <tt>-Infinity</tt>.</dd>
-    <dt>COMPLETE:</dt>
+    <dt>EXTENDED:</dt>
     <dd>Supporting all valid floating-point numbers.</dd>
     </dl>
     <t>
-    Selection of the level of floating-point number support
+    Selection of the level of non-finite number support
     required for a specific <tt>float</tt> object in a protocol, is accomplished
     through the use of different API access methods, like the following:</t>
     <t>A hypothetical <tt>getFloat64()</tt> would reject an encountered "simple" <tt>NaN</tt>, while a
