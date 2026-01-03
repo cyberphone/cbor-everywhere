@@ -393,6 +393,12 @@ API support for the following primitive data types:
 </tr>
 <tr>
 <td align="center"><tt>int</tt></td>
+<td align="center"><tt>Int53</tt></td>
+<td>53-bit signed integer</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center"><tt>int</tt></td>
 <td align="center"><tt>Int64</tt></td>
 <td>64-bit signed integer</td>
 <td align="center">1, 3</td>
@@ -404,10 +410,16 @@ API support for the following primitive data types:
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>int</tt></td>
-<td align="center"><tt>Int53</tt></td>
-<td>53-bit signed integer</td>
-<td align="center">2</td>
+<td align="center"><tt>integer</tt></td>
+<td align="center"><tt>Int128</tt></td>
+<td>128-bit signed integer</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center"><tt>unsigned</tt></td>
+<td align="center"><tt>Uint128</tt></td>
+<td>128-bit unsigned integer</td>
+<td align="center">1</td>
 </tr>
 <tr>
 <td align="center"><tt>integer</tt></td>
@@ -482,6 +494,7 @@ API support for the following primitive data types:
 <t>
 <tt>Int8</tt> - <tt>Uint64</tt> are modeled after the "C" language
 including their permitted ranges.
+<tt>Int128</tt> and <tt>Uint128</tt> follow the same pattern.
 Range testing MUST be performed.
 That is, the valid range for a hypothetical <tt>getUint8()</tt> is <tt>0</tt> to <tt>255</tt>,
 whereas it is <tt>-2147483648</tt> to <tt>2147483647</tt> for a hypothetical <tt>getInt32()</tt>.
@@ -559,7 +572,7 @@ Time objects MUST also be supported <em>without</em> the tag construct.
 in <xref section="5.6" sectionFormat="of" target="RFC3339"/>.</li>
 <li>The <em>optional</em> sub-second field (<tt>.nnn</tt>) features <tt>1-9</tt> digits.</li>
 <li>The date/time object is within the
-range&nbsp;<tt>"0000-01-01T00:00:00Z"</tt> to <tt>"9999-12-31T23:59:59Z"</tt>.</li>
+range&nbsp;<tt>"0000&nbhy;01&nbhy;01T00:00:00Z"</tt> to <tt>"9999&nbhy;12&nbhy;31T23:59:59Z"</tt>.</li>
 </ul>
 <t>
 <tt>EpochTime</tt> objects MUST comply with <em>all</em> of the following conditions:
@@ -567,8 +580,8 @@ range&nbsp;<tt>"0000-01-01T00:00:00Z"</tt> to <tt>"9999-12-31T23:59:59Z"</tt>.</
 <ul>
 <li>The underlying object is a CBOR <tt>int</tt> or a <em>finite</em> <tt>float</tt> number.</li>
 <li>The <tt>Epoch</tt> <xref target="TIME"/>  object is within the
-range&nbsp;<tt>0</tt>&nbsp;<tt>("1970-01-01T00:00:00Z")</tt> to
-<tt>253402300799</tt>&nbsp;<tt>("9999-12-31T23:59:59Z")</tt>.</li>
+range&nbsp;<tt>0</tt>&nbsp;<tt>("1970&nbhy;01&nbhy;01T00:00:00Z")</tt> to
+<tt>253402300799</tt>&nbsp;<tt>("9999&nbhy;12&nbhy;31T23:59:59Z")</tt>.</li>
 </ul>
 <t>Implementations MAY limit time object resolution to milliseconds.</t> 
 </li>
@@ -2042,6 +2055,7 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>20:</t>
         <t>Editorial</t>
+        <t>Int128 and Uint128 added</t>
         </li>
       </ul>
     </section>
