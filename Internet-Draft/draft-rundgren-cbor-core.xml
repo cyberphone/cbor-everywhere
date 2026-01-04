@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-20"
+  docName="draft-rundgren-cbor-core-21"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -25,7 +25,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-20"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-21"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -493,8 +493,11 @@ API support for the following primitive data types:
 <li>
 <t>
 <tt>Int8</tt> - <tt>Uint64</tt> are modeled after the "C" language
-including their permitted ranges.
-<tt>Int128</tt> and <tt>Uint128</tt> follow the same pattern.
+including their permitted ranges. The additional types
+<tt>Int128</tt> and <tt>Uint128</tt>, derived from the "Rust" language,
+follow the same pattern.
+</t>
+<t>
 Range testing MUST be performed.
 That is, the valid range for a hypothetical <tt>getUint8()</tt> is <tt>0</tt> to <tt>255</tt>,
 whereas it is <tt>-2147483648</tt> to <tt>2147483647</tt> for a hypothetical <tt>getInt32()</tt>.
@@ -633,9 +636,9 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
     <dl newline="true">
     <dt>NONE:</dt>
     <dd>Supporting "regular" floating-point numbers only.</dd>
-    <dt>BASIC:</dt>
-    <dd>Supporting "regular" floating-point numbers, "simple" <tt>NaN</tt>, <tt>Infinity</tt>  and <tt>-Infinity</tt>.</dd>
     <dt>EXTENDED:</dt>
+    <dd>Supporting "regular" floating-point numbers, "simple" <tt>NaN</tt>, <tt>Infinity</tt>  and <tt>-Infinity</tt>.</dd>
+    <dt>COMPLETE:</dt>
     <dd>Supporting all valid floating-point numbers.</dd>
     </dl>
     <t>
@@ -2056,6 +2059,10 @@ See also <xref target="core.invalid"/>.</t>
         <t>20:</t>
         <t>Editorial</t>
         <t>Int128 and Uint128 added</t>
+        </li>
+        <li>
+        <t>21:</t>
+        <t>Editorial</t>
         </li>
       </ul>
     </section>
