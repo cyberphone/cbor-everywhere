@@ -178,7 +178,7 @@ used in <xref target="RFC8949"/>.</li>
       </section>
       
       <section anchor="core.encoding">
-        <name>Deterministic Encoding Scheme</name>
+        <name>Deterministic Encoding Rules</name>
         <t>
 In <tt>CBOR::Core</tt> deterministic encoding is <em>mandatory</em>.
 The encoding scheme adheres to
@@ -356,70 +356,70 @@ API support for the following primitive data types:
 </thead>
 <tbody>
 <tr>
-<td align="center"><tt>int</tt></td>
+<td align="center"><tt>int8</tt></td>
 <td align="center"><tt>Int8</tt></td>
 <td>8-bit signed integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>uint</tt></td>
+<td align="center"><tt>uint8</tt></td>
 <td align="center"><tt>Uint8</tt></td>
 <td>8-bit unsigned integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>int</tt></td>
+<td align="center"><tt>int16</tt></td>
 <td align="center"><tt>Int16</tt></td>
 <td>16-bit signed integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>uint</tt></td>
+<td align="center"><tt>uint16</tt></td>
 <td align="center"><tt>Uint16</tt></td>
 <td>16-bit unsigned integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>int</tt></td>
+<td align="center"><tt>int32</tt></td>
 <td align="center"><tt>Int32</tt></td>
 <td>32-bit signed integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>uint</tt></td>
+<td align="center"><tt>uint32</tt></td>
 <td align="center"><tt>Uint32</tt></td>
 <td>32-bit unsigned integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>int</tt></td>
+<td align="center"><tt>int53</tt></td>
 <td align="center"><tt>Int53</tt></td>
 <td>53-bit signed integer</td>
 <td align="center">2</td>
 </tr>
 <tr>
-<td align="center"><tt>int</tt></td>
+<td align="center"><tt>int64</tt></td>
 <td align="center"><tt>Int64</tt></td>
 <td>64-bit signed integer</td>
 <td align="center">1, 3</td>
 </tr>
 <tr>
-<td align="center"><tt>uint</tt></td>
+<td align="center"><tt>uint64</tt></td>
 <td align="center"><tt>Uint64</tt></td>
 <td>64-bit unsigned integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>integer</tt></td>
+<td align="center"><tt>int128</tt></td>
 <td align="center"><tt>Int128</tt></td>
 <td>128-bit signed integer</td>
-<td align="center">1</td>
+<td align="center">1, 4</td>
 </tr>
 <tr>
-<td align="center"><tt>unsigned</tt></td>
+<td align="center"><tt>uint128</tt></td>
 <td align="center"><tt>Uint128</tt></td>
 <td>128-bit unsigned integer</td>
-<td align="center">1</td>
+<td align="center">1, 4</td>
 </tr>
 <tr>
 <td align="center"><tt>integer</tt></td>
@@ -476,13 +476,13 @@ API support for the following primitive data types:
 <td></td>
 </tr>
 <tr>
-<td align="center">See note</td>
+<td align="center"><tt>tdate</tt></td>
 <td align="center"><tt>DateTime</tt></td>
 <td>Time object expressed as a text string</td>
 <td align="center">9</td>
 </tr>
 <tr>
-<td align="center">See note</td>
+<td align="center"><tt>time</tt></td>
 <td align="center"><tt>EpochTime</tt></td>
 <td>Time object expressed as a number</td>
 <td align="center">9</td>
@@ -495,7 +495,8 @@ API support for the following primitive data types:
 <tt>Int8</tt> - <tt>Uint64</tt> are modeled after the "C" language
 including their permitted ranges. The additional types
 <tt>Int128</tt> and <tt>Uint128</tt>, derived from the "Rust" language,
-follow the same pattern.
+follow the same pattern. See <xref target="cddl.extensions"/> for
+matchng CDDL definitions.
 </t>
 <t>
 Range testing MUST be performed.
@@ -524,10 +525,8 @@ where it is a necessity.
 </li>
 <li>
 <t>
-Note that a hypothetical <tt>getBigInt()</tt> MUST also accept CBOR <tt>int</tt>
-objects since <tt>int</tt> is used for integers that fit in
-CBOR major type 0 and 1 objects. 
-See also <xref target="core.integers"/>.
+Integer type depending on the adaptable (<tt>int/bigint</tt>) encoding scheme
+outlined in <xref target="core.encoding"/>.
 </t>
 </li>
 <li>
@@ -1519,6 +1518,123 @@ of miscellaneous CBOR objects and their encoding.</t>
 
     </section>
 
+    <section anchor="cddl.extensions">
+      <name>Additional CDDL Types</name>
+      <t>
+The integer types introduced by <tt>CBOR::Core</tt> in  <xref target="protocol.primitives"/>
+required additional CDDL definitions.  Like the existing CDDL <xref target="RFC8610"/> types,
+the additional CDDL types are intended for usage in protocol descriptions.
+The following table holds the additional CDDL types imposed by <tt>CBOR::Core</tt>:
+</t>
+<table align="left">
+<name>Additional CDDL Types</name>
+<thead>
+<tr>
+<th align="center">CDDL</th>
+<th align="center">Min/Max Value (hex)</th>
+<th align="center">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><tt>int8</tt></td>
+<td align="right"><tt>-80<br/>7f</tt></td>
+<td>8-bit signed integer</td>
+</tr>
+<tr>
+<td align="center"><tt>uint8</tt></td>
+<td align="right"><tt>0<br/>ff</tt></td>
+<td>8-bit unsigned integer</td>
+</tr>
+<tr>
+<td align="center"><tt>int16</tt></td>
+<td align="right"><tt>-8000<br/>7fff</tt></td>
+<td>16-bit signed integer</td>
+</tr>
+<tr>
+<td align="center"><tt>uint16</tt></td>
+<td align="right"><tt>0<br/>ffff</tt></td>
+<td>16-bit unsigned integer</td>
+</tr>
+<tr>
+<td align="center"><tt>int32</tt></td>
+<td align="right"><tt>-80000000<br/>7fffffff</tt></td>
+<td>32-bit signed integer</td>
+</tr>
+<tr>
+<td align="center"><tt>uint32</tt></td>
+<td align="right"><tt>0<br/>ffffffff</tt></td>
+<td>32-bit unsigned integer</td>
+</tr>
+<tr>
+<td align="center"><tt>int53</tt></td>
+<td align="right"><tt>-1fffffffffffff<br/>1fffffffffffff</tt></td>
+<td>53-bit signed integer</td>
+</tr>
+<tr>
+<td align="center"><tt>int64</tt></td>
+<td align="right"><tt>-8000000000000000<br/>7fffffffffffffff</tt></td>
+<td>64-bit signed integer</td>
+</tr>
+<tr>
+<td align="center"><tt>uint64</tt></td>
+<td align="right"><tt>0<br/>ffffffffffffffff</tt></td>
+<td>64-bit unsigned integer</td>
+</tr>
+<tr>
+<td align="center"><tt>int128</tt></td>
+<td align="right"><tt>-80000000000000000000000000000000<br/>7fffffffffffffffffffffffffffffff</tt></td>
+<td>128-bit signed integer</td>
+</tr>
+<tr>
+<td align="center"><tt>uint128</tt></td>
+<td align="right"><tt>0<br/>ffffffffffffffffffffffffffffffff</tt></td>
+<td>128-bit&nbsp;unsigned&nbsp;integer</td>
+</tr>
+</tbody>
+</table>
+<t>Note that the integer types are subject to the deterministic encoding
+rules outlined in <xref target="core.encoding"/>.
+</t>
+    </section>
+
+    <section anchor="backward.compatibility">
+      <name>Backward Compatibility</name>
+      <t>
+It is assumed that <em>most</em>
+systems using CBOR are able to process an <em>application specific</em>, 
+selection of CBOR data items that are encoded in compliance with
+<xref target="RFC8949"/>.  Since the deterministic encoding scheme
+mandated by <tt>CBOR::Core</tt>, also is compliant with <xref target="RFC8949"/>,
+there should be no major interoperability issues. 
+That is, if the previous assumption actually is correct &#x1f60f;
+</t>
+<t>
+However, in the <em>other</em> direction (<tt>CBOR::Core</tt> tools processing
+data from systems using "legacy" CBOR encoding schemes),
+the situation is likely to be considerably more challenging
+since deterministic encoding "by design" is <em>strict</em>.
+Due to this potential obstacle, implementers of <tt>CBOR::Core</tt> tools,
+are RECOMMENDED to offer <em>decoder</em> options that permit "relaxing"
+the rigidness of deterministic encoding with respect to:</t>
+<dl newline="true">
+<dt>Numbers:</dt>
+<dd>Numbers MUST still be compliant with <xref target="RFC8949"/>,
+including "Rule&nbsp;2" in section
+<xref target="RFC8949" section="4.2.2" sectionFormat="bare" format="default" 
+derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="RFC8949"/>.</dd>
+<dt>Sorted maps:</dt>
+<dd>Duplicate keys MUST still be rejected.</dd>
+</dl>
+<t>Note that regardless of the format of <em>decoded</em> CBOR data, compliant
+<tt>CBOR::Core</tt> implementations MUST internally maintain the deterministic encoding format.
+</t>
+<t>
+That is, a <tt>bigint</tt> encoded as <tt>c249000000000000000006</tt> would after decoding,
+be represented by an <tt>int</tt> encoded as <tt>06</tt>.
+See also <xref target="core.invalid"/>.</t>
+    </section>
+
     <section anchor="non-finite.encoder">
       <name>Non-finite Number Encoder</name>
       <t>The following JavaScript sample encodes non-finite
@@ -1852,43 +1968,6 @@ outlined in <xref target="api.level.det"/>.
 
     </section>
 
-    <section anchor="backward.compatibility">
-      <name>Backward Compatibility</name>
-      <t>
-It is assumed that <em>most</em>
-systems using CBOR are able to process an <em>application specific</em>, 
-selection of CBOR data items that are encoded in compliance with
-<xref target="RFC8949"/>.  Since the deterministic encoding scheme
-mandated by <tt>CBOR::Core</tt>, also is compliant with <xref target="RFC8949"/>,
-there should be no major interoperability issues. 
-That is, if the previous assumption actually is correct &#x1f60f;
-</t>
-<t>
-However, in the <em>other</em> direction (<tt>CBOR::Core</tt> tools processing
-data from systems using "legacy" CBOR encoding schemes),
-the situation is likely to be considerably more challenging
-since deterministic encoding "by design" is <em>strict</em>.
-Due to this potential obstacle, implementers of <tt>CBOR::Core</tt> tools,
-are RECOMMENDED to offer <em>decoder</em> options that permit "relaxing"
-the rigidness of deterministic encoding with respect to:</t>
-<dl newline="true">
-<dt>Numbers:</dt>
-<dd>Numbers MUST still be compliant with <xref target="RFC8949"/>,
-including "Rule&nbsp;2" in section
-<xref target="RFC8949" section="4.2.2" sectionFormat="bare" format="default" 
-derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="RFC8949"/>.</dd>
-<dt>Sorted maps:</dt>
-<dd>Duplicate keys MUST still be rejected.</dd>
-</dl>
-<t>Note that regardless of the format of <em>decoded</em> CBOR data, compliant
-<tt>CBOR::Core</tt> implementations MUST internally maintain the deterministic encoding format.
-</t>
-<t>
-That is, a <tt>bigint</tt> encoded as <tt>c249000000000000000006</tt> would after decoding,
-be represented by an <tt>int</tt> encoded as <tt>06</tt>.
-See also <xref target="core.invalid"/>.</t>
-    </section>
-
     <section anchor="tools.online">
       <name>Compatible Online Tools</name>
       <t>For testing and learning about <tt>CBOR::Core</tt>,
@@ -2063,6 +2142,7 @@ See also <xref target="core.invalid"/>.</t>
         <li>
         <t>21:</t>
         <t>Editorial</t>
+        <t>Added CDDL types</t>
         </li>
       </ul>
     </section>
