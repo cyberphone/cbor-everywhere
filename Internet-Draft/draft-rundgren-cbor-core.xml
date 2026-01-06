@@ -494,9 +494,9 @@ API support for the following primitive data types:
 <t>
 <tt>Int8</tt> - <tt>Uint64</tt> are modeled after the "C" language
 including their permitted ranges. The additional types
-<tt>Int128</tt> and <tt>Uint128</tt>, derived from the "Rust" language,
+<tt>Int128</tt> and <tt>Uint128</tt> (derived from the "Rust" language),
 follow the same pattern. See <xref target="cddl.extensions"/> for
-matchng CDDL definitions.
+matching CDDL definitions.
 </t>
 <t>
 Range testing MUST be performed.
