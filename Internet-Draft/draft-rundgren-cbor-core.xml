@@ -1609,13 +1609,13 @@ The following table holds the additional CDDL types:
 </tbody>
 </table>
 <ol>
-<li>Integer with a value range adapted to languages like "C" and "Rust",
-    that depend on two's complement representation.</li>
+<li>Integer type derived from core integer types in languages like "C" and "Rust".
+Note that the value range of such integers is compatible with <em>two's complement</em> representation.</li>
 <li>Integer mapping the JavaScript <tt>Number</tt> type.
 For maintaining JavaScript compatibility, integers are limited to the range:
 <tt>Number.MIN_SAFE_INTEGER</tt> to <tt>Number.MAX_SAFE_INTEGER</tt>.</li>
 </ol>
-<t>Note that the integer types are subject to the deterministic encoding
+<t>Note that integers are subject to the deterministic encoding
 rules outlined in <xref target="deterministic-encoding-rules"/>.
 </t>
     </section>
