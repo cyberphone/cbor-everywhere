@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-21"
+  docName="draft-rundgren-cbor-core-22"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -25,7 +25,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-21"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-22"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -83,7 +83,7 @@ To cope with this, <tt>CBOR::Core</tt> defines a specific (non-variant) encoding
 aka &quot;Deterministic Encoding&quot;.  The selected encoding
 scheme is believed to be <em>compatible</em> with most existing
 systems using CBOR.
-See also <xref target="backward.compatibility"/>.
+See also <xref target="backward-compatibility"/>.
         </t>
     <t>
 <tt>CBOR::Core</tt> is intended to be agnostic with respect to programming
@@ -104,16 +104,16 @@ the ability to perform cryptographic operations on "raw" (non-wrapped)
 CBOR data, compliant <tt>CBOR::Core</tt> tools need additional functionality.
 See also <xref target="embedded.signatures"/>.
         </t>
-        <section anchor="design.goals">
+        <section anchor="design-goals">
         <name>Design Goals</name>
         <t>
 The primary goal with this specification, is providing a foundation
 for CBOR tools that enable application developers to use CBOR without requiring
 insights in low-level details like encoding.  In most cases, it should be sufficient
-to consult a list of supported data types.  See also <xref target="protocol.primitives"/>.
+to consult a list of supported data types.  See also <xref target="protocol-primitives"/>.
         </t>
         <t>
-<xref target="detailed.description"/> contains the
+<xref target="detailed-description"/> contains the
 actual specification.
         </t>
         </section>
@@ -142,11 +142,11 @@ used in <xref target="RFC8949"/>.</li>
 
     </section>
     
-    <section anchor="detailed.description">
+    <section anchor="detailed-description">
       <name>Detailed Description</name>
       <t>This section describes the three pillars that <tt>CBOR::Core</tt> relies on.</t>
 
-      <section anchor="core.objects">
+      <section anchor="supported-cbor-objects">
         <name>Supported CBOR Objects</name>
         <t>The following table shows the set of CBOR objects that compliant
         <tt>CBOR::Core</tt> implementations MUST support:</t>
@@ -177,7 +177,7 @@ used in <xref target="RFC8949"/>.</li>
 
       </section>
       
-      <section anchor="core.encoding">
+      <section anchor="deterministic-encoding-rules">
         <name>Deterministic Encoding Rules</name>
         <t>
 In <tt>CBOR::Core</tt> deterministic encoding is <em>mandatory</em>.
@@ -252,12 +252,12 @@ RFC: Indefinite-length objects MUST be rejected.
         <t>In <tt>CBOR::Core</tt> there are three distinguishable levels:</t>
       <dl newline="true">
         <dt>Encoding level:</dt>
-        <dd>"Wire format" as described in <xref target="core.encoding"/>.</dd>
+        <dd>"Wire format" as described in <xref target="deterministic-encoding-rules"/>.</dd>
         <dt>Encoder/decoder level:</dt>
         <dd>This section.</dd>
         <dt>Application level:</dt>
         <dd>
-With the exception of Protocol Primitives (<xref target="protocol.primitives"/>),
+With the exception of Protocol Primitives (<xref target="protocol-primitives"/>),
 <tt>CBOR::Core</tt> imposes no specific restrictions or rules regarding applications.</dd>
       </dl>
         <section anchor="api.level.det">
@@ -265,7 +265,7 @@ With the exception of Protocol Primitives (<xref target="protocol.primitives"/>)
 <t>
 Compliant <tt>CBOR::Core</tt> implementations MUST reject
 CBOR data not adhering to the deterministic encoding scheme.
-See also <xref target="backward.compatibility"/>.
+See also <xref target="backward-compatibility"/>.
 </t>
 <t>
 An important feature that deterministic encoding brings to the table is
@@ -332,12 +332,12 @@ console.log(CBOR.toHex(cborObject.encode()));  // Reserialization returns identi
 As can be seen in the listing, at the <em>application</em> level, data may not always
 be 100% deterministic, while at the <em>encoding</em> level, data MUST remain intact.
 The only exception to this rule is if the data was received in a non-deterministic format
-(<xref target="backward.compatibility"/>).
+(<xref target="backward-compatibility"/>).
 </t>
 </section>
 </section>
 
-        <section anchor="protocol.primitives">
+        <section anchor="protocol-primitives">
         <name>Protocol Primitives</name>
         <t>
 To facilitate cross-platform <em>protocol interoperability</em>,
@@ -434,7 +434,7 @@ API support for the following primitive data types:
 <td align="center">5, 6</td>
 </tr>
 <tr>
-<td align="center"><tt>float16</tt>&nbsp;/ <tt>float32</tt></td>
+<td align="center"><tt>float16</tt>&nbsp;/&nbsp;<tt>float32</tt></td>
 <td align="center"><tt>Float32</tt></td>
 <td>32-bit floating-point number</td>
 <td align="center">5, 6</td>
@@ -476,13 +476,13 @@ API support for the following primitive data types:
 <td></td>
 </tr>
 <tr>
-<td align="center"><tt>tdate</tt></td>
+<td align="center"><tt>tdate</tt>&nbsp;/&nbsp;<tt>~tdate</tt></td>
 <td align="center"><tt>DateTime</tt></td>
 <td>Time object expressed as a text string</td>
 <td align="center">9</td>
 </tr>
 <tr>
-<td align="center"><tt>time</tt></td>
+<td align="center"><tt>time</tt>&nbsp;/&nbsp;<tt>~time</tt></td>
 <td align="center"><tt>EpochTime</tt></td>
 <td>Time object expressed as a number</td>
 <td align="center">9</td>
@@ -495,11 +495,11 @@ API support for the following primitive data types:
 <tt>Int8</tt> - <tt>Uint64</tt> are modeled after the "C" language
 including their permitted ranges. The additional types
 <tt>Int128</tt> and <tt>Uint128</tt> (derived from the "Rust" language),
-follow the same pattern. See <xref target="cddl.extensions"/> for
+follow the same pattern. See <xref target="additional-cddl-types"/> for
 matching CDDL definitions.
 </t>
 <t>
-Range testing MUST be performed.
+Range verification MUST be performed.
 That is, the valid range for a hypothetical <tt>getUint8()</tt> is <tt>0</tt> to <tt>255</tt>,
 whereas it is <tt>-2147483648</tt> to <tt>2147483647</tt> for a hypothetical <tt>getInt32()</tt>.
 </t>
@@ -507,9 +507,11 @@ whereas it is <tt>-2147483648</tt> to <tt>2147483647</tt> for a hypothetical <tt
 <li>
 <t>
 <tt>Int53</tt> is derived
-from the JavaScript <tt>Number</tt> type.  As an integer, values MUST be in the range of
-<tt>Number.MIN_SAFE_INTEGER</tt> (<tt>-9007199254740991</tt>) to
-<tt>Number.MAX_SAFE_INTEGER</tt> (<tt>9007199254740991</tt>).
+from the JavaScript <tt>Number</tt> type. See <xref target="additional-cddl-types"/> for
+the matching CDDL definition.
+</t>
+<t>
+Range verification MUST be performed.
 </t>
 <t>
 <tt>Int53</tt> should be used with caution in cross-platform scenarios.
@@ -526,7 +528,7 @@ where it is a necessity.
 <li>
 <t>
 Integer type depending on the adaptable (<tt>int/bigint</tt>) encoding scheme
-outlined in <xref target="core.encoding"/>.
+outlined in <xref target="deterministic-encoding-rules"/>.
 </t>
 </li>
 <li>
@@ -563,7 +565,8 @@ Since CBOR lacks a "native" time object,
 <xref section="3.4" sectionFormat="of"  target="RFC8949"/>
 introduces two variants of time objects using the 
 CBOR tags <tt>0</tt> and <tt>1</tt>.
-Time objects MUST also be supported <em>without</em> the tag construct.
+Time objects MUST also be supported <em>without</em> the tag construct,
+in CDDL denoted by <tt>~tdate</tt> and <tt>~time</tt> respectively.
 </t>
 <t>
 <tt>DateTime</tt> objects MUST comply with <em>all</em> of the following conditions:
@@ -590,7 +593,7 @@ range&nbsp;<tt>0</tt>&nbsp;<tt>("1970&nbhy;01&nbhy;01T00:00:00Z")</tt> to
 </ol>
 <t>
 If a call does not match the underlying CBOR type, the call MUST be rejected.
-See also <xref target="backward.compatibility"/>.
+See also <xref target="backward-compatibility"/>.
 </t>
 <t>
 Due to considerable variations between platforms, corresponding <em>encoder</em>
@@ -1510,7 +1513,7 @@ of miscellaneous CBOR objects and their encoding.</t>
 </tbody>
 </table>
 <ol>
-<li>Enabled by the measures mentioned in <xref target="backward.compatibility"/>.</li>
+<li>Enabled by the measures mentioned in <xref target="backward-compatibility"/>.</li>
 <li>Not supported by <tt>CBOR::Core</tt>.</li>
 </ol>
 
@@ -1518,13 +1521,13 @@ of miscellaneous CBOR objects and their encoding.</t>
 
     </section>
 
-    <section anchor="cddl.extensions">
+    <section anchor="additional-cddl-types">
       <name>Additional CDDL Types</name>
       <t>
-The integer types introduced by <tt>CBOR::Core</tt> in  <xref target="protocol.primitives"/>
-required additional CDDL definitions.  Like the existing CDDL <xref target="RFC8610"/> types,
+The integer types introduced by <tt>CBOR::Core</tt> in  <xref target="protocol-primitives"/>
+requires additional CDDL definitions.  Like the existing CDDL <xref target="RFC8610"/> types,
 the additional CDDL types are intended for usage in protocol descriptions.
-The following table holds the additional CDDL types imposed by <tt>CBOR::Core</tt>:
+The following table holds the additional CDDL types:
 </t>
 <table align="left">
 <name>Additional CDDL Types</name>
@@ -1533,6 +1536,7 @@ The following table holds the additional CDDL types imposed by <tt>CBOR::Core</t
 <th align="center">CDDL</th>
 <th align="center">Min/Max Value (hex)</th>
 <th align="center">Comment</th>
+<th align="center">Note</th>
 </tr>
 </thead>
 <tbody>
@@ -1540,65 +1544,83 @@ The following table holds the additional CDDL types imposed by <tt>CBOR::Core</t
 <td align="center"><tt>int8</tt></td>
 <td align="right"><tt>-80<br/>7f</tt></td>
 <td>8-bit signed integer</td>
+<td align="center"><tt>1</tt></td>
 </tr>
 <tr>
 <td align="center"><tt>uint8</tt></td>
 <td align="right"><tt>0<br/>ff</tt></td>
 <td>8-bit unsigned integer</td>
+<td align="center"><tt>1</tt></td>
 </tr>
 <tr>
 <td align="center"><tt>int16</tt></td>
 <td align="right"><tt>-8000<br/>7fff</tt></td>
 <td>16-bit signed integer</td>
+<td align="center"><tt>1</tt></td>
 </tr>
 <tr>
 <td align="center"><tt>uint16</tt></td>
 <td align="right"><tt>0<br/>ffff</tt></td>
 <td>16-bit unsigned integer</td>
+<td align="center"><tt>1</tt></td>
 </tr>
 <tr>
 <td align="center"><tt>int32</tt></td>
 <td align="right"><tt>-80000000<br/>7fffffff</tt></td>
 <td>32-bit signed integer</td>
+<td align="center"><tt>1</tt></td>
 </tr>
 <tr>
 <td align="center"><tt>uint32</tt></td>
 <td align="right"><tt>0<br/>ffffffff</tt></td>
 <td>32-bit unsigned integer</td>
+<td align="center"><tt>1</tt></td>
 </tr>
 <tr>
 <td align="center"><tt>int53</tt></td>
 <td align="right"><tt>-1fffffffffffff<br/>1fffffffffffff</tt></td>
 <td>53-bit signed integer</td>
+<td align="center"><tt>2</tt></td>
 </tr>
 <tr>
 <td align="center"><tt>int64</tt></td>
 <td align="right"><tt>-8000000000000000<br/>7fffffffffffffff</tt></td>
 <td>64-bit signed integer</td>
+<td align="center"><tt>1</tt></td>
 </tr>
 <tr>
 <td align="center"><tt>uint64</tt></td>
 <td align="right"><tt>0<br/>ffffffffffffffff</tt></td>
 <td>64-bit unsigned integer</td>
+<td align="center"><tt>1</tt></td>
 </tr>
 <tr>
 <td align="center"><tt>int128</tt></td>
 <td align="right"><tt>-80000000000000000000000000000000<br/>7fffffffffffffffffffffffffffffff</tt></td>
 <td>128-bit signed integer</td>
+<td align="center"><tt>1</tt></td>
 </tr>
 <tr>
 <td align="center"><tt>uint128</tt></td>
 <td align="right"><tt>0<br/>ffffffffffffffffffffffffffffffff</tt></td>
 <td>128-bit&nbsp;unsigned&nbsp;integer</td>
+<td align="center"><tt>1</tt></td>
 </tr>
 </tbody>
 </table>
+<ol>
+<li>Integer with a value range adapted to languages like "C" and "Rust",
+    that depend on two's complement representation.</li>
+<li>Integer mapping the JavaScript <tt>Number</tt> type.
+For maintaining JavaScript compatibility, integers are limited to the range:
+<tt>Number.MIN_SAFE_INTEGER</tt> to <tt>Number.MAX_SAFE_INTEGER</tt>.</li>
+</ol>
 <t>Note that the integer types are subject to the deterministic encoding
-rules outlined in <xref target="core.encoding"/>.
+rules outlined in <xref target="deterministic-encoding-rules"/>.
 </t>
     </section>
 
-    <section anchor="backward.compatibility">
+    <section anchor="backward-compatibility">
       <name>Backward Compatibility</name>
       <t>
 It is assumed that <em>most</em>
@@ -2143,6 +2165,12 @@ outlined in <xref target="api.level.det"/>.
         <t>21:</t>
         <t>Editorial</t>
         <t>Added CDDL types</t>
+        </li>
+        <li>
+        <t>22:</t>
+        <t>Editorial</t>
+        <t>Updated CDDL appendix (Note)</t>
+        <t>Updated tdate/time CDDL</t>
         </li>
       </ul>
     </section>
