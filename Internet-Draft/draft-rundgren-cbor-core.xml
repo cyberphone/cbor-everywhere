@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-24"
+  docName="draft-rundgren-cbor-core-25"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -25,7 +25,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-24"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-25"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -1615,9 +1615,8 @@ The following table holds the additional CDDL types:
 </tbody>
 </table>
 <ol>
-<li>Integer corresponding to a core integer type of the kind featured in
-languages like "C" and "Rust".
-The value range is compatible with <em>two's complement</em> representation.</li>
+<li>Counterparts to the core integer types featured in languages like Java, C and Rust.
+  Value ranges are compatible with <em>two's complement</em> representation.</li>
 <li>Integer mapping the JavaScript <tt>Number</tt> type.
 For maintaining JavaScript compatibility, integers are limited to the range:
 <tt>Number.MIN_SAFE_INTEGER</tt> to <tt>Number.MAX_SAFE_INTEGER</tt>.</li>
