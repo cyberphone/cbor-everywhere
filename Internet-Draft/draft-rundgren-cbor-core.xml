@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-23"
+  docName="draft-rundgren-cbor-core-24"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -25,7 +25,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-23"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-24"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -1525,8 +1525,8 @@ of miscellaneous CBOR objects and their encoding.</t>
       <name>Additional CDDL Types</name>
       <t>
 The integer types introduced by <tt>CBOR::Core</tt> in  <xref target="protocol-primitives"/>
-requires additional CDDL definitions.  The 128-bit variants build on
-the CDDL <tt>integer</tt> type, whereas the other variants build on CDDL <tt>int</tt>.
+requires additional CDDL definitions.  The 128-bit variants are derived from
+the CDDL <tt>integer</tt> type, while the other variants build on CDDL <tt>int</tt>.
 </t>
 <t>
 Like the existing CDDL <xref target="RFC8610"/> types,
@@ -1615,8 +1615,9 @@ The following table holds the additional CDDL types:
 </tbody>
 </table>
 <ol>
-<li>Integer type derived from core integer types in languages like "C" and "Rust".
-Note that the value range of such integers is compatible with <em>two's complement</em> representation.</li>
+<li>Integer corresponding to a core integer type of the kind featured in
+languages like "C" and "Rust".
+The value range is compatible with <em>two's complement</em> representation.</li>
 <li>Integer mapping the JavaScript <tt>Number</tt> type.
 For maintaining JavaScript compatibility, integers are limited to the range:
 <tt>Number.MIN_SAFE_INTEGER</tt> to <tt>Number.MAX_SAFE_INTEGER</tt>.</li>
@@ -2180,6 +2181,10 @@ outlined in <xref target="api.level.det"/>.
         </li>
         <li>
         <t>23:</t>
+        <t>Editorial</t>
+        </li>
+        <li>
+        <t>24:</t>
         <t>Editorial</t>
         </li>
       </ul>
