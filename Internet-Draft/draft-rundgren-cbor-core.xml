@@ -1615,8 +1615,8 @@ The following table holds the additional CDDL types:
 </tbody>
 </table>
 <ol>
-<li>Counterparts to the core integer types featured in languages like Java, C and Rust.
-  Value ranges are compatible with <em>two's complement</em> representation.</li>
+<li>Counterparts to the <em>fixed-size</em>, <em>two's complement</em> integer types,
+featured in languages like Java, C, and Rust.</li>
 <li>Integer mapping the JavaScript <tt>Number</tt> type.
 For maintaining JavaScript compatibility, integers are limited to the range:
 <tt>Number.MIN_SAFE_INTEGER</tt> to <tt>Number.MAX_SAFE_INTEGER</tt>.</li>
