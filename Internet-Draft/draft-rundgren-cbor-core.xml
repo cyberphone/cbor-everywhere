@@ -611,7 +611,8 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
   <t>For decoders of "true" (binary) CBOR, there are additional requirements:</t>
   <ul>
   <li>It MUST be possible to decode one CBOR object at a time.</li>
-  <li>Decoders MUST NOT do any assumptions about the nature of unread code (it might not even be CBOR).</li>
+  <li>Decoders MUST NOT do any assumptions about the nature of unread code (it might not even be CBOR).
+  For a concrete example on how use this functionality, turn to <xref target="LARGE-FILES"/>.</li>
   </ul>
     </section>
   <section anchor="api.non-finite-numbers">
@@ -1026,6 +1027,13 @@ but this is out of scope for this specification.
         <reference anchor="CONSTRAINED" target="https://github.com/cyberphone/D-CBOR/blob/main/d-cbor-4-constrained-devices.md">
           <front>
             <title>D-CBOR for Constrained Devices</title>
+            <author/>
+          </front>
+        </reference>
+
+        <reference anchor="LARGE-FILES" target="https://github.com/cyberphone/doc/tree/gh-pages/cbor-large-payloads">
+          <front>
+            <title>Application note dealing with large files</title>
             <author/>
           </front>
         </reference>
@@ -2184,6 +2192,10 @@ outlined in <xref target="api.level.det"/>.
         </li>
         <li>
         <t>24:</t>
+        <t>Editorial</t>
+        </li>
+        <li>
+        <t>25:</t>
         <t>Editorial</t>
         </li>
       </ul>
