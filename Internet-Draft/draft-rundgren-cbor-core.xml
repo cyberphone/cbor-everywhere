@@ -2197,6 +2197,7 @@ outlined in <xref target="api.level.det"/>.
         <li>
         <t>25:</t>
         <t>Editorial</t>
+        <t>Added application note to CBOR sequence section</t>
         </li>
       </ul>
     </section>
