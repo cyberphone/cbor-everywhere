@@ -1664,8 +1664,6 @@ derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="R
 </dl>
 <t>Note that regardless of the format of <em>decoded</em> CBOR data, compliant
 <tt>CBOR::Core</tt> implementations MUST internally maintain the deterministic encoding format.
-</t>
-<t>
 That is, a <tt>bigint</tt> encoded as <tt>c249000000000000000006</tt> would after decoding,
 be represented by an <tt>int</tt> encoded as <tt>06</tt>.
 See also <xref target="core.invalid"/>.</t>
