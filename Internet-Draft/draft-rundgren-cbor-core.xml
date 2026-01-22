@@ -240,6 +240,7 @@ As an (extreme) example, the floating-point numbers <tt>0.0</tt> and
 <tt>-0.0</tt>, the integer number <tt>0</tt>, a <tt>NaN</tt>, and an empty <tt>map</tt> <tt>{}</tt>,
 could represent the distinct keys
 <tt>f90000</tt>, <tt>f98000</tt>, <tt>00</tt>, <tt>f97e00</tt>, and <tt>a0</tt> respectively.
+In other words, <xref section="5.6.1" sectionFormat="of" target="RFC8949"/> do not apply.
         </li>
         <li>
 RFC: Indefinite-length objects MUST be rejected.
