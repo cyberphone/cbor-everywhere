@@ -671,7 +671,7 @@ The following tables show a way to represent such data:
   <tr><th align="center">Payload</th></tr>
 </thead>
 <tbody>
-<tr><td align="center"><tt>d51-d0</tt> in <em>big-endian</em> order</td></tr>
+<tr><td align="center"><tt>b52-b0</tt> in <em>platform</em> order</td></tr>
 </tbody>
 </table>
 <t>
@@ -684,12 +684,12 @@ The payload bits are subsequently conceptually put into an <xref target="IEEE754
 <tr><th align="center">Sign</th><th align="center">Exponent</th><th align="center">Significand</th></tr>
 </thead>
 <tbody>
-<tr><td align="center"><tt>0</tt></td><td align="center"><tt>11111111111</tt></td>
-<td align="center"><tt>d0-d51</tt> in <em>little-endian</em> order</td></tr>
+<tr><td align="center"><tt>b52</tt></td><td align="center"><tt>11111111111</tt></td>
+<td align="center"><tt>b51-b0</tt> in <em>reversed</em> order</td></tr>
 </tbody>
 </table>
 <t>
-The reason for <em>reversing</em> the payload bits is to ensure that a specific bit will remain
+The reason for <em>reversing</em> bit <tt>d51-b0</tt> is to ensure that a specific bit will remain
 in a fix position (maintain the same value), independent of the size of the
 <xref target="IEEE754"/> variant used for encoding.
 </t>
@@ -712,9 +712,16 @@ The following table shows a few examples:
 <tr><td align="right"><tt>7fffff</tt></td><td align="right"><tt>fa7fffffff</tt></td><td><tt>float'7fffffff'</tt></td></tr>
 <tr><td align="right"><tt>800000</tt></td><td align="right"><tt>fb7ff0000010000000</tt></td><td><tt>float'7ff0000010000000'</tt></td></tr>
 <tr><td align="right"><tt>fffffffffffff</tt></td><td align="right"><tt>fb7fffffffffffffff</tt></td><td><tt>float'7fffffffffffffff'</tt></td></tr>
+<tr><td align="right"><tt>10000000000000</tt></td><td align="right"><tt>f9fc00</tt></td><td><tt>-Infinity</tt></td></tr>
+<tr><td align="right"><tt>10000000000001</tt></td><td align="right"><tt>f9fe00</tt></td><td><tt>float'fe00'</tt></td></tr>
+<tr><td align="right"><tt>100000000003ff</tt></td><td align="right"><tt>f9ffff</tt></td><td><tt>float'ffff'</tt></td></tr>
+<tr><td align="right"><tt>10000000000400</tt></td><td align="right"><tt>faff801000</tt></td><td><tt>float'ff801000'</tt></td></tr>
+<tr><td align="right"><tt>100000007fffff</tt></td><td align="right"><tt>faffffffff</tt></td><td><tt>float'ffffffff'</tt></td></tr>
+<tr><td align="right"><tt>10000000800000</tt></td><td align="right"><tt>fbfff0000010000000</tt></td><td><tt>float'fff0000010000000'</tt></td></tr>
+<tr><td align="right"><tt>18000000000000</tt></td><td align="right"><tt>fbfff0000000000001</tt></td><td><tt>float'fff0000000000001'</tt></td></tr>
+<tr><td align="right"><tt>1fffffffffffff</tt></td><td align="right"><tt>fbffffffffffffffff</tt></td><td><tt>float'ffffffffffffffff'</tt></td></tr>
 </tbody>
 </table>
-<t>A payload of <tt>0</tt> and having the sign bit set, would encode as <tt>f9fc00</tt> (<tt>-Infinity</tt>).</t>
 <t>Obviously, receivers (decoders), MUST use the same convention in order to recreate payloads.</t>
 <t>See also: <xref target="payload.encoder"/>.</t> 
     </section>
@@ -1745,15 +1752,18 @@ function nonFinite2Cbor(value) {
       <t>The following JavaScript sample encodes payloads (<xref target="non-finite.payload"/>) as
       numbers as mandated by the deterministic encoding rules:</t>
  <sourcecode name="Non-finite encoder" type="JavaScript">
-<![CDATA[// Input: up to 52 bit payload as a BigInt.
-// Input: sign (true or false)
+<![CDATA[// Input: up to 53 bit payload as a BigInt.
 // Returns: CBOR binary in a Uint8Array.
-function payload2Cbor(payload, sign) {
-  let left64 = sign ? 0xfff0000000000000n : 0x7ff0000000000000n;
-  if (payload < 0n || payload > 0xfffffffffffffn) {
+function payload2Cbor(payload) {
+  if (payload < 0n || payload > 0x1fffffffffffffn) {
     throw new Error("Invalid payload: " + payload);
   }
-  // Reverse the payload bits.
+  // Catch sign (b52).
+  let left64 = (payload & 0x10000000000000n) ?
+                         0xfff0000000000000n : 0x7ff0000000000000n;
+  // Remove possible sign (b52) from b51-b0.
+  payload &= 0xfffffffffffffn;
+  // Reverse bits b51-b0.
   let reversed = 0n;
   for (let i = 0; i < 52; i++) {
     reversed <<= 1n;
@@ -1762,7 +1772,7 @@ function payload2Cbor(payload, sign) {
   }
   // Create 64-bit IEEE-754 object.
   // Then apply deterministic encoding.
-  return nonFinite2Cbor(reversed + left64);
+  return nonFinite2Cbor(left64 + reversed);
 }]]></sourcecode>
     </section>
    </section>
@@ -2196,6 +2206,8 @@ outlined in <xref target="api.level.det"/>.
         <li>
         <t>25:</t>
         <t>Editorial</t>
+        <t>Mentioned not applying 5.6.1 of RFC 8949</t>
+        <t>Non-finite payload option became a 53-bit value</t>
         <t>Added application note to CBOR sequence section</t>
         </li>
       </ul>

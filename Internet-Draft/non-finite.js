@@ -65,15 +65,18 @@ function nonFinite2Cbor(value) {
   throw new Error("Invalid non-finite number: " + value);
 }
 
-// Input: up to 52 bit payload as a BigInt.
-// Input: sign (true or false)
+// Input: up to 53 bit payload as a BigInt.
 // Returns: CBOR binary in a Uint8Array.
-function payload2Cbor(payload, sign) {
-  let left64 = sign ? 0xfff0000000000000n : 0x7ff0000000000000n;
-  if (payload < 0n || payload > 0xfffffffffffffn) {
+function payload2Cbor(payload) {
+  if (payload < 0n || payload > 0x1fffffffffffffn) {
     throw new Error("Invalid payload: " + payload);
   }
-  // Reverse the payload bits.
+  // Catch sign (b52).
+  let left64 = (payload & 0x10000000000000n) ?
+                         0xfff0000000000000n : 0x7ff0000000000000n;
+  // Remove possible sign (b52) from b51-b0.
+  payload &= 0xfffffffffffffn;
+  // Reverse bits b51-b0.
   let reversed = 0n;
   for (let i = 0; i < 52; i++) {
     reversed <<= 1n;
@@ -82,7 +85,7 @@ function payload2Cbor(payload, sign) {
   }
   // Create 64-bit IEEE-754 object.
   // Then apply deterministic encoding.
-  return nonFinite2Cbor(reversed + left64);
+  return nonFinite2Cbor(left64 + reversed);
 }
 
 
@@ -117,12 +120,12 @@ function doNonFinite(value, cborHexOrNull) {
   }
 }
 
-function doPayload(value, sign, cborHexOrNull) {
+function doPayload(value, cborHexOrNull) {
   if (cborHexOrNull) {
-    console.log(toHex(payload2Cbor(value, sign)) == cborHexOrNull ? "Success" : "***FAILED RUN***");
+    console.log(toHex(payload2Cbor(value)) == cborHexOrNull ? "Success" : "***FAILED RUN***");
   } else {
     try {
-      payload2Cbor(value, sign);
+      payload2Cbor(value);
       console.log("***FAILED***");
     } catch (e) {
       console.log(e.toString().includes("Invalid payload") ? "Success" : "***FAILED EXCEPTION***");
@@ -143,15 +146,18 @@ doNonFinite(0x7800n);
 doNonFinite(0n);
 //doNonFinite(0x7e00);
 
-doPayload(0n, false, "f97c00");
-doPayload(1n, false, "f97e00");
-doPayload(2n, false, "f97d00");
-doPayload(0x3ffn, false, "f97fff");
-doPayload(0x400n, false, "fa7f801000");
-doPayload(0x7fffffn, false, "fa7fffffff");
-doPayload(0x800000n, false, "fb7ff0000010000000");
-doPayload(0xfffffffffffffn, false, "fb7fffffffffffffff");
-doPayload(0n, true, "f9fc00");
-doPayload(0xfffffffffffffn, true, "fbffffffffffffffff");
-doPayload(0x1fffffffffffffn, false);
-doPayload(-1n, false);
+doPayload(0n, "f97c00");
+doPayload(1n, "f97e00");
+doPayload(2n, "f97d00");
+doPayload(0x3ffn, "f97fff");
+doPayload(0x400n, "fa7f801000");
+doPayload(0x7fffffn, "fa7fffffff");
+doPayload(0x800000n, "fb7ff0000010000000");
+doPayload(0x10000000000400n, "faff801000");
+doPayload(0x100000000003ffn, "f9ffff");
+doPayload(0x100000007fffffn, "faffffffff");
+doPayload(0xfffffffffffffn, "fb7fffffffffffffff");
+doPayload(0x10000000000000n, "f9fc00");
+doPayload(0x1fffffffffffffn, "fbffffffffffffffff");
+doPayload(0x20000000000000n);
+doPayload(-1n);
