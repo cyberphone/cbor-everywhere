@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-25"
+  docName="draft-rundgren-cbor-core-26"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -25,7 +25,7 @@
   <front>
     <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-25"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-26"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -1039,7 +1039,7 @@ but this is out of scope for this specification.
           </front>
         </reference>
 
-        <reference anchor="LARGE-FILES" target="https://github.com/cyberphone/javaapi/tree/gh-pages/app-notes/cbor-large-payloads">
+        <reference anchor="LARGE-FILES" target="https://github.com/cyberphone/javaapi/tree/gh-pages/app-notes/large-payloads">
           <front>
             <title>Application note dealing with large files</title>
             <author/>
@@ -2209,6 +2209,9 @@ outlined in <xref target="api.level.det"/>.
         <t>Mentioned not applying 5.6.1 of RFC 8949</t>
         <t>Non-finite payload option became a 53-bit value</t>
         <t>Added application note to CBOR sequence section</t>
+        </li>
+        <li>
+        <t>26:</t>
         </li>
       </ul>
     </section>
