@@ -612,7 +612,7 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
   <t>For decoders of "true" (binary) CBOR, there are additional requirements:</t>
   <ul>
   <li>It MUST be possible to decode one CBOR object at a time.</li>
-  <li>Decoders MUST NOT do any assumptions about the nature of the data <em>succeeding</em>
+  <li>Decoders MUST NOT do any assumptions about the nature of (possible) data <em>succeeding</em>
   decoded CBOR object(s); it does not even have to be CBOR.
   For a concrete example on how use this functionality, turn to <xref target="LARGE-PAYLOADS"/>.</li>
   </ul>
