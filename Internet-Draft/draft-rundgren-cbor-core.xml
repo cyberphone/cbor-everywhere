@@ -613,7 +613,7 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
   <ul>
   <li>It MUST be possible to decode one CBOR object at a time.</li>
   <li>Decoders MUST NOT do any assumptions about the nature of unread code (it might not even be CBOR).
-  For a concrete example on how use this functionality, turn to <xref target="LARGE-FILES"/>.</li>
+  For a concrete example on how use this functionality, turn to <xref target="LARGE-PAYLOADS"/>.</li>
   </ul>
     </section>
   <section anchor="api.non-finite-numbers">
@@ -1039,7 +1039,7 @@ but this is out of scope for this specification.
           </front>
         </reference>
 
-        <reference anchor="LARGE-FILES" target="https://github.com/cyberphone/javaapi/tree/gh-pages/app-notes/large-payloads">
+        <reference anchor="LARGE-PAYLOADS" target="https://github.com/cyberphone/javaapi/tree/gh-pages/app-notes/large-payloads">
           <front>
             <title>Application note dealing with large files</title>
             <author/>
@@ -2212,6 +2212,7 @@ outlined in <xref target="api.level.det"/>.
         </li>
         <li>
         <t>26:</t>
+        <t>Editorial</t>
         </li>
       </ul>
     </section>
