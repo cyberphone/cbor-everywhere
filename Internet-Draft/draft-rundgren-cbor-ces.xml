@@ -13,7 +13,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-rundgren-cbor-core-26"
+  docName="draft-rundgren-cbor-ces-00"
   ipr="trust200902"
   obsoletes=""
   updates=""
@@ -23,9 +23,9 @@
   version="3">
 
   <front>
-    <title>CBOR&#x2009;:&#x2009;:&#x2009;Core - CBOR Cross Platform Profile</title>
+    <title>CBOR&#x2009;:&#x2009;:&#x2009;CES - CBOR Embedded Signature</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-core-26"/>
+    <seriesInfo name="Internet-Draft" value="draft-rundgren-cbor-ces-00"/>
    
     <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
         <organization>Independent</organization>
@@ -39,7 +39,7 @@
         </address>
     </author>
    
-    <date year="2026"/>
+    <date year="2025"/>
 
     <area>Application</area>
     <workgroup>Internet Engineering Task Force</workgroup>
@@ -53,14 +53,10 @@
 
     <abstract>
       <t>
-This document defines <tt>CBOR::Core</tt>,
-a platform-agnostic profile for CBOR (RFC 8949)
-intended to serve as a viable replacement for JSON in
-computationally advanced systems like Internet browsers,
-mobile phones, and Web servers.
-For enhanced strictness, as well as for enabling
-cryptographic methods like signing and hashing,
-to optionally be applied to "raw" (non-wrapped) CBOR data,
+This document defines CES,
+a simple signature scheme for CBOR (RFC 8949).
+Unlike COSE (RFC 9052), CES doos not require CBOR data to be signed
+to be wrapped in byte stringto "raw" (non-wrapped) CBOR data,
 deterministic encoding is mandated.
 Furthermore, the document outlines API features for
 manipulating CBOR data in a secure manner.
@@ -83,7 +79,7 @@ To cope with this, <tt>CBOR::Core</tt> defines a specific (non-variant) encoding
 aka &quot;Deterministic Encoding&quot;.  The selected encoding
 scheme is believed to be <em>compatible</em> with most existing
 systems using CBOR.
-See also <xref target="backward-compatibility"/>.
+See also <xref target="backward.compatibility"/>.
         </t>
     <t>
 <tt>CBOR::Core</tt> is intended to be agnostic with respect to programming
@@ -104,16 +100,16 @@ the ability to perform cryptographic operations on "raw" (non-wrapped)
 CBOR data, compliant <tt>CBOR::Core</tt> tools need additional functionality.
 See also <xref target="embedded.signatures"/>.
         </t>
-        <section anchor="design-goals">
+        <section anchor="design.goals">
         <name>Design Goals</name>
         <t>
 The primary goal with this specification, is providing a foundation
 for CBOR tools that enable application developers to use CBOR without requiring
 insights in low-level details like encoding.  In most cases, it should be sufficient
-to consult a list of supported data types.  See also <xref target="protocol-primitives"/>.
+to consult a list of supported data types.  See also <xref target="protocol.primitives"/>.
         </t>
         <t>
-<xref target="detailed-description"/> contains the
+<xref target="detailed.description"/> contains the
 actual specification.
         </t>
         </section>
@@ -142,11 +138,11 @@ used in <xref target="RFC8949"/>.</li>
 
     </section>
     
-    <section anchor="detailed-description">
+    <section anchor="detailed.description">
       <name>Detailed Description</name>
       <t>This section describes the three pillars that <tt>CBOR::Core</tt> relies on.</t>
 
-      <section anchor="supported-cbor-objects">
+      <section anchor="core.objects">
         <name>Supported CBOR Objects</name>
         <t>The following table shows the set of CBOR objects that compliant
         <tt>CBOR::Core</tt> implementations MUST support:</t>
@@ -177,8 +173,8 @@ used in <xref target="RFC8949"/>.</li>
 
       </section>
       
-      <section anchor="deterministic-encoding-rules">
-        <name>Deterministic Encoding Rules</name>
+      <section anchor="core.encoding">
+        <name>Deterministic Encoding Scheme</name>
         <t>
 In <tt>CBOR::Core</tt> deterministic encoding is <em>mandatory</em>.
 The encoding scheme adheres to
@@ -223,7 +219,7 @@ or <tt>16</tt> bits) that preserves the original value.
 contain a few non-finite sample values and their expected encoding.</t>
         </li>
         <li>
-RFC+: Floating-point and integer objects MUST be treated as <em>distinct data types</em>
+RFC+: Floating-point and integer objects MUST be treated as <em>distinct types</em>
 regardless of their numeric value. This is compliant with
 "Rule&nbsp;2" in <xref section="4.2.2" sectionFormat="of" target="RFC8949"/>.
         </li>
@@ -240,7 +236,6 @@ As an (extreme) example, the floating-point numbers <tt>0.0</tt> and
 <tt>-0.0</tt>, the integer number <tt>0</tt>, a <tt>NaN</tt>, and an empty <tt>map</tt> <tt>{}</tt>,
 could represent the distinct keys
 <tt>f90000</tt>, <tt>f98000</tt>, <tt>00</tt>, <tt>f97e00</tt>, and <tt>a0</tt> respectively.
-In other words, <xref section="5.6.1" sectionFormat="of" target="RFC8949"/> does not apply.
         </li>
         <li>
 RFC: Indefinite-length objects MUST be rejected.
@@ -253,20 +248,22 @@ RFC: Indefinite-length objects MUST be rejected.
         <t>In <tt>CBOR::Core</tt> there are three distinguishable levels:</t>
       <dl newline="true">
         <dt>Encoding level:</dt>
-        <dd>"Wire format" as described in <xref target="deterministic-encoding-rules"/>.</dd>
+        <dd>"Wire format" as described in <xref target="core.encoding"/>.</dd>
         <dt>Encoder/decoder level:</dt>
         <dd>This section.</dd>
         <dt>Application level:</dt>
         <dd>
-With the exception of Protocol Primitives (<xref target="protocol-primitives"/>),
-<tt>CBOR::Core</tt> imposes no specific restrictions or rules regarding applications.</dd>
+Constraints on data imposed by <em>applications</em>,
+like limiting ISO DateTime objects to UTC notation, or requiring integers
+representing enumerations to be in a specific range, is <em>out-of-scope</em>
+for <tt>CBOR::Core</tt>.</dd>
       </dl>
         <section anchor="api.level.det">
           <name>API Requirements</name>
 <t>
 Compliant <tt>CBOR::Core</tt> implementations MUST reject
 CBOR data not adhering to the deterministic encoding scheme.
-See also <xref target="backward-compatibility"/>.
+See also <xref target="backward.compatibility"/>.
 </t>
 <t>
 An important feature that deterministic encoding brings to the table is
@@ -294,7 +291,11 @@ provided by CBOR tools compliant with this specification:
   of decoded CBOR data.
   </li>
   <li>
-  Irrespective of if CBOR data is decoded or created 
+  It MUST be possible to <em>reserialize</em> decoded CBOR data,
+  be it updated or not.
+  </li>
+  <li>
+  Irrespective of if CBOR data is decoded, updated, or created 
   programmatically, deterministic encoding MUST be maintained.
   </li>
 </ul>
@@ -332,13 +333,13 @@ console.log(CBOR.toHex(cborObject.encode()));  // Reserialization returns identi
 <t>
 As can be seen in the listing, at the <em>application</em> level, data may not always
 be 100% deterministic, while at the <em>encoding</em> level, data MUST remain intact.
-The only exception to this rule is if the data was received in a non-deterministic format
-(<xref target="backward-compatibility"/>).
+The only exception to this rule is if the data was received in a non-deterministic format.
+See also <xref target="backward.compatibility"/>.
 </t>
 </section>
 </section>
 
-        <section anchor="protocol-primitives">
+        <section anchor="protocol.primitives">
         <name>Protocol Primitives</name>
         <t>
 To facilitate cross-platform <em>protocol interoperability</em>,
@@ -357,70 +358,58 @@ API support for the following primitive data types:
 </thead>
 <tbody>
 <tr>
-<td align="center"><tt>int8</tt></td>
+<td align="center"><tt>int</tt></td>
 <td align="center"><tt>Int8</tt></td>
 <td>8-bit signed integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>uint8</tt></td>
+<td align="center"><tt>uint</tt></td>
 <td align="center"><tt>Uint8</tt></td>
 <td>8-bit unsigned integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>int16</tt></td>
+<td align="center"><tt>int</tt></td>
 <td align="center"><tt>Int16</tt></td>
 <td>16-bit signed integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>uint16</tt></td>
+<td align="center"><tt>uint</tt></td>
 <td align="center"><tt>Uint16</tt></td>
 <td>16-bit unsigned integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>int32</tt></td>
+<td align="center"><tt>int</tt></td>
 <td align="center"><tt>Int32</tt></td>
 <td>32-bit signed integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>uint32</tt></td>
+<td align="center"><tt>uint</tt></td>
 <td align="center"><tt>Uint32</tt></td>
 <td>32-bit unsigned integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>int53</tt></td>
-<td align="center"><tt>Int53</tt></td>
-<td>53-bit signed integer</td>
-<td align="center">2</td>
-</tr>
-<tr>
-<td align="center"><tt>int64</tt></td>
+<td align="center"><tt>int</tt></td>
 <td align="center"><tt>Int64</tt></td>
 <td>64-bit signed integer</td>
 <td align="center">1, 3</td>
 </tr>
 <tr>
-<td align="center"><tt>uint64</tt></td>
+<td align="center"><tt>uint</tt></td>
 <td align="center"><tt>Uint64</tt></td>
 <td>64-bit unsigned integer</td>
 <td align="center">1</td>
 </tr>
 <tr>
-<td align="center"><tt>int128</tt></td>
-<td align="center"><tt>Int128</tt></td>
-<td>128-bit signed integer</td>
-<td align="center">1, 4</td>
-</tr>
-<tr>
-<td align="center"><tt>uint128</tt></td>
-<td align="center"><tt>Uint128</tt></td>
-<td>128-bit unsigned integer</td>
-<td align="center">1, 4</td>
+<td align="center"><tt>int</tt></td>
+<td align="center"><tt>Int53</tt></td>
+<td>53-bit signed integer</td>
+<td align="center">2</td>
 </tr>
 <tr>
 <td align="center"><tt>integer</tt></td>
@@ -435,7 +424,7 @@ API support for the following primitive data types:
 <td align="center">5, 6</td>
 </tr>
 <tr>
-<td align="center"><tt>float16</tt>&nbsp;/&nbsp;<tt>float32</tt></td>
+<td align="center"><tt>float16</tt>&nbsp;/ <tt>float32</tt></td>
 <td align="center"><tt>Float32</tt></td>
 <td>32-bit floating-point number</td>
 <td align="center">5, 6</td>
@@ -477,16 +466,16 @@ API support for the following primitive data types:
 <td></td>
 </tr>
 <tr>
-<td align="center"><tt>tdate</tt>&nbsp;/&nbsp;<tt>~tdate</tt></td>
+<td align="center">See note</td>
 <td align="center"><tt>DateTime</tt></td>
 <td>Time object expressed as a text string</td>
 <td align="center">9</td>
 </tr>
 <tr>
-<td align="center"><tt>time</tt>&nbsp;/&nbsp;<tt>~time</tt></td>
+<td align="center">See note</td>
 <td align="center"><tt>EpochTime</tt></td>
 <td>Time object expressed as a number</td>
-<td align="center">9</td>
+<td align="center">9, 10</td>
 </tr>
 </tbody>
 </table>
@@ -494,25 +483,21 @@ API support for the following primitive data types:
 <li>
 <t>
 <tt>Int8</tt> - <tt>Uint64</tt> are modeled after the "C" language
-including their permitted ranges. The additional types
-<tt>Int128</tt> and <tt>Uint128</tt> (derived from the "Rust" language),
-follow the same pattern. See <xref target="additional-cddl-types"/> for
-matching CDDL definitions.
-</t>
-<t>
-Range verification MUST be performed.
-That is, the valid range for a hypothetical <tt>getUint8()</tt> is <tt>0</tt> to <tt>255</tt>,
-whereas it is <tt>-2147483648</tt> to <tt>2147483647</tt> for a hypothetical <tt>getInt32()</tt>.
+including their permitted ranges.
+Range testing MUST be performed.
+That is, a hypothetical <tt>getUint8()</tt> MUST reject numbers
+outside of <tt>0</tt> to <tt>255</tt>,
+whereas a hypothetical <tt>getInt8()</tt>,
+MUST reject numbers outside of <tt>-128</tt> to <tt>127</tt>.
 </t>
 </li>
 <li>
 <t>
 <tt>Int53</tt> is derived
-from the JavaScript <tt>Number</tt> type. See <xref target="additional-cddl-types"/> for
-the matching CDDL definition.
-</t>
-<t>
-Range verification MUST be performed.
+from the JavaScript <tt>Number</tt> type.  As an integer, values outside of
+<tt>Number.MIN_SAFE_INTEGER</tt> (<tt>-9007199254740991</tt>) to
+<tt>Number.MAX_SAFE_INTEGER</tt> (<tt>9007199254740991</tt>)
+MUST be rejected.
 </t>
 <t>
 <tt>Int53</tt> should be used with caution in cross-platform scenarios.
@@ -528,8 +513,10 @@ where it is a necessity.
 </li>
 <li>
 <t>
-Integer type depending on the adaptable (<tt>int/bigint</tt>) encoding scheme
-outlined in <xref target="deterministic-encoding-rules"/>.
+Note that a hypothetical <tt>getBigInt()</tt> MUST also accept CBOR <tt>int</tt>
+objects since <tt>int</tt> is used for integers that fit in
+CBOR major type 0 and 1 objects. 
+See also <xref target="core.integers"/> and <xref target="backward.compatibility"/>.
 </t>
 </li>
 <li>
@@ -540,7 +527,7 @@ need to use a bigger floating-point type for the return value.
 </t>
 <t>
 Note that a hypothetical <tt>getFloat16()</tt> MUST reject encountered
-<tt>Float32</tt> and <tt>Float64</tt> objects.
+<tt>Float32</tt> and <tt>Float64</tt> objects.  See also <xref target="backward.compatibility"/>.
 </t>
 </li>
 <li>
@@ -562,39 +549,23 @@ Note that <tt>bool</tt> and <tt>null</tt> actually are simple values.
 </li>
 <li>
 <t>
-Since CBOR lacks a "native" time object,
+Since CBOR lacks a native-level time object,
 <xref section="3.4" sectionFormat="of"  target="RFC8949"/>
 introduces two variants of time objects using the 
 CBOR tags <tt>0</tt> and <tt>1</tt>.
-Time objects MUST also be supported <em>without</em> the tag construct,
-in CDDL denoted by <tt>~tdate</tt> and <tt>~time</tt> respectively.
+The time objects SHOULD also be supported <em>without</em> the
+tag construct.
 </t>
+</li>
+<li>
 <t>
-<tt>DateTime</tt> objects MUST comply with <em>all</em> of the following conditions:
+<tt>EpochTime</tt> objects containing non-finite numbers MUST be rejected.
+See also <xref target="api.non-finite-numbers"/>.
 </t>
-<ul>
-<li>The underlying object is a CBOR <tt>tstr</tt>.</li>
-<li>The string matches the ISO date/time format described
-in <xref section="5.6" sectionFormat="of" target="RFC3339"/>.</li>
-<li>The <em>optional</em> sub-second field (<tt>.nnn</tt>) features <tt>1-9</tt> digits.</li>
-<li>The date/time object is within the
-range&nbsp;<tt>"1970&nbhy;01&nbhy;01T00:00:00Z"</tt> to <tt>"9999&nbhy;12&nbhy;31T23:59:59Z"</tt>.</li>
-</ul>
-<t>
-<tt>EpochTime</tt> objects MUST comply with <em>all</em> of the following conditions:
-</t>
-<ul>
-<li>The underlying object is a CBOR <tt>int</tt> or a <em>finite</em> <tt>float</tt> number.</li>
-<li>The <tt>Epoch</tt> <xref target="TIME"/>  object is within the
-range&nbsp;<tt>0</tt>&nbsp;<tt>("1970&nbhy;01&nbhy;01T00:00:00Z")</tt> to
-<tt>253402300799</tt>&nbsp;<tt>("9999&nbhy;12&nbhy;31T23:59:59Z")</tt>.</li>
-</ul>
-<t>Implementations MAY limit time object resolution to milliseconds.</t> 
 </li>
 </ol>
 <t>
-If a call does not match the underlying CBOR type, the call MUST be rejected.
-See also <xref target="backward-compatibility"/>.
+If a call does not match the underlying CBOR type, the call MUST be rejected,
 </t>
 <t>
 Due to considerable variations between platforms, corresponding <em>encoder</em>
@@ -612,9 +583,7 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
   <t>For decoders of "true" (binary) CBOR, there are additional requirements:</t>
   <ul>
   <li>It MUST be possible to decode one CBOR object at a time.</li>
-  <li>Decoders MUST NOT do any assumptions about the nature of (possible) data <em>succeeding</em>
-  decoded CBOR object(s); it does not even have to be CBOR.
-  For a concrete example on how use this functionality, turn to <xref target="LARGE-PAYLOADS"/>.</li>
+  <li>Decoders MUST NOT do any assumptions about the nature of unread code (it might not even be CBOR).</li>
   </ul>
     </section>
   <section anchor="api.non-finite-numbers">
@@ -625,7 +594,7 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
     relieve applications from having to <em>explicitly test</em> decoded <tt>float</tt>
     objects for being finite ("regular") floating-point numbers.
     Although working, such an option would not be particularly flexible.</t>
-    <t>To cope with this as well as the fact that platform support for encoding and decoding <tt>NaN</tt>
+    <t>To cope with this as well as the fact that platform-native support for <tt>NaN</tt>
     with payloads like <tt>fa7f801000</tt> is somewhat uneven, compliant <tt>CBOR::Core</tt>
     implementations MUST support the constructs described in the following sub-sections.</t>
     <section anchor="non-finite.levels">
@@ -637,9 +606,9 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
     This is accomplished by (internally) treating non-finite numbers as a <em>distinct, emulated
     data type</em>, making it possible to support the full range of floating-point numbers.
     The API exposes this capability as three distinct levels
-    of non-finite number support:</t>
+    of floating-point number support:</t>
     <dl newline="true">
-    <dt>NONE:</dt>
+    <dt>BASIC:</dt>
     <dd>Supporting "regular" floating-point numbers only.</dd>
     <dt>EXTENDED:</dt>
     <dd>Supporting "regular" floating-point numbers, "simple" <tt>NaN</tt>, <tt>Infinity</tt>  and <tt>-Infinity</tt>.</dd>
@@ -647,7 +616,7 @@ Decoders compliant with this specification MUST support CBOR sequences <xref tar
     <dd>Supporting all valid floating-point numbers.</dd>
     </dl>
     <t>
-    Selection of the level of non-finite number support
+    Selection of the level of floating-point number support
     required for a specific <tt>float</tt> object in a protocol, is accomplished
     through the use of different API access methods, like the following:</t>
     <t>A hypothetical <tt>getFloat64()</tt> would reject an encountered "simple" <tt>NaN</tt>, while a
@@ -672,7 +641,7 @@ The following tables show a way to represent such data:
   <tr><th align="center">Payload</th></tr>
 </thead>
 <tbody>
-<tr><td align="center"><tt>b52-b0</tt> in <em>platform</em> order</td></tr>
+<tr><td align="center"><tt>d51-d0</tt> in <em>big-endian</em> order</td></tr>
 </tbody>
 </table>
 <t>
@@ -685,12 +654,12 @@ The payload bits are subsequently conceptually put into an <xref target="IEEE754
 <tr><th align="center">Sign</th><th align="center">Exponent</th><th align="center">Significand</th></tr>
 </thead>
 <tbody>
-<tr><td align="center"><tt>b52</tt></td><td align="center"><tt>11111111111</tt></td>
-<td align="center"><tt>b51-b0</tt> in <em>reversed</em> order</td></tr>
+<tr><td align="center"><tt>0</tt></td><td align="center"><tt>11111111111</tt></td>
+<td align="center"><tt>d0-d51</tt> in <em>little-endian</em> order</td></tr>
 </tbody>
 </table>
 <t>
-The reason for <em>reversing</em> bit <tt>d51-b0</tt> is to ensure that a specific bit will remain
+The reason for <em>reversing</em> the payload bits is to ensure that a specific bit will remain
 in a fix position (maintain the same value), independent of the size of the
 <xref target="IEEE754"/> variant used for encoding.
 </t>
@@ -713,16 +682,9 @@ The following table shows a few examples:
 <tr><td align="right"><tt>7fffff</tt></td><td align="right"><tt>fa7fffffff</tt></td><td><tt>float'7fffffff'</tt></td></tr>
 <tr><td align="right"><tt>800000</tt></td><td align="right"><tt>fb7ff0000010000000</tt></td><td><tt>float'7ff0000010000000'</tt></td></tr>
 <tr><td align="right"><tt>fffffffffffff</tt></td><td align="right"><tt>fb7fffffffffffffff</tt></td><td><tt>float'7fffffffffffffff'</tt></td></tr>
-<tr><td align="right"><tt>10000000000000</tt></td><td align="right"><tt>f9fc00</tt></td><td><tt>-Infinity</tt></td></tr>
-<tr><td align="right"><tt>10000000000001</tt></td><td align="right"><tt>f9fe00</tt></td><td><tt>float'fe00'</tt></td></tr>
-<tr><td align="right"><tt>100000000003ff</tt></td><td align="right"><tt>f9ffff</tt></td><td><tt>float'ffff'</tt></td></tr>
-<tr><td align="right"><tt>10000000000400</tt></td><td align="right"><tt>faff801000</tt></td><td><tt>float'ff801000'</tt></td></tr>
-<tr><td align="right"><tt>100000007fffff</tt></td><td align="right"><tt>faffffffff</tt></td><td><tt>float'ffffffff'</tt></td></tr>
-<tr><td align="right"><tt>10000000800000</tt></td><td align="right"><tt>fbfff0000010000000</tt></td><td><tt>float'fff0000010000000'</tt></td></tr>
-<tr><td align="right"><tt>18000000000000</tt></td><td align="right"><tt>fbfff0000000000001</tt></td><td><tt>float'fff0000000000001'</tt></td></tr>
-<tr><td align="right"><tt>1fffffffffffff</tt></td><td align="right"><tt>fbffffffffffffffff</tt></td><td><tt>float'ffffffffffffffff'</tt></td></tr>
 </tbody>
 </table>
+<t>A payload of <tt>0</tt> and having the sign bit set, would encode as <tt>f9fc00</tt> (<tt>-Infinity</tt>).</t>
 <t>Obviously, receivers (decoders), MUST use the same convention in order to recreate payloads.</t>
 <t>See also: <xref target="payload.encoder"/>.</t> 
     </section>
@@ -985,7 +947,6 @@ but this is out of scope for this specification.
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8610.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3629.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8742.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"/>
         <reference anchor="IEEE754" target="https://ieeexplore.ieee.org/document/8766229" quoteTitle="true" derivedAnchor="IEEE754">
           <front>
             <title>IEEE Standard for Floating-Point Arithmetic</title>
@@ -997,19 +958,8 @@ but this is out of scope for this specification.
           <seriesInfo name="IEEE Std" value="754-2019"/>
           <seriesInfo name="DOI" value="10.1109/IEEESTD.2019.8766229"/>
         </reference>
-        <reference anchor="TIME" target="https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19" quoteTitle="true" derivedAnchor="TIME">
-          <front>
-            <title>The Open Group Base Specifications</title>
-            <author>
-              <organization showOnFrontPage="true">The Open Group</organization>
-            </author>
-            <date year="2019"/>
-          </front>
-          <seriesInfo name="IEEE Std" value="1003.1"/>
-          <refcontent>Section 4.19, 'Seconds Since the Epoch'</refcontent>
-          <refcontent>Issue 8, 2024 Edition</refcontent>
-        </reference>
       </references>
+ 
       <references>
         <name>Informative References</name>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9052.xml"/>
@@ -1036,13 +986,6 @@ but this is out of scope for this specification.
         <reference anchor="CONSTRAINED" target="https://github.com/cyberphone/D-CBOR/blob/main/d-cbor-4-constrained-devices.md">
           <front>
             <title>D-CBOR for Constrained Devices</title>
-            <author/>
-          </front>
-        </reference>
-
-        <reference anchor="LARGE-PAYLOADS" target="https://github.com/cyberphone/javaapi/tree/gh-pages/app-notes/large-payloads">
-          <front>
-            <title>Application note dealing with large files</title>
             <author/>
           </front>
         </reference>
@@ -1233,10 +1176,10 @@ with an emphasize on edge cases.</t>
 the serialization method for the <tt>Number</tt> data type,
 defined by <xref target="ECMASCRIPT"/> with one change:
 to comply with diagnostic notation
-(<xref target="diagnostic.notation"/>), <em>finite</em> floating-point numbers
-always include a decimal point and at least one fractional digit.
+(<xref target="diagnostic.notation"/>), all values are
+expressed as floating-point numbers.
 The rationale for using <xref target="ECMASCRIPT"/> serialization is
-because it is supposed to provide the shortest and most
+because it is supposed to generate the shortest and most
 correct representation of <xref target="IEEE754"/> numbers.</t>
 
 <table align="left">
@@ -1530,152 +1473,12 @@ of miscellaneous CBOR objects and their encoding.</t>
 </tbody>
 </table>
 <ol>
-<li>Enabled by the measures mentioned in <xref target="backward-compatibility"/>.</li>
+<li>Enabled by the measures mentioned in <xref target="backward.compatibility"/>.</li>
 <li>Not supported by <tt>CBOR::Core</tt>.</li>
 </ol>
 
     </section>
 
-    </section>
-
-    <section anchor="additional-cddl-types">
-      <name>Additional CDDL Types</name>
-      <t>
-The integer types introduced by <tt>CBOR::Core</tt> in  <xref target="protocol-primitives"/>
-requires additional CDDL definitions.  The 128-bit variants are derived from
-the CDDL <tt>integer</tt> type, while the other variants build on CDDL <tt>int</tt>.
-</t>
-<t>
-Like the existing CDDL <xref target="RFC8610"/> types,
-the additional CDDL types are intended for usage in protocol descriptions.
-</t>
-<t>
-The following table holds the additional CDDL types:
-</t>
-<table align="left">
-<name>Additional CDDL Types</name>
-<thead>
-<tr>
-<th align="center">CDDL</th>
-<th align="center">Min/Max Value (hex)</th>
-<th align="center">Comment</th>
-<th align="center">Note</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center"><tt>int8</tt></td>
-<td align="right"><tt>-80<br/>7f</tt></td>
-<td>8-bit signed integer</td>
-<td align="center"><tt>1</tt></td>
-</tr>
-<tr>
-<td align="center"><tt>uint8</tt></td>
-<td align="right"><tt>0<br/>ff</tt></td>
-<td>8-bit unsigned integer</td>
-<td align="center"><tt>1</tt></td>
-</tr>
-<tr>
-<td align="center"><tt>int16</tt></td>
-<td align="right"><tt>-8000<br/>7fff</tt></td>
-<td>16-bit signed integer</td>
-<td align="center"><tt>1</tt></td>
-</tr>
-<tr>
-<td align="center"><tt>uint16</tt></td>
-<td align="right"><tt>0<br/>ffff</tt></td>
-<td>16-bit unsigned integer</td>
-<td align="center"><tt>1</tt></td>
-</tr>
-<tr>
-<td align="center"><tt>int32</tt></td>
-<td align="right"><tt>-80000000<br/>7fffffff</tt></td>
-<td>32-bit signed integer</td>
-<td align="center"><tt>1</tt></td>
-</tr>
-<tr>
-<td align="center"><tt>uint32</tt></td>
-<td align="right"><tt>0<br/>ffffffff</tt></td>
-<td>32-bit unsigned integer</td>
-<td align="center"><tt>1</tt></td>
-</tr>
-<tr>
-<td align="center"><tt>int53</tt></td>
-<td align="right"><tt>-1fffffffffffff<br/>1fffffffffffff</tt></td>
-<td>53-bit signed integer</td>
-<td align="center"><tt>2</tt></td>
-</tr>
-<tr>
-<td align="center"><tt>int64</tt></td>
-<td align="right"><tt>-8000000000000000<br/>7fffffffffffffff</tt></td>
-<td>64-bit signed integer</td>
-<td align="center"><tt>1</tt></td>
-</tr>
-<tr>
-<td align="center"><tt>uint64</tt></td>
-<td align="right"><tt>0<br/>ffffffffffffffff</tt></td>
-<td>64-bit unsigned integer</td>
-<td align="center"><tt>1</tt></td>
-</tr>
-<tr>
-<td align="center"><tt>int128</tt></td>
-<td align="right"><tt>-80000000000000000000000000000000<br/>7fffffffffffffffffffffffffffffff</tt></td>
-<td>128-bit signed integer</td>
-<td align="center"><tt>1</tt></td>
-</tr>
-<tr>
-<td align="center"><tt>uint128</tt></td>
-<td align="right"><tt>0<br/>ffffffffffffffffffffffffffffffff</tt></td>
-<td>128-bit&nbsp;unsigned&nbsp;integer</td>
-<td align="center"><tt>1</tt></td>
-</tr>
-</tbody>
-</table>
-<ol>
-<li>Counterparts to the <em>fixed-size</em>, <em>two's complement</em> integer types,
-featured in languages like Java, C, and Rust.</li>
-<li>Integer mapping the JavaScript <tt>Number</tt> type.
-For maintaining JavaScript compatibility, integers are limited to the range:
-<tt>Number.MIN_SAFE_INTEGER</tt> to <tt>Number.MAX_SAFE_INTEGER</tt>.</li>
-</ol>
-<t>Note that integers are subject to the deterministic encoding
-rules outlined in <xref target="deterministic-encoding-rules"/>.
-</t>
-    </section>
-
-    <section anchor="backward-compatibility">
-      <name>Backward Compatibility</name>
-      <t>
-It is assumed that <em>most</em>
-systems using CBOR are able to process an <em>application specific</em>, 
-selection of CBOR data items that are encoded in compliance with
-<xref target="RFC8949"/>.  Since the deterministic encoding scheme
-mandated by <tt>CBOR::Core</tt>, also is compliant with <xref target="RFC8949"/>,
-there should be no major interoperability issues. 
-That is, if the previous assumption actually is correct &#x1f60f;
-</t>
-<t>
-However, in the <em>other</em> direction (<tt>CBOR::Core</tt> tools processing
-data from systems using "legacy" CBOR encoding schemes),
-the situation is likely to be considerably more challenging
-since deterministic encoding "by design" is <em>strict</em>.
-Due to this potential obstacle, implementers of <tt>CBOR::Core</tt> tools,
-are RECOMMENDED to offer <em>decoder</em> options that permit "relaxing"
-the rigidness of deterministic encoding with respect to:</t>
-<dl newline="true">
-<dt>Numbers:</dt>
-<dd>Numbers MUST still be compliant with <xref target="RFC8949"/>,
-including "Rule&nbsp;2" in section
-<xref target="RFC8949" section="4.2.2" sectionFormat="bare" format="default" 
-derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="RFC8949"/>.</dd>
-<dt>Sorted maps:</dt>
-<dd>Duplicate keys MUST still be rejected.</dd>
-</dl>
-<t>Note that regardless of the format of <em>decoded</em> CBOR data, compliant
-<tt>CBOR::Core</tt> implementations MUST internally maintain the deterministic encoding format.
-That is, a <tt>bigint</tt> encoded as <tt>c249000000000000000006</tt> would after decoding,
-be represented by an <tt>int</tt> encoded as <tt>06</tt>.
-See also <xref target="core.invalid"/>.</t>
     </section>
 
     <section anchor="non-finite.encoder">
@@ -1753,18 +1556,15 @@ function nonFinite2Cbor(value) {
       <t>The following JavaScript sample encodes payloads (<xref target="non-finite.payload"/>) as
       numbers as mandated by the deterministic encoding rules:</t>
  <sourcecode name="Non-finite encoder" type="JavaScript">
-<![CDATA[// Input: up to 53 bit payload as a BigInt.
+<![CDATA[// Input: up to 52 bit payload as a BigInt.
+// Input: sign (true or false)
 // Returns: CBOR binary in a Uint8Array.
-function payload2Cbor(payload) {
-  if (payload < 0n || payload > 0x1fffffffffffffn) {
+function payload2Cbor(payload, sign) {
+  let left64 = sign ? 0xfff0000000000000n : 0x7ff0000000000000n;
+  if (payload < 0n || payload > 0xfffffffffffffn) {
     throw new Error("Invalid payload: " + payload);
   }
-  // Catch sign (b52).
-  let left64 = (payload & 0x10000000000000n) ?
-                         0xfff0000000000000n : 0x7ff0000000000000n;
-  // Remove possible sign (b52) from b51-b0.
-  payload &= 0xfffffffffffffn;
-  // Reverse bits b51-b0.
+  // Reverse the payload bits.
   let reversed = 0n;
   for (let i = 0; i < 52; i++) {
     reversed <<= 1n;
@@ -1773,7 +1573,7 @@ function payload2Cbor(payload) {
   }
   // Create 64-bit IEEE-754 object.
   // Then apply deterministic encoding.
-  return nonFinite2Cbor(left64 + reversed);
+  return nonFinite2Cbor(reversed + left64);
 }]]></sourcecode>
     </section>
    </section>
@@ -2014,6 +1814,43 @@ outlined in <xref target="api.level.det"/>.
 
     </section>
 
+    <section anchor="backward.compatibility">
+      <name>Backward Compatibility</name>
+      <t>
+It is assumed that <em>most</em>
+systems using CBOR are able to process an <em>application specific</em>, 
+selection of CBOR data items that are encoded in compliance with
+<xref target="RFC8949"/>.  Since the deterministic encoding scheme
+mandated by <tt>CBOR::Core</tt>, also is compliant with <xref target="RFC8949"/>,
+there should be no major interoperability issues. 
+That is, if the previous assumption actually is correct &#x1f60f;
+</t>
+<t>
+However, in the <em>other</em> direction (<tt>CBOR::Core</tt> tools processing
+data from systems using "legacy" CBOR encoding schemes),
+the situation is likely to be considerably more challenging
+since deterministic encoding "by design" is <em>strict</em>.
+Due to this potential obstacle, implementers of <tt>CBOR::Core</tt> tools,
+are RECOMMENDED to offer <em>decoder</em> options that permit "relaxing"
+the rigidness of deterministic encoding with respect to:</t>
+<dl newline="true">
+<dt>Numbers:</dt>
+<dd>Numbers MUST still be compliant with <xref target="RFC8949"/>,
+including "Rule&nbsp;2" in section
+<xref target="RFC8949" section="4.2.2" sectionFormat="bare" format="default" 
+derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="RFC8949"/>.</dd>
+<dt>Sorted maps:</dt>
+<dd>Duplicate keys MUST still be rejected.</dd>
+</dl>
+<t>Note that regardless of the format of <em>decoded</em> CBOR data, compliant
+<tt>CBOR::Core</tt> implementations MUST internally maintain the deterministic encoding format.
+</t>
+<t>
+That is, a <tt>bigint</tt> encoded as <tt>c249000000000000000006</tt> would after decoding,
+be represented by an <tt>int</tt> encoded as <tt>06</tt>.
+See also <xref target="core.invalid"/>.</t>
+    </section>
+
     <section anchor="tools.online">
       <name>Compatible Online Tools</name>
       <t>For testing and learning about <tt>CBOR::Core</tt>,
@@ -2174,47 +2011,6 @@ outlined in <xref target="api.level.det"/>.
         <t>18:</t>
         <t>Editorial</t>
         <t>Int53 added</t>
-        </li>
-        <li>
-        <t>19:</t>
-        <t>Editorial</t>
-        <t>Epoch [TIME] added</t>
-        </li>
-        <li>
-        <t>20:</t>
-        <t>Editorial</t>
-        <t>Int128 and Uint128 added</t>
-        </li>
-        <li>
-        <t>21:</t>
-        <t>Editorial</t>
-        <t>Added CDDL types</t>
-        </li>
-        <li>
-        <t>22:</t>
-        <t>Editorial</t>
-        <t>Updated CDDL appendix (Note)</t>
-        <t>Updated tdate/time CDDL</t>
-        </li>
-        <li>
-        <t>23:</t>
-        <t>Editorial</t>
-        </li>
-        <li>
-        <t>24:</t>
-        <t>Editorial</t>
-        </li>
-        <li>
-        <t>25:</t>
-        <t>Editorial</t>
-        <t>Mentioned not applying 5.6.1 of RFC 8949</t>
-        <t>Non-finite payload option became a 53-bit value</t>
-        <t>Added application note to CBOR sequence section</t>
-        </li>
-        <li>
-        <t>26:</t>
-        <t>Editorial</t>
-        <t>Unifieed lowest time to "Epoch" for DateTime and EpochTime</t>
         </li>
       </ul>
     </section>
