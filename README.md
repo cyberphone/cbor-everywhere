@@ -1,5 +1,4 @@
-<a id='main'></a>
-![CBOR logo](https://cyberphone.github.io/cbor-everywhere/cbor.svg)
+<a id='main'>![CBOR logo](https://cyberphone.github.io/cbor-everywhere/cbor.svg)</a>
 # CBOR Everywhere
 
 *This document contains information and links to information resources which describe
